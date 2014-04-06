@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+
+<import file="gen_chipsets.xml"/>
+<import file="gen_regs.xml"/>
+<import file="gen_mi.xml"/>
+<import file="gen_blitter.xml"/>
+<import file="gen_render.xml"/>
+
+</database>

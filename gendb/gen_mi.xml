@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<bitset name="gen_mi_header" bare="yes" prefix="gen">
+	<bitfield high="31" low="29" name="MI_TYPE">
+		<value value="0x0" name="MI"/>
+	</bitfield>
+
+	<bitfield high="28" low="23" name="MI_OPCODE">
+		<value value="0x00" name="MI_NOOP"/>
+		<value value="0x0a" name="MI_BATCH_BUFFER_END"/>
+		<value value="0x20" name="MI_STORE_DATA_IMM"/>
+		<value value="0x22" name="MI_LOAD_REGISTER_IMM"/>
+		<value value="0x24" name="MI_STORE_REGISTER_MEM"/>
+		<value value="0x26" name="MI_FLUSH_DW"/>
+		<value value="0x28" name="MI_REPORT_PERF_COUNT"/>
+		<value value="0x29" name="MI_LOAD_REGISTER_MEM" variants="GEN7-"/>
+	</bitfield>
+
+	<bitfield high="5" low="0" type="uint" name="MI_LENGTH"/>
+</bitset>
+
+<domain name="MI_NOOP" width="32" size="1" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+</domain>
+
+<domain name="MI_BATCH_BUFFER_END" width="32" size="1" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+</domain>
+
+<domain name="MI_STORE_DATA_IMM" width="32" size="5" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="GGTT_ENABLE"/>
+	</reg32>
+	<reg32 name="DST" offset="2">
+		<bitfield high="31" low="2" shr="2" name="ADDR"/>
+	</reg32>
+	<array name="VAL" offset="3" stride="1" length="2"/>
+</domain>
+
+<domain name="MI_LOAD_REGISTER_IMM" width="32" size="3" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield high="11" low="8" name="WRITE_DISABLES"/>
+	</reg32>
+	<reg32 name="REG" offset="1">
+		<bitfield high="31" low="2" shr="2" name="OFFSET"/>
+	</reg32>
+	<reg32 name="VAL" offset="2"/>
+</domain>
+
+<domain name="MI_STORE_REGISTER_MEM" width="32" size="3" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="GGTT_ENABLE"/>
+		<bitfield pos="21" name="PREDICATE_ENABLE" variants="GEN75-"/>
+	</reg32>
+	<reg32 name="REG" offset="1">
+		<bitfield high="25" low="2" shr="2" name="OFFSET"/>
+	</reg32>
+	<reg32 name="DST" offset="2">
+		<bitfield high="31" low="2" shr="2" name="ADDR"/>
+	</reg32>
+</domain>
+
+<domain name="MI_FLUSH_DW" width="32" size="4" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<!-- DW1-DW3 are unused now -->
+</domain>
+
+<domain name="MI_REPORT_PERF_COUNT" width="32" size="3" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW1" offset="1">
+		<bitfield high="31" low="6" shr="6" name="ADDR"/>
+		<bitfield pos="4" name="CORE_MODE_ENABLE"/>
+		<bitfield pos="0" name="GGTT_ENABLE"/>
+	</reg32>
+	<reg32 name="REPORT_ID" offset="2"/>
+</domain>
+
+<domain name="MI_LOAD_REGISTER_MEM" width="32" size="3" prefix="gen" variants="GEN7-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="GGTT_ENABLE"/>
+		<bitfield pos="21" name="ASYNC_MODE_ENABLE" variants="GEN7-"/>
+	</reg32>
+	<reg32 name="REG" offset="1">
+		<bitfield high="22" low="2" shr="2" name="OFFSET"/>
+	</reg32>
+	<reg32 name="DST" offset="2">
+		<bitfield high="31" low="2" shr="2" name="ADDR"/>
+	</reg32>
+</domain>
+
+</database>

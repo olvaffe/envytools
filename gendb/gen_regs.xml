@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<bitset name="gen_reg_with_writemask" bare="yes" prefix="gen">
+	<brief>used by registers whose upper 16 bits are a writemask</brief>
+	<bitfield high="31" low="16" name="REG_MASK"/>
+</bitset>
+
+<domain name="REG" width="32" size="0x1000000" prefix="gen">
+	<reg32 name="TIMESTAMP" offset="0x2358"/>
+
+	<reg32 name="BCS_SWCTRL" offset="0x22200" type="gen_reg_with_writemask">
+		<bitfield pos="1" name="DST_TILING_Y"/>
+		<bitfield pos="0" name="SRC_TILING_Y"/>
+	</reg32>
+</domain>
+
+</database>

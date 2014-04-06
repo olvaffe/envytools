@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+
+<enum name="gen">
+	<value name="GEN6"/>
+	<value name="GEN7"/>
+	<value name="GEN75"/>
+</enum>
+
+</database>

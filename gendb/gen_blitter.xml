@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<bitset name="gen_blitter_header" bare="yes" prefix="gen">
+	<bitfield high="31" low="29" name="BLITTER_TYPE">
+		<value value="0x2" name="BLITTER"/>
+	</bitfield>
+
+	<bitfield high="28" low="22" name="BLITTER_OPCODE">
+		<value value="0x40" name="COLOR_BLT"/>
+		<value value="0x43" name="SRC_COPY_BLT"/>
+		<value value="0x50" name="XY_COLOR_BLT"/>
+		<value value="0x53" name="XY_SRC_COPY_BLT"/>
+	</bitfield>
+
+	<bitfield pos="21" name="BLITTER_BR00_WRITE_A"/>
+	<bitfield pos="20" name="BLITTER_BR00_WRITE_RGB"/>
+
+	<brief>available only when there is src and/or dst</brief>
+	<bitfield pos="15" name="BLITTER_BR00_SRC_TILED"/>
+	<bitfield pos="11" name="BLITTER_BR00_DST_TILED"/>
+
+	<bitfield high="5" low="0" type="uint" name="BLITTER_LENGTH"/>
+</bitset>
+
+<bitset name="gen_blitter_br13" bare="yes" prefix="gen">
+	<bitfield pos="30" name="BLITTER_BR13_CLIP_ENABLE"/>
+	<brief>when opcode is SRC_COPY_BLT</brief>
+	<bitfield pos="30" name="BLITTER_BR13_DIR_RTL"/>
+
+	<bitfield high="25" low="24" name="BLITTER_BR13_FORMAT">
+		<value value="0x0" name="8"/>
+		<value value="0x1" name="565"/>
+		<value value="0x2" name="1555"/>
+		<value value="0x3" name="8888"/>
+	</bitfield>
+
+	<bitfield high="23" low="16" name="BLITTER_BR13_ROP">
+		<value value="0xcc" name="SRCCOPY"/>
+		<value value="0xf0" name="PATCOPY"/>
+	</bitfield>
+
+	<bitfield high="15" low="0" type="int" name="BLITTER_BR13_DST_PITCH"/>
+</bitset>
+
+<bitset name="gen_blitter_br11" bare="yes" prefix="gen">
+	<bitfield high="15" low="0" type="int" name="BLITTER_BR11_SRC_PITCH"/>
+</bitset>
+
+<bitset name="gen_blitter_br14" bare="yes" prefix="gen">
+	<bitfield high="31" low="16" type="uint" name="BLITTER_BR14_DST_HEIGHT"/>
+	<bitfield high="15" low="0" type="uint" name="BLITTER_BR14_DST_WIDTH"/>
+</bitset>
+
+<bitset name="gen_blitter_br22" bare="yes" prefix="gen">
+	<bitfield high="31" low="16" type="int" name="BLITTER_BR22_DST_Y1"/>
+	<bitfield high="15" low="0" type="int" name="BLITTER_BR22_DST_X1"/>
+</bitset>
+
+<bitset name="gen_blitter_br23" bare="yes" prefix="gen">
+	<bitfield high="31" low="16" type="int" name="BLITTER_BR23_DST_Y2"/>
+	<bitfield high="15" low="0" type="int" name="BLITTER_BR23_DST_X2"/>
+</bitset>
+
+<bitset name="gen_blitter_br26" bare="yes" prefix="gen">
+	<bitfield high="31" low="16" type="int" name="BLITTER_BR26_SRC_Y1"/>
+	<bitfield high="15" low="0" type="int" name="BLITTER_BR26_SRC_X1"/>
+</bitset>
+
+<group name="blt-1d-common">
+	<reg32 name="BR00" offset="0" type="gen_blitter_header"/>
+	<reg32 name="BR13" offset="1" type="gen_blitter_br13"/>
+	<reg32 name="BR14" offset="2" type="gen_blitter_br14"/>
+	<reg32 name="BR09" offset="3"/>
+</group>
+
+<domain name="COLOR_BLT" width="32" size="5" prefix="gen">
+	<use-group name="blt-1d-common"/>
+	<reg32 name="BR16" offset="4"/>
+</domain>
+
+<domain name="SRC_COPY_BLT" width="32" size="6" prefix="gen">
+	<use-group name="blt-1d-common"/>
+	<reg32 name="BR11" offset="4" type="gen_blitter_br11"/>
+	<reg32 name="BR12" offset="5"/>
+</domain>
+
+<group name="blt-2d-common">
+	<reg32 name="BR00" offset="0" type="gen_blitter_header"/>
+	<reg32 name="BR13" offset="1" type="gen_blitter_br13"/>
+	<reg32 name="BR22" offset="2" type="gen_blitter_br22"/>
+	<reg32 name="BR23" offset="3" type="gen_blitter_br23"/>
+	<reg32 name="BR09" offset="4"/>
+</group>
+
+<domain name="XY_COLOR_BLT" width="32" size="6" prefix="gen">
+	<use-group name="blt-2d-common"/>
+	<reg32 name="BR16" offset="5"/>
+</domain>
+
+<domain name="XY_SRC_COPY_BLT" width="32" size="8" prefix="gen">
+	<use-group name="blt-2d-common"/>
+	<reg32 name="BR26" offset="5" type="gen_blitter_br26"/>
+	<reg32 name="BR11" offset="6" type="gen_blitter_br11"/>
+	<reg32 name="BR12" offset="7"/>
+</domain>
+
+</database>
