@@ -1355,8 +1355,8 @@
 				<value value="0x1" name="SNORM"/>
 				<value value="0x2" name="RTFORMAT"/>
 			</bitfield>
-			<bitfield pos="1" name="PRE_BLEND_CLAMP_ENABLE"/>
-			<bitfield pos="0" name="POST_BLEND_CLAMP_ENABLE"/>
+			<bitfield pos="1" name="PRE_BLEND_CLAMP"/>
+			<bitfield pos="0" name="POST_BLEND_CLAMP"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -1375,8 +1375,8 @@
 <domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="CC_DW0" offset="0">
-			<bitfield high="31" low="24" type="uint" name="STENCIL0_REF"/>
-			<bitfield high="23" low="16" type="uint" name="STENCIL1_REF"/>
+			<bitfield high="31" low="24" type="uint" name="STENCIL_FRONT_REF"/>
+			<bitfield high="23" low="16" type="uint" name="STENCIL_BACK_REF"/>
 			<bitfield pos="15" name="ROUND_DISABLE_DISABLE"/>
 			<bitfield pos="0" name="ALPHATEST">
 				<value value="0x0" name="UNORM8"/>
@@ -1420,9 +1420,8 @@
 	</stripe>
 </domain>
 
-<!-- GEN7+ -->
-<domain name="GEN7_SF_CLIP_VIEWPORT" width="32" size="16" bare="yes">
-	<stripe prefix="gen" variants="GEN7-">
+<domain name="SF_CLIP_VIEWPORT" width="32" size="16" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe>
 		<reg32 name="SF_CLIP_M00" type="float" offset="0"/>
 		<reg32 name="SF_CLIP_M11" type="float" offset="1"/>
 		<reg32 name="SF_CLIP_M22" type="float" offset="2"/>
@@ -1439,19 +1438,18 @@
 
 <domain name="SCISSOR_RECT" width="32" size="2" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="SCISSOR_DW0" offset="0">
-			<bitfield high="31" low="16" type="uint" name="MIN_Y"/>
-			<bitfield high="15" low="0" type="uint" name="MIN_X"/>
+		<reg32 name="SCISSOR_MIN" offset="0">
+			<bitfield high="31" low="16" type="uint" name="Y"/>
+			<bitfield high="15" low="0" type="uint" name="X"/>
 		</reg32>
-		<reg32 name="SCISSOR_DW1" offset="1">
-			<bitfield high="31" low="16" type="uint" name="MAX_Y"/>
-			<bitfield high="15" low="0" type="uint" name="MAX_X"/>
+		<reg32 name="SCISSOR_MAX" offset="1">
+			<bitfield high="31" low="16" type="uint" name="Y"/>
+			<bitfield high="15" low="0" type="uint" name="X"/>
 		</reg32>
 	</stripe>
 </domain>
 
-<!-- GEN7+ -->
-<domain name="GEN7_3DSTATE_CONSTANT_BODY" width="32" size="6" bare="yes">
+<domain name="3DSTATE_CONSTANT_BODY" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
 	<stripe prefix="gen" variants="GEN7-">
 		<reg32 name="CONSTBUF_DW0" offset="0">
 			<bitfield high="31" low="16" type="uint" name="BUF1_LEN"/>
@@ -1478,16 +1476,9 @@
 </domain>
 
 <domain name="SAMPLER_BORDER_COLOR" width="32" size="20" bare="yes" prefix="gen">
-	<stripe variants="GEN6">
-		<array name="BORDER_COLOR" offset="0" stride="1" length="12"/>
-	</stripe>
-	<stripe variants="GEN7-">
-		<!-- if DX9, RGBA8 in DW0 -->
-		<!--reg32 name="BORDER_COLOR" offset="0"/-->
-		<reg32 name="BORDER_COLOR_R" type="float" offset="0"/>
-		<reg32 name="BORDER_COLOR_G" type="float" offset="1"/>
-		<reg32 name="BORDER_COLOR_B" type="float" offset="2"/>
-		<reg32 name="BORDER_COLOR_A" type="float" offset="3"/>
+	<stripe>
+		<array name="BORDER_COLOR" offset="0" stride="1" length="12" variants="GEN6"/>
+		<array name="BORDER_COLOR" offset="0" stride="1" length="20" variants="GEN7-"/>
 	</stripe>
 </domain>
 
@@ -1511,9 +1502,9 @@
 				<value value="0x0" name="PROGRAMMED"/>
 				<value value="0x1" name="OVERRIDE"/>
 			</bitfield>
-			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="TCX_WRAP_MODE"/>
-			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="TCY_WRAP_MODE"/>
-			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="TCZ_WRAP_MODE"/>
+			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
+			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
+			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
 		</reg32>
 		<reg32 name="SAMPLER_DW2" offset="2">
 			<bitfield high="31" low="5" shr="5" name="BORDER_COLOR_ADDR"/>
@@ -1523,13 +1514,13 @@
 			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
 			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
 			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
-			<bitfield pos="18" name="U_MAG_ROUNDING_ENABLE"/>
-			<bitfield pos="17" name="U_MIN_ROUNDING_ENABLE"/>
-			<bitfield pos="16" name="V_MAG_ROUNDING_ENABLE"/>
-			<bitfield pos="15" name="V_MIN_ROUNDING_ENABLE"/>
-			<bitfield pos="14" name="R_MAG_ROUNDING_ENABLE"/>
-			<bitfield pos="13" name="R_MIN_ROUNDING_ENABLE"/>
-			<bitfield pos="0" name="NON_NORMALIZED_COORD_ENABLE"/>
+			<bitfield pos="18" name="U_MAG_ROUND"/>
+			<bitfield pos="17" name="U_MIN_ROUND"/>
+			<bitfield pos="16" name="V_MAG_ROUND"/>
+			<bitfield pos="15" name="V_MIN_ROUND"/>
+			<bitfield pos="14" name="R_MAG_ROUND"/>
+			<bitfield pos="13" name="R_MIN_ROUND"/>
+			<bitfield pos="0" name="NON_NORMALIZED_COORD"/>
 		</reg32>
 	</stripe>
 
@@ -1568,22 +1559,22 @@
 			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
 			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
 			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
-			<bitfield pos="18" name="U_MAG_ROUNDING_ENABLE"/>
-			<bitfield pos="17" name="U_MIN_ROUNDING_ENABLE"/>
-			<bitfield pos="16" name="V_MAG_ROUNDING_ENABLE"/>
-			<bitfield pos="15" name="V_MIN_ROUNDING_ENABLE"/>
-			<bitfield pos="14" name="R_MAG_ROUNDING_ENABLE"/>
-			<bitfield pos="13" name="R_MIN_ROUNDING_ENABLE"/>
+			<bitfield pos="18" name="U_MAG_ROUND"/>
+			<bitfield pos="17" name="U_MIN_ROUND"/>
+			<bitfield pos="16" name="V_MAG_ROUND"/>
+			<bitfield pos="15" name="V_MIN_ROUND"/>
+			<bitfield pos="14" name="R_MAG_ROUND"/>
+			<bitfield pos="13" name="R_MIN_ROUND"/>
 			<bitfield high="12" low="11" name="TRIQUAL">
 				<value value="0x0" name="FULL"/>
 				<value value="0x1" name="HIGH" variants="GEN75-"/>
 				<value value="0x2" name="MED"/>
 				<value value="0x3" name="LOW"/>
 			</bitfield>
-			<bitfield pos="10" name="NON_NORMALIZED_COORD_ENABLE"/>
-			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="TCX_WRAP_MODE"/>
-			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="TCY_WRAP_MODE"/>
-			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="TCZ_WRAP_MODE"/>
+			<bitfield pos="10" name="NON_NORMALIZED_COORD"/>
+			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
+			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
+			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
 		</reg32>
 	</stripe>
 </domain>
