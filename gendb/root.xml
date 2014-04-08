@@ -9,6 +9,8 @@
 <import file="gen_regs.xml"/>
 <import file="gen_mi.xml"/>
 <import file="gen_blitter.xml"/>
-<import file="gen_render.xml"/>
+<import file="gen_render_dynamic.xml"/>
+<import file="gen_render_surface.xml"/>
+<import file="gen_render_3d.xml"/>
 
 </database>

@@ -6,6 +6,8 @@
 <import file="gen_copyright.xml"/>
 <import file="gen_chipsets.xml"/>
 
+<import file="gen_render_surface.xml"/>
+
 <bitset name="gen_render_header" bare="yes" prefix="gen">
 	<bitfield high="31" low="29" name="RENDER_TYPE">
 		<value value="0x3" name="RENDER"/>
@@ -170,380 +172,6 @@
 	<value value="0x3f" name="3DPRIM_PATCHLIST_32" variants="GEN7-"/>
 </enum>
 
-<enum name="gen_surface_format" bare="yes" prefix="gen">
-	<value value="0x000" name="FORMAT_R32G32B32A32_FLOAT"/>
-	<value value="0x001" name="FORMAT_R32G32B32A32_SINT"/>
-	<value value="0x002" name="FORMAT_R32G32B32A32_UINT"/>
-	<value value="0x003" name="FORMAT_R32G32B32A32_UNORM"/>
-	<value value="0x004" name="FORMAT_R32G32B32A32_SNORM"/>
-	<value value="0x005" name="FORMAT_R64G64_FLOAT"/>
-	<value value="0x006" name="FORMAT_R32G32B32X32_FLOAT"/>
-	<value value="0x007" name="FORMAT_R32G32B32A32_SSCALED"/>
-	<value value="0x008" name="FORMAT_R32G32B32A32_USCALED"/>
-	<value value="0x020" name="FORMAT_R32G32B32A32_SFIXED"/>
-	<value value="0x021" name="FORMAT_R64G64_PASSTHRU"/>
-	<value value="0x040" name="FORMAT_R32G32B32_FLOAT"/>
-	<value value="0x041" name="FORMAT_R32G32B32_SINT"/>
-	<value value="0x042" name="FORMAT_R32G32B32_UINT"/>
-	<value value="0x043" name="FORMAT_R32G32B32_UNORM"/>
-	<value value="0x044" name="FORMAT_R32G32B32_SNORM"/>
-	<value value="0x045" name="FORMAT_R32G32B32_SSCALED"/>
-	<value value="0x046" name="FORMAT_R32G32B32_USCALED"/>
-	<value value="0x050" name="FORMAT_R32G32B32_SFIXED"/>
-	<value value="0x080" name="FORMAT_R16G16B16A16_UNORM"/>
-	<value value="0x081" name="FORMAT_R16G16B16A16_SNORM"/>
-	<value value="0x082" name="FORMAT_R16G16B16A16_SINT"/>
-	<value value="0x083" name="FORMAT_R16G16B16A16_UINT"/>
-	<value value="0x084" name="FORMAT_R16G16B16A16_FLOAT"/>
-	<value value="0x085" name="FORMAT_R32G32_FLOAT"/>
-	<value value="0x086" name="FORMAT_R32G32_SINT"/>
-	<value value="0x087" name="FORMAT_R32G32_UINT"/>
-	<value value="0x088" name="FORMAT_R32_FLOAT_X8X24_TYPELESS"/>
-	<value value="0x089" name="FORMAT_X32_TYPELESS_G8X24_UINT"/>
-	<value value="0x08a" name="FORMAT_L32A32_FLOAT"/>
-	<value value="0x08b" name="FORMAT_R32G32_UNORM"/>
-	<value value="0x08c" name="FORMAT_R32G32_SNORM"/>
-	<value value="0x08d" name="FORMAT_R64_FLOAT"/>
-	<value value="0x08e" name="FORMAT_R16G16B16X16_UNORM"/>
-	<value value="0x08f" name="FORMAT_R16G16B16X16_FLOAT"/>
-	<value value="0x090" name="FORMAT_A32X32_FLOAT"/>
-	<value value="0x091" name="FORMAT_L32X32_FLOAT"/>
-	<value value="0x092" name="FORMAT_I32X32_FLOAT"/>
-	<value value="0x093" name="FORMAT_R16G16B16A16_SSCALED"/>
-	<value value="0x094" name="FORMAT_R16G16B16A16_USCALED"/>
-	<value value="0x095" name="FORMAT_R32G32_SSCALED"/>
-	<value value="0x096" name="FORMAT_R32G32_USCALED"/>
-	<value value="0x0a0" name="FORMAT_R32G32_SFIXED"/>
-	<value value="0x0a1" name="FORMAT_R64_PASSTHRU"/>
-	<value value="0x0c0" name="FORMAT_B8G8R8A8_UNORM"/>
-	<value value="0x0c1" name="FORMAT_B8G8R8A8_UNORM_SRGB"/>
-	<value value="0x0c2" name="FORMAT_R10G10B10A2_UNORM"/>
-	<value value="0x0c3" name="FORMAT_R10G10B10A2_UNORM_SRGB"/>
-	<value value="0x0c4" name="FORMAT_R10G10B10A2_UINT"/>
-	<value value="0x0c5" name="FORMAT_R10G10B10_SNORM_A2_UNORM"/>
-	<value value="0x0c7" name="FORMAT_R8G8B8A8_UNORM"/>
-	<value value="0x0c8" name="FORMAT_R8G8B8A8_UNORM_SRGB"/>
-	<value value="0x0c9" name="FORMAT_R8G8B8A8_SNORM"/>
-	<value value="0x0ca" name="FORMAT_R8G8B8A8_SINT"/>
-	<value value="0x0cb" name="FORMAT_R8G8B8A8_UINT"/>
-	<value value="0x0cc" name="FORMAT_R16G16_UNORM"/>
-	<value value="0x0cd" name="FORMAT_R16G16_SNORM"/>
-	<value value="0x0ce" name="FORMAT_R16G16_SINT"/>
-	<value value="0x0cf" name="FORMAT_R16G16_UINT"/>
-	<value value="0x0d0" name="FORMAT_R16G16_FLOAT"/>
-	<value value="0x0d1" name="FORMAT_B10G10R10A2_UNORM"/>
-	<value value="0x0d2" name="FORMAT_B10G10R10A2_UNORM_SRGB"/>
-	<value value="0x0d3" name="FORMAT_R11G11B10_FLOAT"/>
-	<value value="0x0d6" name="FORMAT_R32_SINT"/>
-	<value value="0x0d7" name="FORMAT_R32_UINT"/>
-	<value value="0x0d8" name="FORMAT_R32_FLOAT"/>
-	<value value="0x0d9" name="FORMAT_R24_UNORM_X8_TYPELESS"/>
-	<value value="0x0da" name="FORMAT_X24_TYPELESS_G8_UINT"/>
-	<value value="0x0dd" name="FORMAT_L32_UNORM"/>
-	<value value="0x0de" name="FORMAT_A32_UNORM"/>
-	<value value="0x0df" name="FORMAT_L16A16_UNORM"/>
-	<value value="0x0e0" name="FORMAT_I24X8_UNORM"/>
-	<value value="0x0e1" name="FORMAT_L24X8_UNORM"/>
-	<value value="0x0e2" name="FORMAT_A24X8_UNORM"/>
-	<value value="0x0e3" name="FORMAT_I32_FLOAT"/>
-	<value value="0x0e4" name="FORMAT_L32_FLOAT"/>
-	<value value="0x0e5" name="FORMAT_A32_FLOAT"/>
-	<value value="0x0e6" name="FORMAT_X8B8_UNORM_G8R8_SNORM"/>
-	<value value="0x0e7" name="FORMAT_A8X8_UNORM_G8R8_SNORM"/>
-	<value value="0x0e8" name="FORMAT_B8X8_UNORM_G8R8_SNORM"/>
-	<value value="0x0e9" name="FORMAT_B8G8R8X8_UNORM"/>
-	<value value="0x0ea" name="FORMAT_B8G8R8X8_UNORM_SRGB"/>
-	<value value="0x0eb" name="FORMAT_R8G8B8X8_UNORM"/>
-	<value value="0x0ec" name="FORMAT_R8G8B8X8_UNORM_SRGB"/>
-	<value value="0x0ed" name="FORMAT_R9G9B9E5_SHAREDEXP"/>
-	<value value="0x0ee" name="FORMAT_B10G10R10X2_UNORM"/>
-	<value value="0x0f0" name="FORMAT_L16A16_FLOAT"/>
-	<value value="0x0f1" name="FORMAT_R32_UNORM"/>
-	<value value="0x0f2" name="FORMAT_R32_SNORM"/>
-	<value value="0x0f3" name="FORMAT_R10G10B10X2_USCALED"/>
-	<value value="0x0f4" name="FORMAT_R8G8B8A8_SSCALED"/>
-	<value value="0x0f5" name="FORMAT_R8G8B8A8_USCALED"/>
-	<value value="0x0f6" name="FORMAT_R16G16_SSCALED"/>
-	<value value="0x0f7" name="FORMAT_R16G16_USCALED"/>
-	<value value="0x0f8" name="FORMAT_R32_SSCALED"/>
-	<value value="0x0f9" name="FORMAT_R32_USCALED"/>
-	<value value="0x100" name="FORMAT_B5G6R5_UNORM"/>
-	<value value="0x101" name="FORMAT_B5G6R5_UNORM_SRGB"/>
-	<value value="0x102" name="FORMAT_B5G5R5A1_UNORM"/>
-	<value value="0x103" name="FORMAT_B5G5R5A1_UNORM_SRGB"/>
-	<value value="0x104" name="FORMAT_B4G4R4A4_UNORM"/>
-	<value value="0x105" name="FORMAT_B4G4R4A4_UNORM_SRGB"/>
-	<value value="0x106" name="FORMAT_R8G8_UNORM"/>
-	<value value="0x107" name="FORMAT_R8G8_SNORM"/>
-	<value value="0x108" name="FORMAT_R8G8_SINT"/>
-	<value value="0x109" name="FORMAT_R8G8_UINT"/>
-	<value value="0x10a" name="FORMAT_R16_UNORM"/>
-	<value value="0x10b" name="FORMAT_R16_SNORM"/>
-	<value value="0x10c" name="FORMAT_R16_SINT"/>
-	<value value="0x10d" name="FORMAT_R16_UINT"/>
-	<value value="0x10e" name="FORMAT_R16_FLOAT"/>
-	<value value="0x10f" name="FORMAT_A8P8_UNORM_PALETTE0"/>
-	<value value="0x110" name="FORMAT_A8P8_UNORM_PALETTE1"/>
-	<value value="0x111" name="FORMAT_I16_UNORM"/>
-	<value value="0x112" name="FORMAT_L16_UNORM"/>
-	<value value="0x113" name="FORMAT_A16_UNORM"/>
-	<value value="0x114" name="FORMAT_L8A8_UNORM"/>
-	<value value="0x115" name="FORMAT_I16_FLOAT"/>
-	<value value="0x116" name="FORMAT_L16_FLOAT"/>
-	<value value="0x117" name="FORMAT_A16_FLOAT"/>
-	<value value="0x118" name="FORMAT_L8A8_UNORM_SRGB"/>
-	<value value="0x119" name="FORMAT_R5G5_SNORM_B6_UNORM"/>
-	<value value="0x11a" name="FORMAT_B5G5R5X1_UNORM"/>
-	<value value="0x11b" name="FORMAT_B5G5R5X1_UNORM_SRGB"/>
-	<value value="0x11c" name="FORMAT_R8G8_SSCALED"/>
-	<value value="0x11d" name="FORMAT_R8G8_USCALED"/>
-	<value value="0x11e" name="FORMAT_R16_SSCALED"/>
-	<value value="0x11f" name="FORMAT_R16_USCALED"/>
-	<value value="0x122" name="FORMAT_P8A8_UNORM_PALETTE0"/>
-	<value value="0x123" name="FORMAT_P8A8_UNORM_PALETTE1"/>
-	<value value="0x124" name="FORMAT_A1B5G5R5_UNORM"/>
-	<value value="0x125" name="FORMAT_A4B4G4R4_UNORM"/>
-	<value value="0x126" name="FORMAT_L8A8_UINT"/>
-	<value value="0x127" name="FORMAT_L8A8_SINT"/>
-	<value value="0x140" name="FORMAT_R8_UNORM"/>
-	<value value="0x141" name="FORMAT_R8_SNORM"/>
-	<value value="0x142" name="FORMAT_R8_SINT"/>
-	<value value="0x143" name="FORMAT_R8_UINT"/>
-	<value value="0x144" name="FORMAT_A8_UNORM"/>
-	<value value="0x145" name="FORMAT_I8_UNORM"/>
-	<value value="0x146" name="FORMAT_L8_UNORM"/>
-	<value value="0x147" name="FORMAT_P4A4_UNORM_PALETTE0"/>
-	<value value="0x148" name="FORMAT_A4P4_UNORM_PALETTE0"/>
-	<value value="0x149" name="FORMAT_R8_SSCALED"/>
-	<value value="0x14a" name="FORMAT_R8_USCALED"/>
-	<value value="0x14b" name="FORMAT_P8_UNORM_PALETTE0"/>
-	<value value="0x14c" name="FORMAT_L8_UNORM_SRGB"/>
-	<value value="0x14d" name="FORMAT_P8_UNORM_PALETTE1"/>
-	<value value="0x14e" name="FORMAT_P4A4_UNORM_PALETTE1"/>
-	<value value="0x14f" name="FORMAT_A4P4_UNORM_PALETTE1"/>
-	<value value="0x150" name="FORMAT_Y8_UNORM"/>
-	<value value="0x152" name="FORMAT_L8_UINT"/>
-	<value value="0x153" name="FORMAT_L8_SINT"/>
-	<value value="0x154" name="FORMAT_I8_UINT"/>
-	<value value="0x155" name="FORMAT_I8_SINT"/>
-	<value value="0x180" name="FORMAT_DXT1_RGB_SRGB"/>
-	<value value="0x181" name="FORMAT_R1_UNORM"/>
-	<value value="0x182" name="FORMAT_YCRCB_NORMAL"/>
-	<value value="0x183" name="FORMAT_YCRCB_SWAPUVY"/>
-	<value value="0x184" name="FORMAT_P2_UNORM_PALETTE0"/>
-	<value value="0x185" name="FORMAT_P2_UNORM_PALETTE1"/>
-	<value value="0x186" name="FORMAT_BC1_UNORM"/>
-	<value value="0x187" name="FORMAT_BC2_UNORM"/>
-	<value value="0x188" name="FORMAT_BC3_UNORM"/>
-	<value value="0x189" name="FORMAT_BC4_UNORM"/>
-	<value value="0x18a" name="FORMAT_BC5_UNORM"/>
-	<value value="0x18b" name="FORMAT_BC1_UNORM_SRGB"/>
-	<value value="0x18c" name="FORMAT_BC2_UNORM_SRGB"/>
-	<value value="0x18d" name="FORMAT_BC3_UNORM_SRGB"/>
-	<value value="0x18e" name="FORMAT_MONO8"/>
-	<value value="0x18f" name="FORMAT_YCRCB_SWAPUV"/>
-	<value value="0x190" name="FORMAT_YCRCB_SWAPY"/>
-	<value value="0x191" name="FORMAT_DXT1_RGB"/>
-	<value value="0x192" name="FORMAT_FXT1"/>
-	<value value="0x193" name="FORMAT_R8G8B8_UNORM"/>
-	<value value="0x194" name="FORMAT_R8G8B8_SNORM"/>
-	<value value="0x195" name="FORMAT_R8G8B8_SSCALED"/>
-	<value value="0x196" name="FORMAT_R8G8B8_USCALED"/>
-	<value value="0x197" name="FORMAT_R64G64B64A64_FLOAT"/>
-	<value value="0x198" name="FORMAT_R64G64B64_FLOAT"/>
-	<value value="0x199" name="FORMAT_BC4_SNORM"/>
-	<value value="0x19a" name="FORMAT_BC5_SNORM"/>
-	<value value="0x19b" name="FORMAT_R16G16B16_FLOAT"/>
-	<value value="0x19c" name="FORMAT_R16G16B16_UNORM"/>
-	<value value="0x19d" name="FORMAT_R16G16B16_SNORM"/>
-	<value value="0x19e" name="FORMAT_R16G16B16_SSCALED"/>
-	<value value="0x19f" name="FORMAT_R16G16B16_USCALED"/>
-	<value value="0x1a1" name="FORMAT_BC6H_SF16"/>
-	<value value="0x1a2" name="FORMAT_BC7_UNORM"/>
-	<value value="0x1a3" name="FORMAT_BC7_UNORM_SRGB"/>
-	<value value="0x1a4" name="FORMAT_BC6H_UF16"/>
-	<value value="0x1a5" name="FORMAT_PLANAR_420_8"/>
-	<value value="0x1a8" name="FORMAT_R8G8B8_UNORM_SRGB"/>
-	<value value="0x1a9" name="FORMAT_ETC1_RGB8"/>
-	<value value="0x1aa" name="FORMAT_ETC2_RGB8"/>
-	<value value="0x1ab" name="FORMAT_EAC_R11"/>
-	<value value="0x1ac" name="FORMAT_EAC_RG11"/>
-	<value value="0x1ad" name="FORMAT_EAC_SIGNED_R11"/>
-	<value value="0x1ae" name="FORMAT_EAC_SIGNED_RG11"/>
-	<value value="0x1af" name="FORMAT_ETC2_SRGB8"/>
-	<value value="0x1b0" name="FORMAT_R16G16B16_UINT"/>
-	<value value="0x1b1" name="FORMAT_R16G16B16_SINT"/>
-	<value value="0x1b2" name="FORMAT_R32_SFIXED"/>
-	<value value="0x1b3" name="FORMAT_R10G10B10A2_SNORM"/>
-	<value value="0x1b4" name="FORMAT_R10G10B10A2_USCALED"/>
-	<value value="0x1b5" name="FORMAT_R10G10B10A2_SSCALED"/>
-	<value value="0x1b6" name="FORMAT_R10G10B10A2_SINT"/>
-	<value value="0x1b7" name="FORMAT_B10G10R10A2_SNORM"/>
-	<value value="0x1b8" name="FORMAT_B10G10R10A2_USCALED"/>
-	<value value="0x1b9" name="FORMAT_B10G10R10A2_SSCALED"/>
-	<value value="0x1ba" name="FORMAT_B10G10R10A2_UINT"/>
-	<value value="0x1bb" name="FORMAT_B10G10R10A2_SINT"/>
-	<value value="0x1bc" name="FORMAT_R64G64B64A64_PASSTHRU"/>
-	<value value="0x1bd" name="FORMAT_R64G64B64_PASSTHRU"/>
-	<value value="0x1c0" name="FORMAT_ETC2_RGB8_PTA"/>
-	<value value="0x1c1" name="FORMAT_ETC2_SRGB8_PTA"/>
-	<value value="0x1c2" name="FORMAT_ETC2_EAC_RGBA8"/>
-	<value value="0x1c3" name="FORMAT_ETC2_EAC_SRGB8_A8"/>
-	<value value="0x1c8" name="FORMAT_R8G8B8_UINT"/>
-	<value value="0x1c9" name="FORMAT_R8G8B8_SINT"/>
-	<value value="0x1ff" name="FORMAT_RAW"/>
-</enum>
-
-<enum name="gen_surface_type" bare="yes" prefix="gen">
-	<value value="0x0" name="SURFTYPE_1D"/>
-	<value value="0x1" name="SURFTYPE_2D"/>
-	<value value="0x2" name="SURFTYPE_3D"/>
-	<value value="0x3" name="SURFTYPE_CUBE"/>
-	<value value="0x4" name="SURFTYPE_BUFFER"/>
-	<value value="0x5" name="SURFTYPE_STRBUF" variants="GEN7-"/>
-	<value value="0x7" name="SURFTYPE_NULL"/>
-</enum>
-
-<enum name="gen_surface_tiling" bare="yes" prefix="gen">
-	<value value="0x0" name="TILING_NONE"/>
-	<value value="0x2" name="TILING_X"/>
-	<value value="0x3" name="TILING_Y"/>
-</enum>
-
-<enum name="gen_surface_scs" bare="yes" prefix="gen" variants="GEN75-">
-	<value value="0x0" name="SCS_ZERO"/>
-	<value value="0x1" name="SCS_ONE"/>
-	<value value="0x4" name="SCS_RED"/>
-	<value value="0x5" name="SCS_GREEN"/>
-	<value value="0x6" name="SCS_BLUE"/>
-	<value value="0x7" name="SCS_ALPHA"/>
-</enum>
-
-<enum name="gen_surface_valign" inline="yes" varset="gen">
-	<value value="0x0" name="2"/>
-	<value value="0x1" name="4"/>
-</enum>
-
-<enum name="gen_surface_halign" inline="yes" varset="gen" variants="GEN7-">
-	<value value="0x0" name="4"/>
-	<value value="0x1" name="8"/>
-</enum>
-
-<enum name="gen_surface_rotate" inline="yes" varset="gen">
-	<value value="0x0" name="0DEG"/>
-	<value value="0x1" name="90DEG"/>
-	<value value="0x3" name="270DEG"/>
-</enum>
-
-<enum name="gen_sampler_mip_filter" bare="yes" prefix="gen">
-	<value value="0x0" name="MIPFILTER_NONE"/>
-	<value value="0x1" name="MIPFILTER_NEAREST"/>
-	<value value="0x3" name="MIPFILTER_LINEAR"/>
-</enum>
-
-<enum name="gen_sampler_map_filter" bare="yes" prefix="gen">
-	<value value="0x0" name="MAPFILTER_NEAREST"/>
-	<value value="0x1" name="MAPFILTER_LINEAR"/>
-	<value value="0x2" name="MAPFILTER_ANISOTROPIC"/>
-	<value value="0x6" name="MAPFILTER_MONO"/>
-</enum>
-
-<enum name="gen_sampler_aniso_ratio" bare="yes" prefix="gen">
-	<value value="0x0" name="ANISORATIO_2"/>
-	<value value="0x1" name="ANISORATIO_4"/>
-	<value value="0x2" name="ANISORATIO_6"/>
-	<value value="0x3" name="ANISORATIO_8"/>
-	<value value="0x4" name="ANISORATIO_10"/>
-	<value value="0x5" name="ANISORATIO_12"/>
-	<value value="0x6" name="ANISORATIO_14"/>
-	<value value="0x7" name="ANISORATIO_16"/>
-</enum>
-
-<enum name="gen_sampler_texcoord_mode" bare="yes" prefix="gen">
-	<value value="0x0" name="TEXCOORDMODE_WRAP"/>
-	<value value="0x1" name="TEXCOORDMODE_MIRROR"/>
-	<value value="0x2" name="TEXCOORDMODE_CLAMP"/>
-	<value value="0x3" name="TEXCOORDMODE_CUBE"/>
-	<value value="0x4" name="TEXCOORDMODE_CLAMP_BORDER"/>
-	<value value="0x5" name="TEXCOORDMODE_MIRROR_ONCE"/>
-</enum>
-
-<enum name="gen_sampler_key_filter" bare="yes" prefix="gen">
-	<value value="0x0" name="KEYFILTER_KILL_ON_ANY_MATCH"/>
-	<value value="0x1" name="KEYFILTER_REPLACE_BLACK"/>
-</enum>
-
-<enum name="gen_stencil_op" bare="yes" prefix="gen">
-	<value value="0x0" name="STENCILOP_KEEP"/>
-	<value value="0x1" name="STENCILOP_ZERO"/>
-	<value value="0x2" name="STENCILOP_REPLACE"/>
-	<value value="0x3" name="STENCILOP_INCRSAT"/>
-	<value value="0x4" name="STENCILOP_DECRSAT"/>
-	<value value="0x5" name="STENCILOP_INCR"/>
-	<value value="0x6" name="STENCILOP_DECR"/>
-	<value value="0x7" name="STENCILOP_INVERT"/>
-</enum>
-
-<enum name="gen_blend_factor" bare="yes" prefix="gen">
-	<value value="0x01" name="BLENDFACTOR_ONE"/>
-	<value value="0x02" name="BLENDFACTOR_SRC_COLOR"/>
-	<value value="0x03" name="BLENDFACTOR_SRC_ALPHA"/>
-	<value value="0x04" name="BLENDFACTOR_DST_ALPHA"/>
-	<value value="0x05" name="BLENDFACTOR_DST_COLOR"/>
-	<value value="0x06" name="BLENDFACTOR_SRC_ALPHA_SATURATE"/>
-	<value value="0x07" name="BLENDFACTOR_CONST_COLOR"/>
-	<value value="0x08" name="BLENDFACTOR_CONST_ALPHA"/>
-	<value value="0x09" name="BLENDFACTOR_SRC1_COLOR"/>
-	<value value="0x0a" name="BLENDFACTOR_SRC1_ALPHA"/>
-	<value value="0x11" name="BLENDFACTOR_ZERO"/>
-	<value value="0x12" name="BLENDFACTOR_INV_SRC_COLOR"/>
-	<value value="0x13" name="BLENDFACTOR_INV_SRC_ALPHA"/>
-	<value value="0x14" name="BLENDFACTOR_INV_DST_ALPHA"/>
-	<value value="0x15" name="BLENDFACTOR_INV_DST_COLOR"/>
-	<value value="0x17" name="BLENDFACTOR_INV_CONST_COLOR"/>
-	<value value="0x18" name="BLENDFACTOR_INV_CONST_ALPHA"/>
-	<value value="0x19" name="BLENDFACTOR_INV_SRC1_COLOR"/>
-	<value value="0x1a" name="BLENDFACTOR_INV_SRC1_ALPHA"/>
-</enum>
-
-<enum name="gen_blend_function" bare="yes" prefix="gen">
-	<value value="0x0" name="BLENDFUNCTION_ADD"/>
-	<value value="0x1" name="BLENDFUNCTION_SUBTRACT"/>
-	<value value="0x2" name="BLENDFUNCTION_REVERSE_SUBTRACT"/>
-	<value value="0x3" name="BLENDFUNCTION_MIN"/>
-	<value value="0x4" name="BLENDFUNCTION_MAX"/>
-</enum>
-
-<enum name="gen_compare_function" bare="yes" prefix="gen">
-	<value value="0x0" name="COMPAREFUNCTION_ALWAYS"/>
-	<value value="0x1" name="COMPAREFUNCTION_NEVER"/>
-	<value value="0x2" name="COMPAREFUNCTION_LESS"/>
-	<value value="0x3" name="COMPAREFUNCTION_EQUAL"/>
-	<value value="0x4" name="COMPAREFUNCTION_LEQUAL"/>
-	<value value="0x5" name="COMPAREFUNCTION_GREATER"/>
-	<value value="0x6" name="COMPAREFUNCTION_NOTEQUAL"/>
-	<value value="0x7" name="COMPAREFUNCTION_GEQUAL"/>
-</enum>
-
-<enum name="gen_logicop_function" bare="yes" prefix="gen">
-	<value value="0x0" name="LOGICOP_CLEAR"/>
-	<value value="0x1" name="LOGICOP_NOR"/>
-	<value value="0x2" name="LOGICOP_AND_INVERTED"/>
-	<value value="0x3" name="LOGICOP_COPY_INVERTED"/>
-	<value value="0x4" name="LOGICOP_AND_REVERSE"/>
-	<value value="0x5" name="LOGICOP_INVERT"/>
-	<value value="0x6" name="LOGICOP_XOR"/>
-	<value value="0x7" name="LOGICOP_NAND"/>
-	<value value="0x8" name="LOGICOP_AND"/>
-	<value value="0x9" name="LOGICOP_EQUIV"/>
-	<value value="0xa" name="LOGICOP_NOOP"/>
-	<value value="0xb" name="LOGICOP_OR_INVERTED"/>
-	<value value="0xc" name="LOGICOP_COPY"/>
-	<value value="0xd" name="LOGICOP_OR_REVERSE"/>
-	<value value="0xe" name="LOGICOP_OR"/>
-	<value value="0xf" name="LOGICOP_SET"/>
-</enum>
-
 <enum name="gen_vf_component" bare="yes" prefix="gen">
 	<value value="0x0" name="VFCOMP_NOSTORE"/>
 	<value value="0x1" name="VFCOMP_STORE_SRC"/>
@@ -576,29 +204,6 @@
 	<value value="0x3" name="4_0"/>
 </enum>
 
-<bitset name="gen_render_mocs" bare="yes" prefix="gen">
-	<bitfield high="1" low="0" name="MOCS_LLC" variants="GEN6">
-		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="UC"/>
-		<value value="0x2" name="ON"/>
-	</bitfield>
-	<bitfield pos="1" name="MOCS_LLC" variants="GEN7">
-		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="ON"/>
-	</bitfield>
-	<bitfield high="2" low="1" name="MOCS_LLC" variants="GEN75-">
-		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="UC"/>
-		<value value="0x2" name="ON"/>
-		<value value="0x3" name="ELLC"/>
-	</bitfield>
-
-	<bitfield pos="0" name="MOCS_L3" variants="GEN7-">
-		<value value="0x0" name="UC"/>
-		<value value="0x1" name="ON"/>
-	</bitfield>
-</bitset>
-
 <bitset name="gen_thread_dispatch" bare="yes" prefix="gen">
 	<bitfield pos="31" name="THRDISP_SPF"/>
 	<bitfield pos="30" name="THRDISP_VMASK_ENABLE"/>
@@ -618,7 +223,7 @@
 
 <bitset name="gen_base_address" bare="yes" prefix="gen">
 	<bitfield high="31" low="12" shr="12" name="BASE_ADDR"/>
-	<bitfield high="11" low="8" type="gen_render_mocs" name="BASE_ADDR_MOCS"/>
+	<bitfield high="11" low="8" type="gen_surface_mocs" name="BASE_ADDR_MOCS"/>
 	<bitfield pos="0" name="BASE_ADDR_MODIFIED"/>
 </bitset>
 
@@ -626,7 +231,7 @@
 	<stripe>
 		<reg32 name="BASE_ADDR_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="BASE_ADDR_GENERAL" offset="1" type="gen_base_address">
-			<bitfield high="7" type="gen_render_mocs" low="4" name="STATELESS_MOCS"/>
+			<bitfield high="7" type="gen_surface_mocs" low="4" name="STATELESS_MOCS"/>
 			<bitfield pos="3" name="STATELESS_FORCE_WRITE_THRU"/>
 		</reg32>
 		<reg32 name="BASE_ADDR_SURFACE" offset="2" type="gen_base_address"/>
@@ -732,7 +337,7 @@
 				<value value="0x0" name="VERTEXDATA"/>
 				<value value="0x1" name="INSTANCEDATA"/>
 			</bitfield>
-			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="19" low="16" type="gen_surface_mocs" name="MOCS"/>
 			<bitfield pos="14" name="ADDR_MODIFIED" variants="GEN7-"/>
 			<bitfield pos="13" name="IS_NULL"/>
 			<bitfield pos="12" name="CACHE_INVALIDATE"/>
@@ -769,7 +374,7 @@
 <domain name="3DSTATE_INDEX_BUFFER" width="32" size="3" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="IB_DW0" offset="0" type="gen_render_header">
-			<bitfield high="15" low="12" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="15" low="12" type="gen_surface_mocs" name="MOCS"/>
 			<bitfield pos="10" name="CUT_INDEX_ENABLE" variants="GEN6-GEN7"/>
 			<bitfield high="9" low="8" name="FORMAT">
 				<value value="0x0" name="BYTE"/>
@@ -1091,7 +696,7 @@
 		<bitfield pos="14" name="BUFFER2_VALID"/>
 		<bitfield pos="13" name="BUFFER1_VALID"/>
 		<bitfield pos="12" name="BUFFER0_VALID"/>
-		<bitfield high="11" low="8" type="gen_render_mocs" name="MOCS"/>
+		<bitfield high="11" low="8" type="gen_surface_mocs" name="MOCS"/>
 	</reg32>
 	<array offset="1" stride="1" length="4">
 		<reg32 name="BUFFER" offset="0">
@@ -1178,7 +783,7 @@
 			<bitfield high="15" low="0" type="int" name="X"/>
 		</reg32>
 		<reg32 name="DEPTH_DW6" offset="6">
-			<bitfield high="31" low="27" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="31" low="27" type="gen_surface_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -1263,7 +868,7 @@
 	<stripe>
 		<reg32 name="STENCIL_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="STENCIL_DW1" offset="1">
-			<bitfield high="28" low="25" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="28" low="25" type="gen_surface_mocs" name="MOCS"/>
 			<bitfield high="16" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="STENCIL_ADDR" offset="2"/>
@@ -1274,7 +879,7 @@
 	<stripe>
 		<reg32 name="HIZ_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="HIZ_DW1" offset="1">
-			<bitfield high="28" low="25" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="28" low="25" type="gen_surface_mocs" name="MOCS"/>
 			<bitfield high="16" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="HIZ_ADDR" offset="2"/>
@@ -1346,133 +951,7 @@
 	</stripe>
 </domain>
 
-<domain name="BLEND_STATE" width="32" size="2" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="BLEND_DW0" offset="0">
-			<bitfield pos="31" name="BLEND_ENABLE"/>
-			<bitfield pos="30" name="INDEPENDENT_ALPHA_ENABLE"/>
-			<bitfield high="28" low="26" type="gen_blend_function" name="ALPHA_FUNC"/>
-			<bitfield high="24" low="20" type="gen_blend_factor" name="SRC_ALPHA_FACTOR"/>
-			<bitfield high="19" low="15" type="gen_blend_factor" name="DST_ALPHA_FACTOR"/>
-			<bitfield high="13" low="11" type="gen_blend_function" name="COLOR_FUNC"/>
-			<bitfield high="9" low="5" type="gen_blend_factor" name="SRC_COLOR_FACTOR"/>
-			<bitfield high="4" low="0" type="gen_blend_factor" name="DST_COLOR_FACTOR"/>
-		</reg32>
-		<reg32 name="BLEND_DW1" offset="1">
-			<bitfield pos="31" name="ALPHA_TO_COVERAGE"/>
-			<bitfield pos="30" name="ALPHA_TO_ONE"/>
-			<bitfield pos="29" name="ALPHA_TO_COVERAGE_DITHER"/>
-			<bitfield pos="27" name="WRITE_DISABLE_A"/>
-			<bitfield pos="26" name="WRITE_DISABLE_R"/>
-			<bitfield pos="25" name="WRITE_DISABLE_G"/>
-			<bitfield pos="24" name="WRITE_DISABLE_B"/>
-			<bitfield pos="22" name="LOGICOP_ENABLE"/>
-			<bitfield high="21" low="18" type="gen_logicop_function" name="LOGICOP_FUNC"/>
-			<bitfield pos="16" name="ALPHA_TEST_ENABLE"/>
-			<bitfield high="15" low="13" type="gen_compare_function" name="ALPHA_TEST_FUNC"/>
-			<bitfield pos="12" name="DITHER_ENABLE"/>
-			<bitfield high="11" low="10" type="uint" name="X_DITHER_OFFSET"/>
-			<bitfield high="9" low="8" type="uint" name="Y_DITHER_OFFSET"/>
-			<bitfield high="3" low="2" name="COLORCLAMP">
-				<value value="0x0" name="UNORM"/>
-				<value value="0x1" name="SNORM"/>
-				<value value="0x2" name="RTFORMAT"/>
-			</bitfield>
-			<bitfield pos="1" name="PRE_BLEND_CLAMP"/>
-			<bitfield pos="0" name="POST_BLEND_CLAMP"/>
-		</reg32>
-	</stripe>
-</domain>
-
-<domain name="BINDING_TABLE_STATE" width="32" size="256" bare="yes" prefix="gen">
-	<array name="BINDING_TABLE" offset="0" stride="1" length="256"/>
-</domain>
-
-<domain name="CC_VIEWPORT" width="32" size="2" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="CC_VP_MIN_DEPTH" type="float" offset="0"/>
-		<reg32 name="CC_VP_MAX_DEPTH" type="float" offset="1"/>
-	</stripe>
-</domain>
-
-<domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="CC_DW0" offset="0">
-			<bitfield high="31" low="24" type="uint" name="STENCIL_FRONT_REF"/>
-			<bitfield high="23" low="16" type="uint" name="STENCIL_BACK_REF"/>
-			<bitfield pos="15" name="ROUND_DISABLE_DISABLE"/>
-			<bitfield pos="0" name="ALPHATEST">
-				<value value="0x0" name="UNORM8"/>
-				<value value="0x1" name="FLOAT32"/>
-			</bitfield>
-		</reg32>
-		<reg32 name="CC_ALPHA_REF" offset="1"/>
-		<reg32 name="CC_BLEND_COLOR_R" type="float" offset="2"/>
-		<reg32 name="CC_BLEND_COLOR_G" type="float" offset="3"/>
-		<reg32 name="CC_BLEND_COLOR_B" type="float" offset="4"/>
-		<reg32 name="CC_BLEND_COLOR_A" type="float" offset="5"/>
-	</stripe>
-</domain>
-
-<domain name="DEPTH_STENCIL_STATE" width="32" size="3" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="DS_STENCIL" offset="0">
-			<bitfield pos="31" name="TEST_ENABLE"/>
-			<bitfield high="30" low="28" type="gen_compare_function" name="FRONT_FUNC"/>
-			<bitfield high="27" low="25" type="gen_stencil_op" name="FRONT_FAIL_OP"/>
-			<bitfield high="24" low="22" type="gen_stencil_op" name="FRONT_ZFAIL_OP"/>
-			<bitfield high="21" low="19" type="gen_stencil_op" name="FRONT_ZPASS_OP"/>
-			<bitfield pos="18" name="WRITE_ENABLE"/>
-			<bitfield pos="15" name="BACK_ENABLE"/>
-			<bitfield high="14" low="12" type="gen_compare_function" name="BACK_FUNC"/>
-			<bitfield high="11" low="9" type="gen_stencil_op" name="BACK_FAIL_OP"/>
-			<bitfield high="8" low="6" type="gen_stencil_op" name="BACK_ZFAIL_OP"/>
-			<bitfield high="5" low="3" type="gen_stencil_op" name="BACK_ZPASS_OP"/>
-		</reg32>
-		<reg32 name="DS_STENCILMASK" offset="1">
-			<bitfield high="31" low="24" name="FRONT_VALUE"/>
-			<bitfield high="23" low="16" name="FRONT_WRITE"/>
-			<bitfield high="15" low="8" name="BACK_VALUE"/>
-			<bitfield high="7" low="0" name="BACK_WRITE"/>
-		</reg32>
-		<reg32 name="DS_DEPTH" offset="2">
-			<bitfield pos="31" name="TEST_ENABLE"/>
-			<bitfield high="29" low="27" type="gen_compare_function" name="FUNC"/>
-			<bitfield pos="26" name="WRITE_ENABLE"/>
-		</reg32>
-	</stripe>
-</domain>
-
-<domain name="SF_CLIP_VIEWPORT" width="32" size="16" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe>
-		<reg32 name="SF_CLIP_M00" type="float" offset="0"/>
-		<reg32 name="SF_CLIP_M11" type="float" offset="1"/>
-		<reg32 name="SF_CLIP_M22" type="float" offset="2"/>
-		<reg32 name="SF_CLIP_M30" type="float" offset="3"/>
-		<reg32 name="SF_CLIP_M31" type="float" offset="4"/>
-		<reg32 name="SF_CLIP_M32" type="float" offset="5"/>
-
-		<reg32 name="SF_CLIP_GB_MIN_X" type="float" offset="8"/>
-		<reg32 name="SF_CLIP_GB_MAX_X" type="float" offset="9"/>
-		<reg32 name="SF_CLIP_GB_MIN_Y" type="float" offset="10"/>
-		<reg32 name="SF_CLIP_GB_MAX_Y" type="float" offset="11"/>
-	</stripe>
-</domain>
-
-<domain name="SCISSOR_RECT" width="32" size="2" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="SCISSOR_MIN" offset="0">
-			<bitfield high="31" low="16" type="uint" name="Y"/>
-			<bitfield high="15" low="0" type="uint" name="X"/>
-		</reg32>
-		<reg32 name="SCISSOR_MAX" offset="1">
-			<bitfield high="31" low="16" type="uint" name="Y"/>
-			<bitfield high="15" low="0" type="uint" name="X"/>
-		</reg32>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_CONSTANT_BODY" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
+<!--domain name="3DSTATE_CONSTANT_BODY" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
 	<stripe prefix="gen" variants="GEN7-">
 		<reg32 name="CONSTBUF_DW0" offset="0">
 			<bitfield high="31" low="16" type="uint" name="BUF1_LEN"/>
@@ -1484,7 +963,7 @@
 		</reg32>
 		<reg32 name="CONSTBUF_DW2" offset="2">
 			<bitfield high="31" low="5" shr="5" name="BUF0_ADDR"/>
-			<bitfield high="4" low="0" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="4" low="0" type="gen_surface_mocs" name="MOCS"/>
 		</reg32>
 		<reg32 name="CONSTBUF_DW3" offset="3">
 			<bitfield high="31" low="5" shr="5" name="BUF1_ADDR"/>
@@ -1496,233 +975,6 @@
 			<bitfield high="31" low="5" shr="5" name="BUF3_ADDR"/>
 		</reg32>
 	</stripe>
-</domain>
-
-<domain name="SAMPLER_BORDER_COLOR" width="32" size="20" bare="yes" prefix="gen">
-	<stripe>
-		<array name="BORDER_COLOR" offset="0" stride="1" length="12" variants="GEN6"/>
-		<array name="BORDER_COLOR" offset="0" stride="1" length="20" variants="GEN7-"/>
-	</stripe>
-</domain>
-
-<domain name="SAMPLER_STATE" width="32" size="4" bare="yes" prefix="gen">
-	<stripe variants="GEN6">
-		<reg32 name="SAMPLER_DW0" offset="0">
-			<bitfield pos="31" name="DISABLE"/>
-			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE"/>
-			<bitfield pos="27" name="MIN_MAG_NOT_EQUAL"/>
-			<bitfield high="26" low="22" type="uint" name="BASE_LOD"/>
-			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
-			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
-			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
-			<bitfield high="13" low="3" type="int" name="LOD_BIAS"/>
-			<bitfield high="2" low="0" type="gen_compare_function" name="SHADOW_FUNC"/>
-		</reg32>
-		<reg32 name="SAMPLER_DW1" offset="1">
-			<bitfield high="31" low="22" type="uint" name="MIN_LOD"/>
-			<bitfield high="21" low="12" type="uint" name="MAX_LOD"/>
-			<bitfield high="9" low="9" name="CUBECTRLMODE">
-				<value value="0x0" name="PROGRAMMED"/>
-				<value value="0x1" name="OVERRIDE"/>
-			</bitfield>
-			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
-			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
-			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
-		</reg32>
-		<reg32 name="SAMPLER_DW2" offset="2">
-			<bitfield high="31" low="5" shr="5" name="BORDER_COLOR_ADDR"/>
-		</reg32>
-		<reg32 name="SAMPLER_DW3" offset="3">
-			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
-			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
-			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
-			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
-			<bitfield pos="18" name="U_MAG_ROUND"/>
-			<bitfield pos="17" name="U_MIN_ROUND"/>
-			<bitfield pos="16" name="V_MAG_ROUND"/>
-			<bitfield pos="15" name="V_MIN_ROUND"/>
-			<bitfield pos="14" name="R_MAG_ROUND"/>
-			<bitfield pos="13" name="R_MIN_ROUND"/>
-			<bitfield pos="0" name="NON_NORMALIZED_COORD"/>
-		</reg32>
-	</stripe>
-
-	<stripe variants="GEN7-">
-		<reg32 name="SAMPLER_DW0" offset="0">
-			<bitfield pos="31" name="DISABLE"/>
-			<bitfield high="29" low="29" name="BORDER_COLOR_MODE">
-				<value value="0x0" name="DX10_OGL"/>
-				<value value="0x1" name="DX9"/>
-			</bitfield>
-			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE"/>
-			<bitfield high="26" low="22" type="uint" name="BASE_LOD"/>
-			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
-			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
-			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
-			<bitfield high="13" low="1" type="int" name="LOD_BIAS"/>
-			<bitfield high="0" low="0" name="ANISO_ALGO">
-				<value value="0x0" name="LEGACY"/>
-				<value value="0x1" name="EWA"/>
-			</bitfield>
-		</reg32>
-		<reg32 name="SAMPLER_DW1" offset="1">
-			<bitfield high="31" low="20" type="uint" name="MIN_LOD"/>
-			<bitfield high="19" low="8" type="uint" name="MAX_LOD"/>
-			<bitfield high="3" low="1" type="gen_compare_function" name="SHADOW_FUNC"/>
-			<bitfield high="0" low="0" name="CUBECTRLMODE">
-				<value value="0x0" name="PROGRAMMED"/>
-				<value value="0x1" name="OVERRIDE"/>
-			</bitfield>
-		</reg32>
-		<reg32 name="SAMPLER_DW2" offset="2">
-			<bitfield high="31" low="5" shr="5" name="BORDER_COLOR_ADDR"/>
-		</reg32>
-		<reg32 name="SAMPLER_DW3" offset="3">
-			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
-			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
-			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
-			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
-			<bitfield pos="18" name="U_MAG_ROUND"/>
-			<bitfield pos="17" name="U_MIN_ROUND"/>
-			<bitfield pos="16" name="V_MAG_ROUND"/>
-			<bitfield pos="15" name="V_MIN_ROUND"/>
-			<bitfield pos="14" name="R_MAG_ROUND"/>
-			<bitfield pos="13" name="R_MIN_ROUND"/>
-			<bitfield high="12" low="11" name="TRIQUAL">
-				<value value="0x0" name="FULL"/>
-				<value value="0x1" name="HIGH" variants="GEN75-"/>
-				<value value="0x2" name="MED"/>
-				<value value="0x3" name="LOW"/>
-			</bitfield>
-			<bitfield pos="10" name="NON_NORMALIZED_COORD"/>
-			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
-			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
-			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
-		</reg32>
-	</stripe>
-</domain>
-
-<domain name="SURFACE_STATE" width="32" size="8" bare="yes" prefix="gen">
-	<stripe variants="GEN6">
-		<reg32 name="SURFACE_DW0" offset="0">
-			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
-			<bitfield high="26" low="18" type="gen_surface_format" name="FORMAT"/>
-			<bitfield pos="12" name="VSTRIDE"/>
-			<bitfield pos="11" name="VSTRIDE_OFFSET"/>
-			<bitfield pos="10" name="MIPLAYOUT">
-				<value value="0x0" name="BELOW"/>
-				<value value="0x1" name="RIGHT"/>
-			</bitfield>
-			<bitfield pos="9" name="CUBE_MAP_CORNER_MODE"/>
-			<bitfield pos="8" name="RENDER_CACHE_RW"/>
-			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
-			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
-		</reg32>
-
-		<reg32 name="SURFACE_ADDR" offset="1"/>
-
-		<reg32 name="SURFACE_DW2" offset="2">
-			<bitfield high="31" low="19" type="uint" name="HEIGHT"/>
-			<bitfield high="18" low="6" type="uint" name="WIDTH"/>
-			<bitfield high="5" low="2" type="uint" name="MIP_COUNT_LOD"/>
-			<bitfield high="1" low="0" type="gen_surface_rotate" name="RTROTATE"/>
-		</reg32>
-		<reg32 name="SURFACE_DW3" offset="3">
-			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
-			<bitfield high="19" low="3" type="uint" name="PITCH"/>
-			<bitfield high="1" low="0" type="gen_surface_tiling" name="TILING"/>
-		</reg32>
-		<reg32 name="SURFACE_DW4" offset="4">
-			<bitfield high="31" low="28" type="uint" name="MIN_LOD"/>
-			<bitfield high="27" low="17" type="uint" name="MIN_ARRAY_ELEMENT"/>
-			<bitfield high="16" low="8" type="uint" name="RT_VIEW_EXTENT"/>
-			<bitfield high="6" low="4" name="MULTISAMPLECOUNT">
-				<value value="0x0" name="1"/>
-				<value value="0x2" name="4"/>
-			</bitfield>
-			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
-		</reg32>
-		<reg32 name="SURFACE_DW5" offset="5">
-			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
-			<bitfield high="24" low="24" type="gen_surface_valign" name="VALIGN"/>
-			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
-			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
-		</reg32>
-	</stripe>
-
-	<stripe variants="GEN7-">
-		<reg32 name="SURFACE_DW0" offset="0">
-			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
-			<bitfield pos="28" name="IS_ARRAY"/>
-			<bitfield high="26" low="18" type="gen_surface_format" name="FORMAT"/>
-			<bitfield high="17" low="16" type="gen_surface_valign" name="VALIGN"/>
-			<bitfield high="15" low="15" type="gen_surface_halign" name="HALIGN"/>
-			<bitfield high="14" low="13" type="gen_surface_tiling" name="TILING"/>
-			<bitfield pos="12" name="VSTRIDE"/>
-			<bitfield pos="11" name="VSTRIDE_OFFSET"/>
-			<bitfield pos="10" name="ARYSPC">
-				<value value="0x0" name="FULL"/>
-				<value value="0x1" name="LOD0"/>
-			</bitfield>
-			<bitfield pos="8" name="RENDER_CACHE_RW"/>
-			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
-			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
-		</reg32>
-
-		<reg32 name="SURFACE_ADDR" offset="1"/>
-
-		<reg32 name="SURFACE_DW2" offset="2">
-			<bitfield high="29" low="16" type="uint" name="HEIGHT"/>
-			<bitfield high="13" low="0" type="uint" name="WIDTH"/>
-		</reg32>
-		<reg32 name="SURFACE_DW3" offset="3">
-			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
-			<bitfield high="20" low="18" name="INTEGER_SURFACE_FORMAT"/>
-			<bitfield high="17" low="0" type="uint" name="PITCH"/>
-		</reg32>
-		<reg32 name="SURFACE_DW4" offset="4">
-			<bitfield high="30" low="29" type="gen_surface_rotate" name="RTROTATE"/>
-			<bitfield high="28" low="18" type="uint" name="MIN_ARRAY_ELEMENT"/>
-			<bitfield high="17" low="7" type="uint" name="RT_VIEW_EXTENT"/>
-			<bitfield high="6" low="6" name="MSFMT">
-				<value value="0x0" name="MSS"/>
-				<value value="0x1" name="DEPTH_STENCIL"/>
-			</bitfield>
-			<bitfield high="5" low="3" name="MULTISAMPLECOUNT">
-				<value value="0x0" name="1"/>
-				<value value="0x2" name="4"/>
-				<value value="0x3" name="8"/>
-			</bitfield>
-			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
-			<!-- if STRBUF -->
-			<!--bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT"/-->
-		</reg32>
-		<reg32 name="SURFACE_DW5" offset="5">
-			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
-			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
-			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
-			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
-			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
-		</reg32>
-		<reg32 name="SURFACE_DW6" offset="6">
-			<!-- if PLANAR -->
-			<!--bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/-->
-			<!--bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/-->
-			<!-- else if MCS -->
-			<!--bitfield high="31" low="12" shr="12" name="MCS_ADDR"/-->
-			<!--bitfield high="11" low="3" type="uint" name="MCS_PITCH"/-->
-			<bitfield high="31" low="6" shr="6" name="APPEND_COUNTER_ADDR"/>
-			<bitfield pos="1" name="APPEND_COUNTER_ENABLE"/>
-			<bitfield pos="0" name="MCS_ENABLE"/>
-		</reg32>
-		<reg32 name="SURFACE_DW7" offset="7">
-			<bitfield high="27" low="25" type="gen_surface_scs" name="SCS_R"/>
-			<bitfield high="24" low="22" type="gen_surface_scs" name="SCS_G"/>
-			<bitfield high="21" low="19" type="gen_surface_scs" name="SCS_B"/>
-			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A"/>
-			<bitfield high="11" low="0" type="uint" name="RES_MIN_LOD"/>
-		</reg32>
-	</stripe>
-</domain>
+</domain-->
 
 </database>

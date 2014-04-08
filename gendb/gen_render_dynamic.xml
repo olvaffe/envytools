@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<enum name="gen_compare_function" bare="yes" prefix="gen">
+	<value value="0x0" name="COMPAREFUNCTION_ALWAYS"/>
+	<value value="0x1" name="COMPAREFUNCTION_NEVER"/>
+	<value value="0x2" name="COMPAREFUNCTION_LESS"/>
+	<value value="0x3" name="COMPAREFUNCTION_EQUAL"/>
+	<value value="0x4" name="COMPAREFUNCTION_LEQUAL"/>
+	<value value="0x5" name="COMPAREFUNCTION_GREATER"/>
+	<value value="0x6" name="COMPAREFUNCTION_NOTEQUAL"/>
+	<value value="0x7" name="COMPAREFUNCTION_GEQUAL"/>
+</enum>
+
+<enum name="gen_stencil_op" bare="yes" prefix="gen">
+	<value value="0x0" name="STENCILOP_KEEP"/>
+	<value value="0x1" name="STENCILOP_ZERO"/>
+	<value value="0x2" name="STENCILOP_REPLACE"/>
+	<value value="0x3" name="STENCILOP_INCRSAT"/>
+	<value value="0x4" name="STENCILOP_DECRSAT"/>
+	<value value="0x5" name="STENCILOP_INCR"/>
+	<value value="0x6" name="STENCILOP_DECR"/>
+	<value value="0x7" name="STENCILOP_INVERT"/>
+</enum>
+
+<enum name="gen_blend_factor" bare="yes" prefix="gen">
+	<value value="0x01" name="BLENDFACTOR_ONE"/>
+	<value value="0x02" name="BLENDFACTOR_SRC_COLOR"/>
+	<value value="0x03" name="BLENDFACTOR_SRC_ALPHA"/>
+	<value value="0x04" name="BLENDFACTOR_DST_ALPHA"/>
+	<value value="0x05" name="BLENDFACTOR_DST_COLOR"/>
+	<value value="0x06" name="BLENDFACTOR_SRC_ALPHA_SATURATE"/>
+	<value value="0x07" name="BLENDFACTOR_CONST_COLOR"/>
+	<value value="0x08" name="BLENDFACTOR_CONST_ALPHA"/>
+	<value value="0x09" name="BLENDFACTOR_SRC1_COLOR"/>
+	<value value="0x0a" name="BLENDFACTOR_SRC1_ALPHA"/>
+	<value value="0x11" name="BLENDFACTOR_ZERO"/>
+	<value value="0x12" name="BLENDFACTOR_INV_SRC_COLOR"/>
+	<value value="0x13" name="BLENDFACTOR_INV_SRC_ALPHA"/>
+	<value value="0x14" name="BLENDFACTOR_INV_DST_ALPHA"/>
+	<value value="0x15" name="BLENDFACTOR_INV_DST_COLOR"/>
+	<value value="0x17" name="BLENDFACTOR_INV_CONST_COLOR"/>
+	<value value="0x18" name="BLENDFACTOR_INV_CONST_ALPHA"/>
+	<value value="0x19" name="BLENDFACTOR_INV_SRC1_COLOR"/>
+	<value value="0x1a" name="BLENDFACTOR_INV_SRC1_ALPHA"/>
+</enum>
+
+<enum name="gen_blend_function" bare="yes" prefix="gen">
+	<value value="0x0" name="BLENDFUNCTION_ADD"/>
+	<value value="0x1" name="BLENDFUNCTION_SUBTRACT"/>
+	<value value="0x2" name="BLENDFUNCTION_REVERSE_SUBTRACT"/>
+	<value value="0x3" name="BLENDFUNCTION_MIN"/>
+	<value value="0x4" name="BLENDFUNCTION_MAX"/>
+</enum>
+
+<enum name="gen_logicop_function" bare="yes" prefix="gen">
+	<value value="0x0" name="LOGICOP_CLEAR"/>
+	<value value="0x1" name="LOGICOP_NOR"/>
+	<value value="0x2" name="LOGICOP_AND_INVERTED"/>
+	<value value="0x3" name="LOGICOP_COPY_INVERTED"/>
+	<value value="0x4" name="LOGICOP_AND_REVERSE"/>
+	<value value="0x5" name="LOGICOP_INVERT"/>
+	<value value="0x6" name="LOGICOP_XOR"/>
+	<value value="0x7" name="LOGICOP_NAND"/>
+	<value value="0x8" name="LOGICOP_AND"/>
+	<value value="0x9" name="LOGICOP_EQUIV"/>
+	<value value="0xa" name="LOGICOP_NOOP"/>
+	<value value="0xb" name="LOGICOP_OR_INVERTED"/>
+	<value value="0xc" name="LOGICOP_COPY"/>
+	<value value="0xd" name="LOGICOP_OR_REVERSE"/>
+	<value value="0xe" name="LOGICOP_OR"/>
+	<value value="0xf" name="LOGICOP_SET"/>
+</enum>
+
+<enum name="gen_sampler_mip_filter" bare="yes" prefix="gen">
+	<value value="0x0" name="MIPFILTER_NONE"/>
+	<value value="0x1" name="MIPFILTER_NEAREST"/>
+	<value value="0x3" name="MIPFILTER_LINEAR"/>
+</enum>
+
+<enum name="gen_sampler_map_filter" bare="yes" prefix="gen">
+	<value value="0x0" name="MAPFILTER_NEAREST"/>
+	<value value="0x1" name="MAPFILTER_LINEAR"/>
+	<value value="0x2" name="MAPFILTER_ANISOTROPIC"/>
+	<value value="0x6" name="MAPFILTER_MONO"/>
+</enum>
+
+<enum name="gen_sampler_aniso_ratio" bare="yes" prefix="gen">
+	<value value="0x0" name="ANISORATIO_2"/>
+	<value value="0x1" name="ANISORATIO_4"/>
+	<value value="0x2" name="ANISORATIO_6"/>
+	<value value="0x3" name="ANISORATIO_8"/>
+	<value value="0x4" name="ANISORATIO_10"/>
+	<value value="0x5" name="ANISORATIO_12"/>
+	<value value="0x6" name="ANISORATIO_14"/>
+	<value value="0x7" name="ANISORATIO_16"/>
+</enum>
+
+<enum name="gen_sampler_texcoord_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="TEXCOORDMODE_WRAP"/>
+	<value value="0x1" name="TEXCOORDMODE_MIRROR"/>
+	<value value="0x2" name="TEXCOORDMODE_CLAMP"/>
+	<value value="0x3" name="TEXCOORDMODE_CUBE"/>
+	<value value="0x4" name="TEXCOORDMODE_CLAMP_BORDER"/>
+	<value value="0x5" name="TEXCOORDMODE_MIRROR_ONCE"/>
+</enum>
+
+<enum name="gen_sampler_key_filter" bare="yes" prefix="gen">
+	<value value="0x0" name="KEYFILTER_KILL_ON_ANY_MATCH"/>
+	<value value="0x1" name="KEYFILTER_REPLACE_BLACK"/>
+</enum>
+
+<domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="CC_DW0" offset="0">
+			<bitfield high="31" low="24" type="uint" name="STENCIL_FRONT_REF"/>
+			<bitfield high="23" low="16" type="uint" name="STENCIL_BACK_REF"/>
+			<bitfield pos="15" name="ROUND_DISABLE_DISABLE"/>
+			<bitfield pos="0" name="ALPHATEST">
+				<value value="0x0" name="UNORM8"/>
+				<value value="0x1" name="FLOAT32"/>
+			</bitfield>
+		</reg32>
+		<reg32 name="CC_ALPHA_REF" offset="1"/>
+		<reg32 name="CC_BLEND_COLOR_R" type="float" offset="2"/>
+		<reg32 name="CC_BLEND_COLOR_G" type="float" offset="3"/>
+		<reg32 name="CC_BLEND_COLOR_B" type="float" offset="4"/>
+		<reg32 name="CC_BLEND_COLOR_A" type="float" offset="5"/>
+	</stripe>
+</domain>
+
+<domain name="DEPTH_STENCIL_STATE" width="32" size="3" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="DS_STENCIL" offset="0">
+			<bitfield pos="31" name="TEST_ENABLE"/>
+			<bitfield high="30" low="28" type="gen_compare_function" name="FRONT_FUNC"/>
+			<bitfield high="27" low="25" type="gen_stencil_op" name="FRONT_FAIL_OP"/>
+			<bitfield high="24" low="22" type="gen_stencil_op" name="FRONT_ZFAIL_OP"/>
+			<bitfield high="21" low="19" type="gen_stencil_op" name="FRONT_ZPASS_OP"/>
+			<bitfield pos="18" name="WRITE_ENABLE"/>
+			<bitfield pos="15" name="BACK_ENABLE"/>
+			<bitfield high="14" low="12" type="gen_compare_function" name="BACK_FUNC"/>
+			<bitfield high="11" low="9" type="gen_stencil_op" name="BACK_FAIL_OP"/>
+			<bitfield high="8" low="6" type="gen_stencil_op" name="BACK_ZFAIL_OP"/>
+			<bitfield high="5" low="3" type="gen_stencil_op" name="BACK_ZPASS_OP"/>
+		</reg32>
+		<reg32 name="DS_STENCILMASK" offset="1">
+			<bitfield high="31" low="24" name="FRONT_VALUE"/>
+			<bitfield high="23" low="16" name="FRONT_WRITE"/>
+			<bitfield high="15" low="8" name="BACK_VALUE"/>
+			<bitfield high="7" low="0" name="BACK_WRITE"/>
+		</reg32>
+		<reg32 name="DS_DEPTH" offset="2">
+			<bitfield pos="31" name="TEST_ENABLE"/>
+			<bitfield high="29" low="27" type="gen_compare_function" name="FUNC"/>
+			<bitfield pos="26" name="WRITE_ENABLE"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="BLEND_STATE" width="32" size="2" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="BLEND_DW0" offset="0">
+			<bitfield pos="31" name="BLEND_ENABLE"/>
+			<bitfield pos="30" name="INDEPENDENT_ALPHA_ENABLE"/>
+			<bitfield high="28" low="26" type="gen_blend_function" name="ALPHA_FUNC"/>
+			<bitfield high="24" low="20" type="gen_blend_factor" name="SRC_ALPHA_FACTOR"/>
+			<bitfield high="19" low="15" type="gen_blend_factor" name="DST_ALPHA_FACTOR"/>
+			<bitfield high="13" low="11" type="gen_blend_function" name="COLOR_FUNC"/>
+			<bitfield high="9" low="5" type="gen_blend_factor" name="SRC_COLOR_FACTOR"/>
+			<bitfield high="4" low="0" type="gen_blend_factor" name="DST_COLOR_FACTOR"/>
+		</reg32>
+		<reg32 name="BLEND_DW1" offset="1">
+			<bitfield pos="31" name="ALPHA_TO_COVERAGE"/>
+			<bitfield pos="30" name="ALPHA_TO_ONE"/>
+			<bitfield pos="29" name="ALPHA_TO_COVERAGE_DITHER"/>
+			<bitfield pos="27" name="WRITE_DISABLE_A"/>
+			<bitfield pos="26" name="WRITE_DISABLE_R"/>
+			<bitfield pos="25" name="WRITE_DISABLE_G"/>
+			<bitfield pos="24" name="WRITE_DISABLE_B"/>
+			<bitfield pos="22" name="LOGICOP_ENABLE"/>
+			<bitfield high="21" low="18" type="gen_logicop_function" name="LOGICOP_FUNC"/>
+			<bitfield pos="16" name="ALPHA_TEST_ENABLE"/>
+			<bitfield high="15" low="13" type="gen_compare_function" name="ALPHA_TEST_FUNC"/>
+			<bitfield pos="12" name="DITHER_ENABLE"/>
+			<bitfield high="11" low="10" type="uint" name="X_DITHER_OFFSET"/>
+			<bitfield high="9" low="8" type="uint" name="Y_DITHER_OFFSET"/>
+			<bitfield high="3" low="2" name="COLORCLAMP">
+				<value value="0x0" name="UNORM"/>
+				<value value="0x1" name="SNORM"/>
+				<value value="0x2" name="RTFORMAT"/>
+			</bitfield>
+			<bitfield pos="1" name="PRE_BLEND_CLAMP"/>
+			<bitfield pos="0" name="POST_BLEND_CLAMP"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="SF_CLIP_VIEWPORT" width="32" size="16" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe>
+		<reg32 name="SF_CLIP_M00" type="float" offset="0"/>
+		<reg32 name="SF_CLIP_M11" type="float" offset="1"/>
+		<reg32 name="SF_CLIP_M22" type="float" offset="2"/>
+		<reg32 name="SF_CLIP_M30" type="float" offset="3"/>
+		<reg32 name="SF_CLIP_M31" type="float" offset="4"/>
+		<reg32 name="SF_CLIP_M32" type="float" offset="5"/>
+
+		<reg32 name="SF_CLIP_GB_MIN_X" type="float" offset="8"/>
+		<reg32 name="SF_CLIP_GB_MAX_X" type="float" offset="9"/>
+		<reg32 name="SF_CLIP_GB_MIN_Y" type="float" offset="10"/>
+		<reg32 name="SF_CLIP_GB_MAX_Y" type="float" offset="11"/>
+	</stripe>
+</domain>
+
+<domain name="CC_VIEWPORT" width="32" size="2" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="CC_VP_MIN_DEPTH" type="float" offset="0"/>
+		<reg32 name="CC_VP_MAX_DEPTH" type="float" offset="1"/>
+	</stripe>
+</domain>
+
+<domain name="SCISSOR_RECT" width="32" size="2" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="SCISSOR_MIN" offset="0">
+			<bitfield high="31" low="16" type="uint" name="Y"/>
+			<bitfield high="15" low="0" type="uint" name="X"/>
+		</reg32>
+		<reg32 name="SCISSOR_MAX" offset="1">
+			<bitfield high="31" low="16" type="uint" name="Y"/>
+			<bitfield high="15" low="0" type="uint" name="X"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="BINDING_TABLE_STATE" width="32" size="256" bare="yes" prefix="gen">
+	<array name="BINDING_TABLE" offset="0" stride="1" length="256"/>
+</domain>
+
+<domain name="SAMPLER_BORDER_COLOR" width="32" size="20" bare="yes" prefix="gen">
+	<stripe>
+		<array name="BORDER_COLOR" offset="0" stride="1" length="12" variants="GEN6"/>
+		<array name="BORDER_COLOR" offset="0" stride="1" length="20" variants="GEN7-"/>
+	</stripe>
+</domain>
+
+<domain name="SAMPLER_STATE" width="32" size="4" bare="yes" prefix="gen">
+	<stripe variants="GEN6">
+		<reg32 name="SAMPLER_DW0" offset="0">
+			<bitfield pos="31" name="DISABLE"/>
+			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE"/>
+			<bitfield pos="27" name="MIN_MAG_NOT_EQUAL"/>
+			<bitfield high="26" low="22" type="uint" name="BASE_LOD"/>
+			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
+			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
+			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
+			<bitfield high="13" low="3" type="int" name="LOD_BIAS"/>
+			<bitfield high="2" low="0" type="gen_compare_function" name="SHADOW_FUNC"/>
+		</reg32>
+		<reg32 name="SAMPLER_DW1" offset="1">
+			<bitfield high="31" low="22" type="uint" name="MIN_LOD"/>
+			<bitfield high="21" low="12" type="uint" name="MAX_LOD"/>
+			<bitfield high="9" low="9" name="CUBECTRLMODE">
+				<value value="0x0" name="PROGRAMMED"/>
+				<value value="0x1" name="OVERRIDE"/>
+			</bitfield>
+			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
+			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
+			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
+		</reg32>
+		<reg32 name="SAMPLER_DW2" offset="2">
+			<bitfield high="31" low="5" shr="5" name="BORDER_COLOR_ADDR"/>
+		</reg32>
+		<reg32 name="SAMPLER_DW3" offset="3">
+			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
+			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
+			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
+			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
+			<bitfield pos="18" name="U_MAG_ROUND"/>
+			<bitfield pos="17" name="U_MIN_ROUND"/>
+			<bitfield pos="16" name="V_MAG_ROUND"/>
+			<bitfield pos="15" name="V_MIN_ROUND"/>
+			<bitfield pos="14" name="R_MAG_ROUND"/>
+			<bitfield pos="13" name="R_MIN_ROUND"/>
+			<bitfield pos="0" name="NON_NORMALIZED_COORD"/>
+		</reg32>
+	</stripe>
+
+	<stripe variants="GEN7-">
+		<reg32 name="SAMPLER_DW0" offset="0">
+			<bitfield pos="31" name="DISABLE"/>
+			<bitfield high="29" low="29" name="BORDER_COLOR_MODE">
+				<value value="0x0" name="DX10_OGL"/>
+				<value value="0x1" name="DX9"/>
+			</bitfield>
+			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE"/>
+			<bitfield high="26" low="22" type="uint" name="BASE_LOD"/>
+			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
+			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
+			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
+			<bitfield high="13" low="1" type="int" name="LOD_BIAS"/>
+			<bitfield high="0" low="0" name="ANISO_ALGO">
+				<value value="0x0" name="LEGACY"/>
+				<value value="0x1" name="EWA"/>
+			</bitfield>
+		</reg32>
+		<reg32 name="SAMPLER_DW1" offset="1">
+			<bitfield high="31" low="20" type="uint" name="MIN_LOD"/>
+			<bitfield high="19" low="8" type="uint" name="MAX_LOD"/>
+			<bitfield high="3" low="1" type="gen_compare_function" name="SHADOW_FUNC"/>
+			<bitfield high="0" low="0" name="CUBECTRLMODE">
+				<value value="0x0" name="PROGRAMMED"/>
+				<value value="0x1" name="OVERRIDE"/>
+			</bitfield>
+		</reg32>
+		<reg32 name="SAMPLER_DW2" offset="2">
+			<bitfield high="31" low="5" shr="5" name="BORDER_COLOR_ADDR"/>
+		</reg32>
+		<reg32 name="SAMPLER_DW3" offset="3">
+			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
+			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
+			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
+			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
+			<bitfield pos="18" name="U_MAG_ROUND"/>
+			<bitfield pos="17" name="U_MIN_ROUND"/>
+			<bitfield pos="16" name="V_MAG_ROUND"/>
+			<bitfield pos="15" name="V_MIN_ROUND"/>
+			<bitfield pos="14" name="R_MAG_ROUND"/>
+			<bitfield pos="13" name="R_MIN_ROUND"/>
+			<bitfield high="12" low="11" name="TRIQUAL">
+				<value value="0x0" name="FULL"/>
+				<value value="0x1" name="HIGH" variants="GEN75-"/>
+				<value value="0x2" name="MED"/>
+				<value value="0x3" name="LOW"/>
+			</bitfield>
+			<bitfield pos="10" name="NON_NORMALIZED_COORD"/>
+			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
+			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
+			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
+		</reg32>
+	</stripe>
+</domain>
+
+</database>

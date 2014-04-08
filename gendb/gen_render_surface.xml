@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<enum name="gen_surface_format" bare="yes" prefix="gen">
+	<value value="0x000" name="FORMAT_R32G32B32A32_FLOAT"/>
+	<value value="0x001" name="FORMAT_R32G32B32A32_SINT"/>
+	<value value="0x002" name="FORMAT_R32G32B32A32_UINT"/>
+	<value value="0x003" name="FORMAT_R32G32B32A32_UNORM"/>
+	<value value="0x004" name="FORMAT_R32G32B32A32_SNORM"/>
+	<value value="0x005" name="FORMAT_R64G64_FLOAT"/>
+	<value value="0x006" name="FORMAT_R32G32B32X32_FLOAT"/>
+	<value value="0x007" name="FORMAT_R32G32B32A32_SSCALED"/>
+	<value value="0x008" name="FORMAT_R32G32B32A32_USCALED"/>
+	<value value="0x020" name="FORMAT_R32G32B32A32_SFIXED"/>
+	<value value="0x021" name="FORMAT_R64G64_PASSTHRU"/>
+	<value value="0x040" name="FORMAT_R32G32B32_FLOAT"/>
+	<value value="0x041" name="FORMAT_R32G32B32_SINT"/>
+	<value value="0x042" name="FORMAT_R32G32B32_UINT"/>
+	<value value="0x043" name="FORMAT_R32G32B32_UNORM"/>
+	<value value="0x044" name="FORMAT_R32G32B32_SNORM"/>
+	<value value="0x045" name="FORMAT_R32G32B32_SSCALED"/>
+	<value value="0x046" name="FORMAT_R32G32B32_USCALED"/>
+	<value value="0x050" name="FORMAT_R32G32B32_SFIXED"/>
+	<value value="0x080" name="FORMAT_R16G16B16A16_UNORM"/>
+	<value value="0x081" name="FORMAT_R16G16B16A16_SNORM"/>
+	<value value="0x082" name="FORMAT_R16G16B16A16_SINT"/>
+	<value value="0x083" name="FORMAT_R16G16B16A16_UINT"/>
+	<value value="0x084" name="FORMAT_R16G16B16A16_FLOAT"/>
+	<value value="0x085" name="FORMAT_R32G32_FLOAT"/>
+	<value value="0x086" name="FORMAT_R32G32_SINT"/>
+	<value value="0x087" name="FORMAT_R32G32_UINT"/>
+	<value value="0x088" name="FORMAT_R32_FLOAT_X8X24_TYPELESS"/>
+	<value value="0x089" name="FORMAT_X32_TYPELESS_G8X24_UINT"/>
+	<value value="0x08a" name="FORMAT_L32A32_FLOAT"/>
+	<value value="0x08b" name="FORMAT_R32G32_UNORM"/>
+	<value value="0x08c" name="FORMAT_R32G32_SNORM"/>
+	<value value="0x08d" name="FORMAT_R64_FLOAT"/>
+	<value value="0x08e" name="FORMAT_R16G16B16X16_UNORM"/>
+	<value value="0x08f" name="FORMAT_R16G16B16X16_FLOAT"/>
+	<value value="0x090" name="FORMAT_A32X32_FLOAT"/>
+	<value value="0x091" name="FORMAT_L32X32_FLOAT"/>
+	<value value="0x092" name="FORMAT_I32X32_FLOAT"/>
+	<value value="0x093" name="FORMAT_R16G16B16A16_SSCALED"/>
+	<value value="0x094" name="FORMAT_R16G16B16A16_USCALED"/>
+	<value value="0x095" name="FORMAT_R32G32_SSCALED"/>
+	<value value="0x096" name="FORMAT_R32G32_USCALED"/>
+	<value value="0x0a0" name="FORMAT_R32G32_SFIXED"/>
+	<value value="0x0a1" name="FORMAT_R64_PASSTHRU"/>
+	<value value="0x0c0" name="FORMAT_B8G8R8A8_UNORM"/>
+	<value value="0x0c1" name="FORMAT_B8G8R8A8_UNORM_SRGB"/>
+	<value value="0x0c2" name="FORMAT_R10G10B10A2_UNORM"/>
+	<value value="0x0c3" name="FORMAT_R10G10B10A2_UNORM_SRGB"/>
+	<value value="0x0c4" name="FORMAT_R10G10B10A2_UINT"/>
+	<value value="0x0c5" name="FORMAT_R10G10B10_SNORM_A2_UNORM"/>
+	<value value="0x0c7" name="FORMAT_R8G8B8A8_UNORM"/>
+	<value value="0x0c8" name="FORMAT_R8G8B8A8_UNORM_SRGB"/>
+	<value value="0x0c9" name="FORMAT_R8G8B8A8_SNORM"/>
+	<value value="0x0ca" name="FORMAT_R8G8B8A8_SINT"/>
+	<value value="0x0cb" name="FORMAT_R8G8B8A8_UINT"/>
+	<value value="0x0cc" name="FORMAT_R16G16_UNORM"/>
+	<value value="0x0cd" name="FORMAT_R16G16_SNORM"/>
+	<value value="0x0ce" name="FORMAT_R16G16_SINT"/>
+	<value value="0x0cf" name="FORMAT_R16G16_UINT"/>
+	<value value="0x0d0" name="FORMAT_R16G16_FLOAT"/>
+	<value value="0x0d1" name="FORMAT_B10G10R10A2_UNORM"/>
+	<value value="0x0d2" name="FORMAT_B10G10R10A2_UNORM_SRGB"/>
+	<value value="0x0d3" name="FORMAT_R11G11B10_FLOAT"/>
+	<value value="0x0d6" name="FORMAT_R32_SINT"/>
+	<value value="0x0d7" name="FORMAT_R32_UINT"/>
+	<value value="0x0d8" name="FORMAT_R32_FLOAT"/>
+	<value value="0x0d9" name="FORMAT_R24_UNORM_X8_TYPELESS"/>
+	<value value="0x0da" name="FORMAT_X24_TYPELESS_G8_UINT"/>
+	<value value="0x0dd" name="FORMAT_L32_UNORM"/>
+	<value value="0x0de" name="FORMAT_A32_UNORM"/>
+	<value value="0x0df" name="FORMAT_L16A16_UNORM"/>
+	<value value="0x0e0" name="FORMAT_I24X8_UNORM"/>
+	<value value="0x0e1" name="FORMAT_L24X8_UNORM"/>
+	<value value="0x0e2" name="FORMAT_A24X8_UNORM"/>
+	<value value="0x0e3" name="FORMAT_I32_FLOAT"/>
+	<value value="0x0e4" name="FORMAT_L32_FLOAT"/>
+	<value value="0x0e5" name="FORMAT_A32_FLOAT"/>
+	<value value="0x0e6" name="FORMAT_X8B8_UNORM_G8R8_SNORM"/>
+	<value value="0x0e7" name="FORMAT_A8X8_UNORM_G8R8_SNORM"/>
+	<value value="0x0e8" name="FORMAT_B8X8_UNORM_G8R8_SNORM"/>
+	<value value="0x0e9" name="FORMAT_B8G8R8X8_UNORM"/>
+	<value value="0x0ea" name="FORMAT_B8G8R8X8_UNORM_SRGB"/>
+	<value value="0x0eb" name="FORMAT_R8G8B8X8_UNORM"/>
+	<value value="0x0ec" name="FORMAT_R8G8B8X8_UNORM_SRGB"/>
+	<value value="0x0ed" name="FORMAT_R9G9B9E5_SHAREDEXP"/>
+	<value value="0x0ee" name="FORMAT_B10G10R10X2_UNORM"/>
+	<value value="0x0f0" name="FORMAT_L16A16_FLOAT"/>
+	<value value="0x0f1" name="FORMAT_R32_UNORM"/>
+	<value value="0x0f2" name="FORMAT_R32_SNORM"/>
+	<value value="0x0f3" name="FORMAT_R10G10B10X2_USCALED"/>
+	<value value="0x0f4" name="FORMAT_R8G8B8A8_SSCALED"/>
+	<value value="0x0f5" name="FORMAT_R8G8B8A8_USCALED"/>
+	<value value="0x0f6" name="FORMAT_R16G16_SSCALED"/>
+	<value value="0x0f7" name="FORMAT_R16G16_USCALED"/>
+	<value value="0x0f8" name="FORMAT_R32_SSCALED"/>
+	<value value="0x0f9" name="FORMAT_R32_USCALED"/>
+	<value value="0x100" name="FORMAT_B5G6R5_UNORM"/>
+	<value value="0x101" name="FORMAT_B5G6R5_UNORM_SRGB"/>
+	<value value="0x102" name="FORMAT_B5G5R5A1_UNORM"/>
+	<value value="0x103" name="FORMAT_B5G5R5A1_UNORM_SRGB"/>
+	<value value="0x104" name="FORMAT_B4G4R4A4_UNORM"/>
+	<value value="0x105" name="FORMAT_B4G4R4A4_UNORM_SRGB"/>
+	<value value="0x106" name="FORMAT_R8G8_UNORM"/>
+	<value value="0x107" name="FORMAT_R8G8_SNORM"/>
+	<value value="0x108" name="FORMAT_R8G8_SINT"/>
+	<value value="0x109" name="FORMAT_R8G8_UINT"/>
+	<value value="0x10a" name="FORMAT_R16_UNORM"/>
+	<value value="0x10b" name="FORMAT_R16_SNORM"/>
+	<value value="0x10c" name="FORMAT_R16_SINT"/>
+	<value value="0x10d" name="FORMAT_R16_UINT"/>
+	<value value="0x10e" name="FORMAT_R16_FLOAT"/>
+	<value value="0x10f" name="FORMAT_A8P8_UNORM_PALETTE0"/>
+	<value value="0x110" name="FORMAT_A8P8_UNORM_PALETTE1"/>
+	<value value="0x111" name="FORMAT_I16_UNORM"/>
+	<value value="0x112" name="FORMAT_L16_UNORM"/>
+	<value value="0x113" name="FORMAT_A16_UNORM"/>
+	<value value="0x114" name="FORMAT_L8A8_UNORM"/>
+	<value value="0x115" name="FORMAT_I16_FLOAT"/>
+	<value value="0x116" name="FORMAT_L16_FLOAT"/>
+	<value value="0x117" name="FORMAT_A16_FLOAT"/>
+	<value value="0x118" name="FORMAT_L8A8_UNORM_SRGB"/>
+	<value value="0x119" name="FORMAT_R5G5_SNORM_B6_UNORM"/>
+	<value value="0x11a" name="FORMAT_B5G5R5X1_UNORM"/>
+	<value value="0x11b" name="FORMAT_B5G5R5X1_UNORM_SRGB"/>
+	<value value="0x11c" name="FORMAT_R8G8_SSCALED"/>
+	<value value="0x11d" name="FORMAT_R8G8_USCALED"/>
+	<value value="0x11e" name="FORMAT_R16_SSCALED"/>
+	<value value="0x11f" name="FORMAT_R16_USCALED"/>
+	<value value="0x122" name="FORMAT_P8A8_UNORM_PALETTE0"/>
+	<value value="0x123" name="FORMAT_P8A8_UNORM_PALETTE1"/>
+	<value value="0x124" name="FORMAT_A1B5G5R5_UNORM"/>
+	<value value="0x125" name="FORMAT_A4B4G4R4_UNORM"/>
+	<value value="0x126" name="FORMAT_L8A8_UINT"/>
+	<value value="0x127" name="FORMAT_L8A8_SINT"/>
+	<value value="0x140" name="FORMAT_R8_UNORM"/>
+	<value value="0x141" name="FORMAT_R8_SNORM"/>
+	<value value="0x142" name="FORMAT_R8_SINT"/>
+	<value value="0x143" name="FORMAT_R8_UINT"/>
+	<value value="0x144" name="FORMAT_A8_UNORM"/>
+	<value value="0x145" name="FORMAT_I8_UNORM"/>
+	<value value="0x146" name="FORMAT_L8_UNORM"/>
+	<value value="0x147" name="FORMAT_P4A4_UNORM_PALETTE0"/>
+	<value value="0x148" name="FORMAT_A4P4_UNORM_PALETTE0"/>
+	<value value="0x149" name="FORMAT_R8_SSCALED"/>
+	<value value="0x14a" name="FORMAT_R8_USCALED"/>
+	<value value="0x14b" name="FORMAT_P8_UNORM_PALETTE0"/>
+	<value value="0x14c" name="FORMAT_L8_UNORM_SRGB"/>
+	<value value="0x14d" name="FORMAT_P8_UNORM_PALETTE1"/>
+	<value value="0x14e" name="FORMAT_P4A4_UNORM_PALETTE1"/>
+	<value value="0x14f" name="FORMAT_A4P4_UNORM_PALETTE1"/>
+	<value value="0x150" name="FORMAT_Y8_UNORM"/>
+	<value value="0x152" name="FORMAT_L8_UINT"/>
+	<value value="0x153" name="FORMAT_L8_SINT"/>
+	<value value="0x154" name="FORMAT_I8_UINT"/>
+	<value value="0x155" name="FORMAT_I8_SINT"/>
+	<value value="0x180" name="FORMAT_DXT1_RGB_SRGB"/>
+	<value value="0x181" name="FORMAT_R1_UNORM"/>
+	<value value="0x182" name="FORMAT_YCRCB_NORMAL"/>
+	<value value="0x183" name="FORMAT_YCRCB_SWAPUVY"/>
+	<value value="0x184" name="FORMAT_P2_UNORM_PALETTE0"/>
+	<value value="0x185" name="FORMAT_P2_UNORM_PALETTE1"/>
+	<value value="0x186" name="FORMAT_BC1_UNORM"/>
+	<value value="0x187" name="FORMAT_BC2_UNORM"/>
+	<value value="0x188" name="FORMAT_BC3_UNORM"/>
+	<value value="0x189" name="FORMAT_BC4_UNORM"/>
+	<value value="0x18a" name="FORMAT_BC5_UNORM"/>
+	<value value="0x18b" name="FORMAT_BC1_UNORM_SRGB"/>
+	<value value="0x18c" name="FORMAT_BC2_UNORM_SRGB"/>
+	<value value="0x18d" name="FORMAT_BC3_UNORM_SRGB"/>
+	<value value="0x18e" name="FORMAT_MONO8"/>
+	<value value="0x18f" name="FORMAT_YCRCB_SWAPUV"/>
+	<value value="0x190" name="FORMAT_YCRCB_SWAPY"/>
+	<value value="0x191" name="FORMAT_DXT1_RGB"/>
+	<value value="0x192" name="FORMAT_FXT1"/>
+	<value value="0x193" name="FORMAT_R8G8B8_UNORM"/>
+	<value value="0x194" name="FORMAT_R8G8B8_SNORM"/>
+	<value value="0x195" name="FORMAT_R8G8B8_SSCALED"/>
+	<value value="0x196" name="FORMAT_R8G8B8_USCALED"/>
+	<value value="0x197" name="FORMAT_R64G64B64A64_FLOAT"/>
+	<value value="0x198" name="FORMAT_R64G64B64_FLOAT"/>
+	<value value="0x199" name="FORMAT_BC4_SNORM"/>
+	<value value="0x19a" name="FORMAT_BC5_SNORM"/>
+	<value value="0x19b" name="FORMAT_R16G16B16_FLOAT"/>
+	<value value="0x19c" name="FORMAT_R16G16B16_UNORM"/>
+	<value value="0x19d" name="FORMAT_R16G16B16_SNORM"/>
+	<value value="0x19e" name="FORMAT_R16G16B16_SSCALED"/>
+	<value value="0x19f" name="FORMAT_R16G16B16_USCALED"/>
+	<value value="0x1a1" name="FORMAT_BC6H_SF16"/>
+	<value value="0x1a2" name="FORMAT_BC7_UNORM"/>
+	<value value="0x1a3" name="FORMAT_BC7_UNORM_SRGB"/>
+	<value value="0x1a4" name="FORMAT_BC6H_UF16"/>
+	<value value="0x1a5" name="FORMAT_PLANAR_420_8"/>
+	<value value="0x1a8" name="FORMAT_R8G8B8_UNORM_SRGB"/>
+	<value value="0x1a9" name="FORMAT_ETC1_RGB8"/>
+	<value value="0x1aa" name="FORMAT_ETC2_RGB8"/>
+	<value value="0x1ab" name="FORMAT_EAC_R11"/>
+	<value value="0x1ac" name="FORMAT_EAC_RG11"/>
+	<value value="0x1ad" name="FORMAT_EAC_SIGNED_R11"/>
+	<value value="0x1ae" name="FORMAT_EAC_SIGNED_RG11"/>
+	<value value="0x1af" name="FORMAT_ETC2_SRGB8"/>
+	<value value="0x1b0" name="FORMAT_R16G16B16_UINT"/>
+	<value value="0x1b1" name="FORMAT_R16G16B16_SINT"/>
+	<value value="0x1b2" name="FORMAT_R32_SFIXED"/>
+	<value value="0x1b3" name="FORMAT_R10G10B10A2_SNORM"/>
+	<value value="0x1b4" name="FORMAT_R10G10B10A2_USCALED"/>
+	<value value="0x1b5" name="FORMAT_R10G10B10A2_SSCALED"/>
+	<value value="0x1b6" name="FORMAT_R10G10B10A2_SINT"/>
+	<value value="0x1b7" name="FORMAT_B10G10R10A2_SNORM"/>
+	<value value="0x1b8" name="FORMAT_B10G10R10A2_USCALED"/>
+	<value value="0x1b9" name="FORMAT_B10G10R10A2_SSCALED"/>
+	<value value="0x1ba" name="FORMAT_B10G10R10A2_UINT"/>
+	<value value="0x1bb" name="FORMAT_B10G10R10A2_SINT"/>
+	<value value="0x1bc" name="FORMAT_R64G64B64A64_PASSTHRU"/>
+	<value value="0x1bd" name="FORMAT_R64G64B64_PASSTHRU"/>
+	<value value="0x1c0" name="FORMAT_ETC2_RGB8_PTA"/>
+	<value value="0x1c1" name="FORMAT_ETC2_SRGB8_PTA"/>
+	<value value="0x1c2" name="FORMAT_ETC2_EAC_RGBA8"/>
+	<value value="0x1c3" name="FORMAT_ETC2_EAC_SRGB8_A8"/>
+	<value value="0x1c8" name="FORMAT_R8G8B8_UINT"/>
+	<value value="0x1c9" name="FORMAT_R8G8B8_SINT"/>
+	<value value="0x1ff" name="FORMAT_RAW"/>
+</enum>
+
+<enum name="gen_surface_type" bare="yes" prefix="gen">
+	<value value="0x0" name="SURFTYPE_1D"/>
+	<value value="0x1" name="SURFTYPE_2D"/>
+	<value value="0x2" name="SURFTYPE_3D"/>
+	<value value="0x3" name="SURFTYPE_CUBE"/>
+	<value value="0x4" name="SURFTYPE_BUFFER"/>
+	<value value="0x5" name="SURFTYPE_STRBUF" variants="GEN7-"/>
+	<value value="0x7" name="SURFTYPE_NULL"/>
+</enum>
+
+<enum name="gen_surface_tiling" bare="yes" prefix="gen">
+	<value value="0x0" name="TILING_NONE"/>
+	<value value="0x2" name="TILING_X"/>
+	<value value="0x3" name="TILING_Y"/>
+</enum>
+
+<enum name="gen_surface_scs" bare="yes" prefix="gen" variants="GEN75-">
+	<value value="0x0" name="SCS_ZERO"/>
+	<value value="0x1" name="SCS_ONE"/>
+	<value value="0x4" name="SCS_RED"/>
+	<value value="0x5" name="SCS_GREEN"/>
+	<value value="0x6" name="SCS_BLUE"/>
+	<value value="0x7" name="SCS_ALPHA"/>
+</enum>
+
+<enum name="gen_surface_valign" inline="yes" varset="gen">
+	<value value="0x0" name="2"/>
+	<value value="0x1" name="4"/>
+</enum>
+
+<enum name="gen_surface_halign" inline="yes" varset="gen" variants="GEN7-">
+	<value value="0x0" name="4"/>
+	<value value="0x1" name="8"/>
+</enum>
+
+<enum name="gen_surface_rotate" inline="yes" varset="gen">
+	<value value="0x0" name="0DEG"/>
+	<value value="0x1" name="90DEG"/>
+	<value value="0x3" name="270DEG"/>
+</enum>
+
+<bitset name="gen_surface_mocs" bare="yes" prefix="gen">
+	<bitfield high="1" low="0" name="MOCS_LLC" variants="GEN6">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="UC"/>
+		<value value="0x2" name="ON"/>
+	</bitfield>
+	<bitfield pos="1" name="MOCS_LLC" variants="GEN7">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="ON"/>
+	</bitfield>
+	<bitfield high="2" low="1" name="MOCS_LLC" variants="GEN75-">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="UC"/>
+		<value value="0x2" name="ON"/>
+		<value value="0x3" name="ELLC"/>
+	</bitfield>
+
+	<bitfield pos="0" name="MOCS_L3" variants="GEN7-">
+		<value value="0x0" name="UC"/>
+		<value value="0x1" name="ON"/>
+	</bitfield>
+</bitset>
+
+<domain name="SURFACE_STATE" width="32" size="8" bare="yes" prefix="gen">
+	<stripe variants="GEN6">
+		<reg32 name="SURFACE_DW0" offset="0">
+			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
+			<bitfield high="26" low="18" type="gen_surface_format" name="FORMAT"/>
+			<bitfield pos="12" name="VSTRIDE"/>
+			<bitfield pos="11" name="VSTRIDE_OFFSET"/>
+			<bitfield pos="10" name="MIPLAYOUT">
+				<value value="0x0" name="BELOW"/>
+				<value value="0x1" name="RIGHT"/>
+			</bitfield>
+			<bitfield pos="9" name="CUBE_MAP_CORNER_MODE"/>
+			<bitfield pos="8" name="RENDER_CACHE_RW"/>
+			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
+			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
+		</reg32>
+
+		<reg32 name="SURFACE_ADDR" offset="1"/>
+
+		<reg32 name="SURFACE_DW2" offset="2">
+			<bitfield high="31" low="19" type="uint" name="HEIGHT"/>
+			<bitfield high="18" low="6" type="uint" name="WIDTH"/>
+			<bitfield high="5" low="2" type="uint" name="MIP_COUNT_LOD"/>
+			<bitfield high="1" low="0" type="gen_surface_rotate" name="RTROTATE"/>
+		</reg32>
+		<reg32 name="SURFACE_DW3" offset="3">
+			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
+			<bitfield high="19" low="3" type="uint" name="PITCH"/>
+			<bitfield high="1" low="0" type="gen_surface_tiling" name="TILING"/>
+		</reg32>
+		<reg32 name="SURFACE_DW4" offset="4">
+			<bitfield high="31" low="28" type="uint" name="MIN_LOD"/>
+			<bitfield high="27" low="17" type="uint" name="MIN_ARRAY_ELEMENT"/>
+			<bitfield high="16" low="8" type="uint" name="RT_VIEW_EXTENT"/>
+			<bitfield high="6" low="4" name="MULTISAMPLECOUNT">
+				<value value="0x0" name="1"/>
+				<value value="0x2" name="4"/>
+			</bitfield>
+			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
+		</reg32>
+		<reg32 name="SURFACE_DW5" offset="5">
+			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
+			<bitfield high="24" low="24" type="gen_surface_valign" name="VALIGN"/>
+			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
+			<bitfield high="19" low="16" type="gen_surface_mocs" name="MOCS"/>
+		</reg32>
+	</stripe>
+
+	<stripe variants="GEN7-">
+		<reg32 name="SURFACE_DW0" offset="0">
+			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
+			<bitfield pos="28" name="IS_ARRAY"/>
+			<bitfield high="26" low="18" type="gen_surface_format" name="FORMAT"/>
+			<bitfield high="17" low="16" type="gen_surface_valign" name="VALIGN"/>
+			<bitfield high="15" low="15" type="gen_surface_halign" name="HALIGN"/>
+			<bitfield high="14" low="13" type="gen_surface_tiling" name="TILING"/>
+			<bitfield pos="12" name="VSTRIDE"/>
+			<bitfield pos="11" name="VSTRIDE_OFFSET"/>
+			<bitfield pos="10" name="ARYSPC">
+				<value value="0x0" name="FULL"/>
+				<value value="0x1" name="LOD0"/>
+			</bitfield>
+			<bitfield pos="8" name="RENDER_CACHE_RW"/>
+			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
+			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
+		</reg32>
+
+		<reg32 name="SURFACE_ADDR" offset="1"/>
+
+		<reg32 name="SURFACE_DW2" offset="2">
+			<bitfield high="29" low="16" type="uint" name="HEIGHT"/>
+			<bitfield high="13" low="0" type="uint" name="WIDTH"/>
+		</reg32>
+		<reg32 name="SURFACE_DW3" offset="3">
+			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
+			<bitfield high="20" low="18" name="INTEGER_SURFACE_FORMAT"/>
+			<bitfield high="17" low="0" type="uint" name="PITCH"/>
+		</reg32>
+		<reg32 name="SURFACE_DW4" offset="4">
+			<bitfield high="30" low="29" type="gen_surface_rotate" name="RTROTATE"/>
+			<bitfield high="28" low="18" type="uint" name="MIN_ARRAY_ELEMENT"/>
+			<bitfield high="17" low="7" type="uint" name="RT_VIEW_EXTENT"/>
+			<bitfield high="6" low="6" name="MSFMT">
+				<value value="0x0" name="MSS"/>
+				<value value="0x1" name="DEPTH_STENCIL"/>
+			</bitfield>
+			<bitfield high="5" low="3" name="MULTISAMPLECOUNT">
+				<value value="0x0" name="1"/>
+				<value value="0x2" name="4"/>
+				<value value="0x3" name="8"/>
+			</bitfield>
+			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
+			<!-- if STRBUF -->
+			<!--bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT"/-->
+		</reg32>
+		<reg32 name="SURFACE_DW5" offset="5">
+			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
+			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
+			<bitfield high="19" low="16" type="gen_surface_mocs" name="MOCS"/>
+			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
+			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
+		</reg32>
+		<reg32 name="SURFACE_DW6" offset="6">
+			<!-- if PLANAR -->
+			<!--bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/-->
+			<!--bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/-->
+			<!-- else if MCS -->
+			<!--bitfield high="31" low="12" shr="12" name="MCS_ADDR"/-->
+			<!--bitfield high="11" low="3" type="uint" name="MCS_PITCH"/-->
+			<bitfield high="31" low="6" shr="6" name="APPEND_COUNTER_ADDR"/>
+			<bitfield pos="1" name="APPEND_COUNTER_ENABLE"/>
+			<bitfield pos="0" name="MCS_ENABLE"/>
+		</reg32>
+		<reg32 name="SURFACE_DW7" offset="7">
+			<bitfield high="27" low="25" type="gen_surface_scs" name="SCS_R"/>
+			<bitfield high="24" low="22" type="gen_surface_scs" name="SCS_G"/>
+			<bitfield high="21" low="19" type="gen_surface_scs" name="SCS_B"/>
+			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A"/>
+			<bitfield high="11" low="0" type="uint" name="RES_MIN_LOD"/>
+		</reg32>
+	</stripe>
+</domain>
+
+</database>
