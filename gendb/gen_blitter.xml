@@ -73,41 +73,41 @@
 </bitset>
 
 <group name="blt-1d-common">
-	<reg32 name="BR00" offset="0" type="gen_blitter_header"/>
-	<reg32 name="BR13" offset="1" type="gen_blitter_br13"/>
-	<reg32 name="BR14" offset="2" type="gen_blitter_br14"/>
-	<reg32 name="BR09" offset="3"/>
+	<reg32 name="DW0" offset="0" type="gen_blitter_header"/>
+	<reg32 name="DW1" offset="1" type="gen_blitter_br13"/>
+	<reg32 name="DW2" offset="2" type="gen_blitter_br14"/>
+	<reg32 name="DW3_DST_ADDR" offset="3"/>
 </group>
 
 <domain name="COLOR_BLT" width="32" size="5" prefix="gen">
 	<use-group name="blt-1d-common"/>
-	<reg32 name="BR16" offset="4"/>
+	<reg32 name="DW4_COLOR" offset="4"/>
 </domain>
 
 <domain name="SRC_COPY_BLT" width="32" size="6" prefix="gen">
 	<use-group name="blt-1d-common"/>
-	<reg32 name="BR11" offset="4" type="gen_blitter_br11"/>
-	<reg32 name="BR12" offset="5"/>
+	<reg32 name="DW4" offset="4" type="gen_blitter_br11"/>
+	<reg32 name="DW5_SRC_ADDR" offset="5"/>
 </domain>
 
 <group name="blt-2d-common">
-	<reg32 name="BR00" offset="0" type="gen_blitter_header"/>
-	<reg32 name="BR13" offset="1" type="gen_blitter_br13"/>
-	<reg32 name="BR22" offset="2" type="gen_blitter_br22"/>
-	<reg32 name="BR23" offset="3" type="gen_blitter_br23"/>
-	<reg32 name="BR09" offset="4"/>
+	<reg32 name="DW0" offset="0" type="gen_blitter_header"/>
+	<reg32 name="DW1" offset="1" type="gen_blitter_br13"/>
+	<reg32 name="DW2" offset="2" type="gen_blitter_br22"/>
+	<reg32 name="DW3" offset="3" type="gen_blitter_br23"/>
+	<reg32 name="DW4_DST_ADDR" offset="4"/>
 </group>
 
 <domain name="XY_COLOR_BLT" width="32" size="6" prefix="gen">
 	<use-group name="blt-2d-common"/>
-	<reg32 name="BR16" offset="5"/>
+	<reg32 name="DW5_COLOR" offset="5"/>
 </domain>
 
 <domain name="XY_SRC_COPY_BLT" width="32" size="8" prefix="gen">
 	<use-group name="blt-2d-common"/>
-	<reg32 name="BR26" offset="5" type="gen_blitter_br26"/>
-	<reg32 name="BR11" offset="6" type="gen_blitter_br11"/>
-	<reg32 name="BR12" offset="7"/>
+	<reg32 name="DW5" offset="5" type="gen_blitter_br26"/>
+	<reg32 name="DW6" offset="6" type="gen_blitter_br11"/>
+	<reg32 name="DW7_SRC_ADDR" offset="7"/>
 </domain>
 
 </database>

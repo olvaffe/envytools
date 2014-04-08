@@ -311,7 +311,7 @@
 			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
 		</reg32>
 
-		<reg32 name="SURFACE_ADDR" offset="1"/>
+		<reg32 name="SURFACE_DW1_ADDR" offset="1"/>
 
 		<reg32 name="SURFACE_DW2" offset="2">
 			<bitfield high="31" low="19" type="uint" name="HEIGHT"/>
@@ -361,7 +361,7 @@
 			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
 		</reg32>
 
-		<reg32 name="SURFACE_ADDR" offset="1"/>
+		<reg32 name="SURFACE_DW1_ADDR" offset="1"/>
 
 		<reg32 name="SURFACE_DW2" offset="2">
 			<bitfield high="29" low="16" type="uint" name="HEIGHT"/>
