@@ -1064,10 +1064,10 @@
 
 <group name="render-gen6-3dstate-constant">
 	<reg32 name="DW0" offset="0" type="gen_render_header">
-		<bitfield pos="15" name="PCB3_VALID"/>
-		<bitfield pos="14" name="PCB2_VALID"/>
-		<bitfield pos="13" name="PCB1_VALID"/>
-		<bitfield pos="12" name="PCB0_VALID"/>
+		<bitfield pos="15" name="BUFFER3_VALID"/>
+		<bitfield pos="14" name="BUFFER2_VALID"/>
+		<bitfield pos="13" name="BUFFER1_VALID"/>
+		<bitfield pos="12" name="BUFFER0_VALID"/>
 		<bitfield high="11" low="8" name="MOCS"/>
 	</reg32>
 	<array offset="1" stride="1" length="4">
@@ -1079,19 +1079,19 @@
 </group>
 
 <domain name="3DSTATE_CONSTANT_VS" width="32" size="5" bare="yes" prefix="gen">
-	<stripe name="VS_PCB" variants="GEN6">
+	<stripe name="VS_PCB" offset="0" variants="GEN6">
 		<use-group name="render-gen6-3dstate-constant"/>
 	</stripe>
 </domain>
 
 <domain name="3DSTATE_CONSTANT_GS" width="32" size="5" bare="yes" prefix="gen">
-	<stripe name="GS_PCB" variants="GEN6">
+	<stripe name="GS_PCB" offset="0" variants="GEN6">
 		<use-group name="render-gen6-3dstate-constant"/>
 	</stripe>
 </domain>
 
 <domain name="3DSTATE_CONSTANT_PS" width="32" size="5" bare="yes" prefix="gen">
-	<stripe name="PS_PCB" variants="GEN6">
+	<stripe name="PS_PCB" offset="0" variants="GEN6">
 		<use-group name="render-gen6-3dstate-constant"/>
 	</stripe>
 </domain>
@@ -1099,12 +1099,14 @@
 <domain name="3DSTATE_SAMPLE_MASK" width="32" size="2" bare="yes" prefix="gen">
 	<stripe variants="GEN6">
 		<reg32 name="SAMPLE_MASK_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="SAMPLE_MASK" offset="1"/>
+		<reg32 name="SAMPLE_MASK" offset="1">
+			<bitfield high="3" low="0" name="VAL"/>
+		</reg32>
 	</stripe>
 </domain>
 
 <domain name="3DSTATE_DRAWING_RECTANGLE" width="32" size="4" bare="yes" prefix="gen">
-	<stripe variants="GEN6">
+	<stripe>
 		<reg32 name="DRAWING_RECTANGLE_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="DRAWING_RECTANGLE_MIN" offset="1">
 			<bitfield high="31" low="16" type="uint" name="Y"/>
@@ -1179,14 +1181,11 @@
 	<stripe>
 		<reg32 name="LINE_STIPPLE_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="LINE_STIPPLE_DW1" offset="1">
-			<bitfield pos="31" name="MODIFY_ENABLE"/>
-			<bitfield high="29" low="21" type="uint" name="CURRENT_REPEAT_COUNTER"/>
-			<bitfield high="19" low="16" type="uint" name="CURRENT_STIPPLE_INDEX"/>
 			<bitfield high="15" low="0" name="PATTERN"/>
 		</reg32>
 		<reg32 name="LINE_STIPPLE_DW2" offset="2">
 			<bitfield high="31" low="16" type="uint" name="INVERSE_REPEAT_COUNT"/>
-			<bitfield high="8" low="0" name="REPEAT_COUNT"/>
+			<bitfield high="8" low="0" type="uint" name="REPEAT_COUNT"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -1232,8 +1231,8 @@
 			</bitfield>
 		</reg32>
 
-		<array name="MULTISAMPLE_SAMPLE" offset="2" stride="1" length="1" variants="GEN6"/>
-		<array name="MULTISAMPLE_SAMPLE" offset="2" stride="1" length="2" variants="GEN7-"/>
+		<array name="MULTISAMPLE_SAMPLEPOS" offset="2" stride="1" length="1" variants="GEN6"/>
+		<array name="MULTISAMPLE_SAMPLEPOS" offset="2" stride="1" length="2" variants="GEN7-"/>
 	</stripe>
 </domain>
 
@@ -1271,7 +1270,7 @@
 <domain name="PIPE_CONTROL" width="32" size="5" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="PIPE_CONTROL_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="PIPE_CONTROL_DW1" offset="1">
+		<reg32 name="PIPE_CONTROL" offset="1">
 			<bitfield pos="22" name="PROTECTED_MEMORY_ENABLE"/>
 			<bitfield pos="21" name="STORE_DATA_INDEX"/>
 			<bitfield pos="20" name="CS_STALL"/>
@@ -1313,7 +1312,7 @@
 				<value value="0x0" name="SEQUENTIAL"/>
 				<value value="0x1" name="RANDOM"/>
 			</bitfield>
-			<bitfield high="14" low="10" type="gen_prim_type" name="TYPE"/>
+			<bitfield high="14" low="10" type="gen_prim_type" name="PRIM_TYPE"/>
 			<bitfield pos="9" name="USE_INTERNAL_VERTEX_COUNT"/>
 		</reg32>
 		<reg32 name="3DPRIM_VERTEX_COUNT" type="uint" offset="1"/>
