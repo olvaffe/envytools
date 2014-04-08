@@ -12,6 +12,17 @@
 </bitset>
 
 <domain name="REG" width="32" size="0x1000000" prefix="gen">
+	<reg32 name="HS_INVOCATION_COUNT" offset="0x2300"/>
+	<reg32 name="DS_INVOCATION_COUNT" offset="0x2308"/>
+	<reg32 name="IA_VERTICES_COUNT" offset="0x2310"/>
+	<reg32 name="IA_PRIMITIVES_COUNT" offset="0x2318"/>
+	<reg32 name="VS_INVOCATION_COUNT" offset="0x2320"/>
+	<reg32 name="GS_INVOCATION_COUNT" offset="0x2328"/>
+	<reg32 name="GS_PRIMITIVES_COUNT" offset="0x2330"/>
+	<reg32 name="CL_INVOCATION_COUNT" offset="0x2338"/>
+	<reg32 name="CL_PRIMITIVES_COUNT" offset="0x2340"/>
+	<reg32 name="PS_INVOCATION_COUNT" offset="0x2348"/>
+
 	<reg32 name="TIMESTAMP" offset="0x2358"/>
 
 	<reg32 name="BCS_SWCTRL" offset="0x22200" type="gen_reg_with_writemask">
