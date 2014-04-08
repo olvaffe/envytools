@@ -201,19 +201,40 @@
 	</stripe>
 </domain>
 
-<domain name="SF_CLIP_VIEWPORT" width="32" size="16" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe>
-		<reg32 name="SF_CLIP_M00" type="float" offset="0"/>
-		<reg32 name="SF_CLIP_M11" type="float" offset="1"/>
-		<reg32 name="SF_CLIP_M22" type="float" offset="2"/>
-		<reg32 name="SF_CLIP_M30" type="float" offset="3"/>
-		<reg32 name="SF_CLIP_M31" type="float" offset="4"/>
-		<reg32 name="SF_CLIP_M32" type="float" offset="5"/>
+<group name="render-gen6-clip-viewport">
+	<reg32 name="GB_MIN_X" type="float" offset="0"/>
+	<reg32 name="GB_MAX_X" type="float" offset="1"/>
+	<reg32 name="GB_MIN_Y" type="float" offset="2"/>
+	<reg32 name="GB_MAX_Y" type="float" offset="3"/>
+</group>
 
-		<reg32 name="SF_CLIP_GB_MIN_X" type="float" offset="8"/>
-		<reg32 name="SF_CLIP_GB_MAX_X" type="float" offset="9"/>
-		<reg32 name="SF_CLIP_GB_MIN_Y" type="float" offset="10"/>
-		<reg32 name="SF_CLIP_GB_MAX_Y" type="float" offset="11"/>
+<group name="render-gen6-sf-viewport">
+	<reg32 name="M00" type="float" offset="0"/>
+	<reg32 name="M11" type="float" offset="1"/>
+	<reg32 name="M22" type="float" offset="2"/>
+	<reg32 name="M30" type="float" offset="3"/>
+	<reg32 name="M31" type="float" offset="4"/>
+	<reg32 name="M32" type="float" offset="5"/>
+</group>
+
+<domain name="CLIP_VIEWPORT" width="32" size="4" bare="yes" prefix="gen" variants="GEN6">
+	<stripe name="CLIP_VP" offset="0">
+		<use-group name="render-gen6-clip-viewport"/>
+	</stripe>
+</domain>
+
+<domain name="SF_VIEWPORT" width="32" size="8" bare="yes" prefix="gen" variants="GEN6">
+	<stripe name="SF_VP" offset="0">
+		<use-group name="render-gen6-sf-viewport"/>
+	</stripe>
+</domain>
+
+<domain name="SF_CLIP_VIEWPORT" width="32" size="16" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe name="SF_CLIP_VP_SF" offset="0">
+		<use-group name="render-gen6-sf-viewport"/>
+	</stripe>
+	<stripe name="SF_CLIP_VP_CLIP" offset="8">
+		<use-group name="render-gen6-clip-viewport"/>
 	</stripe>
 </domain>
 
