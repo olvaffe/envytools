@@ -207,7 +207,29 @@
 	<value value="0x3" name="BACK"/>
 </enum>
 
-<enum name="gen_wm_msrast_mode" inline="yes" varset="gen">
+<enum name="gen_wm_pos_xy_offset" inline="yes" varset="gen">
+	<value value="0x0" name="NONE"/>
+	<value value="0x2" name="CENTROID"/>
+	<value value="0x3" name="SAMPLE"/>
+</enum>
+
+<enum name="gen_wm_zw_interp" inline="yes" varset="gen">
+	<value value="0x0" name="PIXEL"/>
+	<value value="0x2" name="CENTROID"/>
+	<value value="0x3" name="SAMPLE"/>
+</enum>
+
+<enum name="gen_wm_point_rast_rule" inline="yes" varset="gen">
+	<value value="0x0" name="UPPER_LEFT"/>
+	<value value="0x1" name="UPPER_RIGHT"/>
+</enum>
+
+<enum name="gen_wm_ms_dispatch_mode" inline="yes" varset="gen">
+	<value value="0x0" name="PERSAMPLE"/>
+	<value value="0x1" name="PERPIXEL"/>
+</enum>
+
+<enum name="gen_wm_ms_rast_mode" inline="yes" varset="gen">
 	<value value="0x0" name="OFF_PIXEL"/>
 	<value value="0x1" name="OFF_PATTERN"/>
 	<value value="0x2" name="ON_PIXEL"/>
@@ -221,13 +243,36 @@
 	<value value="0x3" name="4_0"/>
 </enum>
 
+<enum name="gen_wm_ps_compute_depth" inline="yes" varset="gen">
+	<value value="0x0" name="OFF"/>
+	<value value="0x1" name="ON"/>
+	<value value="0x2" name="ON_GE"/>
+	<value value="0x3" name="ON_LE"/>
+</enum>
+
+<enum name="gen_wm_early_ds_control" inline="yes" varset="gen">
+	<value value="0x0" name="NORMAL"/>
+	<value value="0x1" name="PSEXEC"/>
+	<value value="0x2" name="PREPS"/>
+</enum>
+
 <bitset name="gen_thread_dispatch" bare="yes" prefix="gen">
 	<bitfield pos="31" name="THRDISP_SPF"/>
 	<bitfield pos="30" name="THRDISP_VMASK_ENABLE"/>
 	<bitfield high="29" low="27" type="uint" name="THRDISP_SAMPLER_COUNT"/>
+	<bitfield pos="26" name="THRDISP_DENORMAL" variants="GEN7-">
+		<value value="0x0" name="FTZ"/>
+		<value value="0x1" name="RET"/>
+	</bitfield>
 	<bitfield high="25" low="18" type="uint" name="THRDISP_BINDING_TABLE_SIZE"/>
 	<bitfield pos="17" name="THRDISP_PRIORITY_HIGH"/>
 	<bitfield pos="16" name="THRDISP_FP_MODE_ALT"/>
+	<bitfield high="15" low="14" name="ROUNDING_MODE" variants="GEN7-">
+		<value value="0x0" name="RTNE"/>
+		<value value="0x1" name="RU"/>
+		<value value="0x2" name="RD"/>
+		<value value="0x3" name="RTZ"/>
+	</bitfield>
 	<bitfield pos="13" name="THRDISP_ILLEGAL_CODE_EXCEPTION"/>
 	<bitfield pos="12" name="THRDISP_ACCESS_UAV" variants="GEN75-"/>
 	<bitfield pos="11" name="THRDISP_MASK_STACK_EXCEPTION"/>
@@ -644,7 +689,7 @@
 		<bitfield high="27" low="18" type="uint" name="LINE_WIDTH"/>
 		<bitfield high="17" low="16" name="AA_LINE_CAP" type="gen_wm_aa_line_width"/>
 		<bitfield pos="11" name="SCISSOR_ENABLE"/>
-		<bitfield high="9" low="8" name="MSRASTMODE" type="gen_wm_msrast_mode"/>
+		<bitfield high="9" low="8" name="MSRASTMODE" type="gen_wm_ms_rast_mode"/>
 	</reg32>
 	<reg32 name="RAST_DW2" offset="2">
 		<bitfield pos="31" name="LINE_LAST_PIXEL_ENABLE"/>
@@ -742,8 +787,9 @@
 </domain>
 
 <domain name="3DSTATE_WM" width="32" size="9" bare="yes" prefix="gen">
+	<reg32 name="WM_DW0" offset="0" type="gen_render_header"/>
+
 	<stripe variants="GEN6">
-		<reg32 name="WM_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="WM_KERNEL0" offset="1">
 			<bitfield high="31" low="6" shr="6" name="ADDR"/>
 		</reg32>
@@ -778,36 +824,96 @@
 		</reg32>
 		<reg32 name="WM_DW6" offset="6">
 			<bitfield high="25" low="20" type="uint" name="SF_ATTR_COUNT"/>
-			<bitfield high="19" low="18" name="POSOFFSET">
-				<value value="0x0" name="NONE"/>
-				<value value="0x2" name="CENTROID"/>
-				<value value="0x3" name="SAMPLE"/>
-			</bitfield>
-			<bitfield high="17" low="16" name="ZW_INTERP">
-				<value value="0x0" name="PIXEL"/>
-				<value value="0x2" name="CENTROID"/>
-				<value value="0x3" name="SAMPLE"/>
-			</bitfield>
+			<bitfield high="19" low="18" type="gen_wm_pos_xy_offset" name="POSOFFSET"/>
+			<bitfield high="17" low="16" type="gen_wm_zw_interp" name="ZW_INTERP"/>
 			<bitfield pos="15" name="LINEAR_INTERP_SAMPLE"/>
 			<bitfield pos="14" name="LINEAR_INTERP_CENTROID"/>
 			<bitfield pos="13" name="LINTER_INTERP_PIXEL"/>
 			<bitfield pos="12" name="PERSPECTIVE_INTERP_SAMPLE"/>
 			<bitfield pos="11" name="PERSPECTIVE_INTERP_CENTROID"/>
 			<bitfield pos="10" name="PERSPECTIVE_INTERP_PIXEL"/>
-			<bitfield pos="9" name="POINT_RASTRULE">
-				<value value="0x0" name="UPPER_LEFT"/>
-				<value value="0x1" name="UPPER_RIGHT"/>
-			</bitfield>
-			<bitfield high="2" low="1" name="MSRASTMODE" type="gen_wm_msrast_mode"/>
-			<bitfield pos="0" name="MSDISPMODE">
-				<value value="0x0" name="PERSAMPLE"/>
-				<value value="0x1" name="PERPIXEL"/>
-			</bitfield>
+			<bitfield pos="9" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
+			<bitfield high="2" low="1" name="MSRASTMODE" type="gen_wm_ms_rast_mode"/>
+			<bitfield pos="0" type="gen_wm_ms_dispatch_mode" name="MSDISPMODE"/>
 		</reg32>
 		<reg32 name="WM_KERNEL1" offset="7">
 			<bitfield high="31" low="6" shr="6" name="ADDR"/>
 		</reg32>
 		<reg32 name="WM_KERNEL2" offset="8">
+			<bitfield high="31" low="6" shr="6" name="ADDR"/>
+		</reg32>
+	</stripe>
+	<stripe variants="GEN7">
+		<reg32 name="WM_DW1" offset="1">
+			<bitfield pos="31" name="STATS_ENABLE"/>
+			<bitfield pos="30" name="DEPTH_CLEAR"/>
+			<bitfield pos="29" name="PS_ENABLE"/>
+			<bitfield pos="28" name="DEPTH_RESOLVE"/>
+			<bitfield pos="27" name="HIZ_RESOLVE"/>
+			<bitfield pos="26" name="LEGACY_LINE_RAST"/>
+			<bitfield pos="25" name="PS_KILL_PIXEL"/>
+			<bitfield high="24" low="23" type="gen_wm_ps_compute_depth" name="PSCDEPTH"/>
+			<bitfield high="22" low="21" type="gen_wm_early_ds_control" name="EDSC"/>
+			<bitfield pos="20" name="PS_USE_DEPTH"/>
+			<bitfield pos="19" name="PS_USE_W"/>
+			<bitfield high="18" low="17" type="gen_wm_zw_interp" name="ZW_INTERP"/>
+			<bitfield pos="16" name="LINEAR_INTERP_SAMPLE"/>
+			<bitfield pos="15" name="LINEAR_INTERP_CENTROID"/>
+			<bitfield pos="14" name="LINTER_INTERP_PIXEL"/>
+			<bitfield pos="13" name="PERSPECTIVE_INTERP_SAMPLE"/>
+			<bitfield pos="12" name="PERSPECTIVE_INTERP_CENTROID"/>
+			<bitfield pos="11" name="PERSPECTIVE_INTERP_PIXEL"/>
+			<bitfield pos="10" name="PS_USE_COVERAGE"/>
+			<bitfield high="9" low="8" name="AA_LINE_CAP" type="gen_wm_aa_line_width"/>
+			<bitfield high="7" low="6" name="AA_LINE_WIDTH" type="gen_wm_aa_line_width"/>
+			<bitfield pos="5" name="RT_INDEPENDENT_RAST" variants="GEN75-"/>
+			<bitfield pos="4" name="POLY_STIPPLE_ENABLE"/>
+			<bitfield pos="3" name="LINE_STIPPLE_ENABLE"/>
+			<bitfield pos="2" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
+			<bitfield high="1" low="0" name="MSRASTMODE" type="gen_wm_ms_rast_mode"/>
+		</reg32>
+		<reg32 name="WM_DW2" offset="2">
+			<bitfield pos="31" type="gen_wm_ms_dispatch_mode" name="MSDISPMODE"/>
+			<bitfield pos="30" name="PS_UAV_ONLY"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_PS" width="32" size="8" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe>
+		<reg32 name="PS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PS_KERNEL0" offset="1">
+			<bitfield high="31" low="6" shr="6" name="ADDR"/>
+		</reg32>
+		<reg32 name="PS_DISPATCH" offset="2" type="gen_thread_dispatch"/>
+		<reg32 name="PS_SCRATCH" offset="3" type="gen_thread_scratch"/>
+		<reg32 name="PS_DW4" offset="4">
+			<bitfield high="31" low="24" type="uint" name="MAX_THREADS" variants="GEN7"/>
+
+			<bitfield high="31" low="23" type="uint" name="MAX_THREADS" variants="GEN75-"/>
+			<bitfield high="19" low="12" name="SAMPLE_MASK" variants="GEN75-"/>
+
+			<bitfield pos="11" name="PUSH_CONSTANT_ENABLE"/>
+			<bitfield pos="10" name="ATTR_ENABLE"/>
+			<bitfield pos="9" name="PS_COMPUTE_OMASK"/>
+			<bitfield pos="8" name="RT_FAST_CLEAR"/>
+			<bitfield pos="7" name="DUAL_SOURCE_BLEND"/>
+			<bitfield pos="6" name="RT_RESOLVE"/>
+			<bitfield pos="5" name="PS_ACCESS_UAV" variants="GEN75-"/>
+			<bitfield high="4" low="3" type="gen_wm_pos_xy_offset" name="POSOFFSET"/>
+			<bitfield pos="2" name="32_PIXEL_DISPATCH"/>
+			<bitfield pos="1" name="16_PIXEL_DISPATCH"/>
+			<bitfield pos="0" name="8_PIXEL_DISPATCH"/>
+		</reg32>
+		<reg32 name="PS_DW5" offset="5">
+			<bitfield high="22" low="16" type="uint" name="URB_GRF_START0"/>
+			<bitfield high="14" low="8" type="uint" name="URB_GRF_START1"/>
+			<bitfield high="6" low="0" type="uint" name="URB_GRF_START2"/>
+		</reg32>
+		<reg32 name="PS_KERNEL1" offset="6">
+			<bitfield high="31" low="6" shr="6" name="ADDR"/>
+		</reg32>
+		<reg32 name="PS_KERNEL2" offset="7">
 			<bitfield high="31" low="6" shr="6" name="ADDR"/>
 		</reg32>
 	</stripe>
@@ -828,6 +934,32 @@
 		</reg32>
 	</array>
 </group>
+
+<!--domain name="3DSTATE_CONSTANT_BODY" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe prefix="gen" variants="GEN7-">
+		<reg32 name="CONSTBUF_DW0" offset="0">
+			<bitfield high="31" low="16" type="uint" name="BUF1_LEN"/>
+			<bitfield high="15" low="0" type="uint" name="BUF0_LEN"/>
+		</reg32>
+		<reg32 name="CONSTBUF_DW1" offset="1">
+			<bitfield high="31" low="16" type="uint" name="BUF3_LEN"/>
+			<bitfield high="15" low="0" type="uint" name="BUF2_LEN"/>
+		</reg32>
+		<reg32 name="CONSTBUF_DW2" offset="2">
+			<bitfield high="31" low="5" shr="5" name="BUF0_ADDR"/>
+			<bitfield high="4" low="0" type="gen_surface_mocs" name="MOCS"/>
+		</reg32>
+		<reg32 name="CONSTBUF_DW3" offset="3">
+			<bitfield high="31" low="5" shr="5" name="BUF1_ADDR"/>
+		</reg32>
+		<reg32 name="CONSTBUF_DW4" offset="4">
+			<bitfield high="31" low="5" shr="5" name="BUF2_ADDR"/>
+		</reg32>
+		<reg32 name="CONSTBUF_DW5" offset="5">
+			<bitfield high="31" low="5" shr="5" name="BUF3_ADDR"/>
+		</reg32>
+	</stripe>
+</domain-->
 
 <domain name="3DSTATE_CONSTANT_VS" width="32" size="5" bare="yes" prefix="gen">
 	<stripe name="VS_PCB" offset="0" variants="GEN6">
@@ -1073,31 +1205,5 @@
 		<reg32 name="3DPRIM_VERTEX_BASE" type="int" offset="5"/>
 	</stripe>
 </domain>
-
-<!--domain name="3DSTATE_CONSTANT_BODY" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe prefix="gen" variants="GEN7-">
-		<reg32 name="CONSTBUF_DW0" offset="0">
-			<bitfield high="31" low="16" type="uint" name="BUF1_LEN"/>
-			<bitfield high="15" low="0" type="uint" name="BUF0_LEN"/>
-		</reg32>
-		<reg32 name="CONSTBUF_DW1" offset="1">
-			<bitfield high="31" low="16" type="uint" name="BUF3_LEN"/>
-			<bitfield high="15" low="0" type="uint" name="BUF2_LEN"/>
-		</reg32>
-		<reg32 name="CONSTBUF_DW2" offset="2">
-			<bitfield high="31" low="5" shr="5" name="BUF0_ADDR"/>
-			<bitfield high="4" low="0" type="gen_surface_mocs" name="MOCS"/>
-		</reg32>
-		<reg32 name="CONSTBUF_DW3" offset="3">
-			<bitfield high="31" low="5" shr="5" name="BUF1_ADDR"/>
-		</reg32>
-		<reg32 name="CONSTBUF_DW4" offset="4">
-			<bitfield high="31" low="5" shr="5" name="BUF2_ADDR"/>
-		</reg32>
-		<reg32 name="CONSTBUF_DW5" offset="5">
-			<bitfield high="31" low="5" shr="5" name="BUF3_ADDR"/>
-		</reg32>
-	</stripe>
-</domain-->
 
 </database>
