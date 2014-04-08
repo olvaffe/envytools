@@ -37,6 +37,7 @@
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="GGTT_ENABLE"/>
 	</reg32>
+	<!-- gap -->
 	<reg32 name="DST" offset="2">
 		<bitfield high="31" low="2" shr="2" name="ADDR"/>
 	</reg32>
