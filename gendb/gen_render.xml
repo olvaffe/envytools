@@ -576,6 +576,29 @@
 	<value value="0x3" name="4_0"/>
 </enum>
 
+<bitset name="gen_render_mocs" bare="yes" prefix="gen">
+	<bitfield high="1" low="0" name="MOCS_LLC" variants="GEN6">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="UC"/>
+		<value value="0x2" name="ON"/>
+	</bitfield>
+	<bitfield pos="1" name="MOCS_LLC" variants="GEN7">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="ON"/>
+	</bitfield>
+	<bitfield high="2" low="1" name="MOCS_LLC" variants="GEN75-">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="UC"/>
+		<value value="0x2" name="ON"/>
+		<value value="0x3" name="ELLC"/>
+	</bitfield>
+
+	<bitfield pos="0" name="MOCS_L3" variants="GEN7-">
+		<value value="0x0" name="UC"/>
+		<value value="0x1" name="ON"/>
+	</bitfield>
+</bitset>
+
 <bitset name="gen_thread_dispatch" bare="yes" prefix="gen">
 	<bitfield pos="31" name="THRDISP_SPF"/>
 	<bitfield pos="30" name="THRDISP_VMASK_ENABLE"/>
@@ -595,7 +618,7 @@
 
 <bitset name="gen_base_address" bare="yes" prefix="gen">
 	<bitfield high="31" low="12" shr="12" name="BASE_ADDR"/>
-	<bitfield high="11" low="8" name="BASE_ADDR_MOCS"/>
+	<bitfield high="11" low="8" type="gen_render_mocs" name="BASE_ADDR_MOCS"/>
 	<bitfield pos="0" name="BASE_ADDR_MODIFIED"/>
 </bitset>
 
@@ -603,7 +626,7 @@
 	<stripe>
 		<reg32 name="BASE_ADDR_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="BASE_ADDR_GENERAL" offset="1" type="gen_base_address">
-			<bitfield high="7" low="4" name="STATELESS_MOCS"/>
+			<bitfield high="7" type="gen_render_mocs" low="4" name="STATELESS_MOCS"/>
 			<bitfield pos="3" name="STATELESS_FORCE_WRITE_THRU"/>
 		</reg32>
 		<reg32 name="BASE_ADDR_SURFACE" offset="2" type="gen_base_address"/>
@@ -709,7 +732,7 @@
 				<value value="0x0" name="VERTEXDATA"/>
 				<value value="0x1" name="INSTANCEDATA"/>
 			</bitfield>
-			<bitfield high="19" low="16" name="MOCS"/>
+			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 			<bitfield pos="14" name="ADDR_MODIFIED" variants="GEN7-"/>
 			<bitfield pos="13" name="IS_NULL"/>
 			<bitfield pos="12" name="CACHE_INVALIDATE"/>
@@ -746,7 +769,7 @@
 <domain name="3DSTATE_INDEX_BUFFER" width="32" size="3" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="IB_DW0" offset="0" type="gen_render_header">
-			<bitfield high="15" low="12" name="MOCS"/>
+			<bitfield high="15" low="12" type="gen_render_mocs" name="MOCS"/>
 			<bitfield pos="10" name="CUT_INDEX_ENABLE" variants="GEN6-GEN7"/>
 			<bitfield high="9" low="8" name="FORMAT">
 				<value value="0x0" name="BYTE"/>
@@ -1068,7 +1091,7 @@
 		<bitfield pos="14" name="BUFFER2_VALID"/>
 		<bitfield pos="13" name="BUFFER1_VALID"/>
 		<bitfield pos="12" name="BUFFER0_VALID"/>
-		<bitfield high="11" low="8" name="MOCS"/>
+		<bitfield high="11" low="8" type="gen_render_mocs" name="MOCS"/>
 	</reg32>
 	<array offset="1" stride="1" length="4">
 		<reg32 name="BUFFER" offset="0">
@@ -1155,7 +1178,7 @@
 			<bitfield high="15" low="0" type="int" name="X"/>
 		</reg32>
 		<reg32 name="DEPTH_DW6" offset="6">
-			<bitfield high="31" low="27" name="MOCS"/>
+			<bitfield high="31" low="27" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -1240,7 +1263,7 @@
 	<stripe>
 		<reg32 name="STENCIL_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="STENCIL_DW1" offset="1">
-			<bitfield high="28" low="25" name="MOCS"/>
+			<bitfield high="28" low="25" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="16" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="STENCIL_ADDR" offset="2"/>
@@ -1251,7 +1274,7 @@
 	<stripe>
 		<reg32 name="HIZ_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="HIZ_DW1" offset="1">
-			<bitfield high="28" low="25" name="MOCS"/>
+			<bitfield high="28" low="25" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="16" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="HIZ_ADDR" offset="2"/>
@@ -1461,7 +1484,7 @@
 		</reg32>
 		<reg32 name="CONSTBUF_DW2" offset="2">
 			<bitfield high="31" low="5" shr="5" name="BUF0_ADDR"/>
-			<bitfield high="4" low="0" name="MOCS"/>
+			<bitfield high="4" low="0" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
 		<reg32 name="CONSTBUF_DW3" offset="3">
 			<bitfield high="31" low="5" shr="5" name="BUF1_ADDR"/>
@@ -1623,7 +1646,7 @@
 			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
 			<bitfield high="24" low="24" type="gen_surface_valign" name="VALIGN"/>
 			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
-			<bitfield high="19" low="16" name="MOCS"/>
+			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>
 
@@ -1677,7 +1700,7 @@
 		<reg32 name="SURFACE_DW5" offset="5">
 			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
 			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
-			<bitfield high="19" low="16" name="MOCS"/>
+			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
 		</reg32>
