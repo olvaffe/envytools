@@ -571,7 +571,8 @@
 			<bitfield high="9" low="4" type="uint" name="READ_OFFSET"/>
 		</reg32>
 		<reg32 name="VS_DW5" offset="5">
-			<bitfield high="31" low="25" type="uint" name="MAX_THREADS"/>
+			<bitfield high="31" low="25" type="uint" name="MAX_THREADS" variants="GEN6-GEN7"/>
+			<bitfield high="31" low="23" type="uint" name="MAX_THREADS" variants="GEN75-"/>
 			<bitfield pos="10" name="STATISTICS"/>
 			<bitfield pos="1" name="CACHE_DISABLE"/>
 			<bitfield pos="0" name="VS_ENABLE"/>
@@ -860,7 +861,7 @@
 
 <!-- DW 1:6 of GEN7 3DSTATE_SF, which is also DW 2:7 of GEN6 3DSTATE_SF -->
 <domain name="3DSTATE_SFBODY" width="32" size="6" bare="yes" prefix="gen">
-	<stripe variants="GEN7">
+	<stripe variants="GEN7-">
 		<reg32 name="SF_DW1" offset="0">
 			<bitfield high="14" low="12" name="DEPTH_FORMAT" type="gen_depth_format" variants="GEN7-"/>
 
@@ -887,6 +888,7 @@
 			<bitfield high="30" low="29" name="CULLMODE" type="gen_cull_mode"/>
 			<bitfield high="27" low="18" type="uint" name="LINE_WIDTH"/>
 			<bitfield high="17" low="16" name="AA_LINE_CAP" type="gen_wm_aa_line_width"/>
+			<bitfield pos="14" name="LINE_STIPPLE_ENABLE" variants="GEN75-"/>
 			<bitfield pos="11" name="SCISSOR_ENABLE"/>
 			<bitfield high="9" low="8" name="MSRASTMODE" type="gen_wm_ms_rast_mode"/>
 		</reg32>
@@ -1303,6 +1305,7 @@
 	<stripe>
 		<reg32 name="STENCIL_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="STENCIL_DW1" offset="1">
+			<bitfield pos="31" name="STENCIL_BUFFER_ENABLE" variants="GEN75-"/>
 			<bitfield high="28" low="25" type="gen_surface_mocs" name="MOCS"/>
 			<bitfield high="16" low="0" type="uint" name="PITCH"/>
 		</reg32>
