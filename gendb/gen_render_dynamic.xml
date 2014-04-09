@@ -118,8 +118,8 @@
 <domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="CC_DW0" offset="0">
-			<bitfield high="31" low="24" type="uint" name="STENCIL_FRONT_REF"/>
-			<bitfield high="23" low="16" type="uint" name="STENCIL_BACK_REF"/>
+			<bitfield high="31" low="24" type="uint" name="STENCIL0_REF"/>
+			<bitfield high="23" low="16" type="uint" name="STENCIL1_REF"/>
 			<bitfield pos="15" name="ROUND_DISABLE_DISABLE"/>
 			<bitfield pos="0" name="ALPHATEST">
 				<value value="0x0" name="UNORM8"/>
@@ -136,29 +136,29 @@
 
 <domain name="DEPTH_STENCIL_STATE" width="32" size="3" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="DS_DW0_STENCIL" offset="0">
-			<bitfield pos="31" name="TEST_ENABLE"/>
-			<bitfield high="30" low="28" type="gen_compare_function" name="FRONT_FUNC"/>
-			<bitfield high="27" low="25" type="gen_stencil_op" name="FRONT_FAIL_OP"/>
-			<bitfield high="24" low="22" type="gen_stencil_op" name="FRONT_ZFAIL_OP"/>
-			<bitfield high="21" low="19" type="gen_stencil_op" name="FRONT_ZPASS_OP"/>
-			<bitfield pos="18" name="WRITE_ENABLE"/>
-			<bitfield pos="15" name="BACK_ENABLE"/>
-			<bitfield high="14" low="12" type="gen_compare_function" name="BACK_FUNC"/>
-			<bitfield high="11" low="9" type="gen_stencil_op" name="BACK_FAIL_OP"/>
-			<bitfield high="8" low="6" type="gen_stencil_op" name="BACK_ZFAIL_OP"/>
-			<bitfield high="5" low="3" type="gen_stencil_op" name="BACK_ZPASS_OP"/>
+		<reg32 name="ZS_DW0" offset="0">
+			<bitfield pos="31" name="STENCIL_TEST_ENABLE"/>
+			<bitfield high="30" low="28" type="gen_compare_function" name="STENCIL0_FUNC"/>
+			<bitfield high="27" low="25" type="gen_stencil_op" name="STENCIL0_FAIL_OP"/>
+			<bitfield high="24" low="22" type="gen_stencil_op" name="STENCIL0_ZFAIL_OP"/>
+			<bitfield high="21" low="19" type="gen_stencil_op" name="STENCIL0_ZPASS_OP"/>
+			<bitfield pos="18" name="STENCIL_WRITE_ENABLE"/>
+			<bitfield pos="15" name="STENCIL1_ENABLE"/>
+			<bitfield high="14" low="12" type="gen_compare_function" name="STENCIL1_FUNC"/>
+			<bitfield high="11" low="9" type="gen_stencil_op" name="STENCIL1_FAIL_OP"/>
+			<bitfield high="8" low="6" type="gen_stencil_op" name="STENCIL1_ZFAIL_OP"/>
+			<bitfield high="5" low="3" type="gen_stencil_op" name="STENCIL1_ZPASS_OP"/>
 		</reg32>
-		<reg32 name="DS_DW1_STENCIL" offset="1">
-			<bitfield high="31" low="24" name="FRONT_VALUEMASK"/>
-			<bitfield high="23" low="16" name="FRONT_WRITEMASK"/>
-			<bitfield high="15" low="8" name="BACK_VALUEMASK"/>
-			<bitfield high="7" low="0" name="BACK_WRITEMASK"/>
+		<reg32 name="ZS_DW1" offset="1">
+			<bitfield high="31" low="24" name="STENCIL0_VALUEMASK"/>
+			<bitfield high="23" low="16" name="STENCIL0_WRITEMASK"/>
+			<bitfield high="15" low="8" name="STENCIL1_VALUEMASK"/>
+			<bitfield high="7" low="0" name="STENCIL1_WRITEMASK"/>
 		</reg32>
-		<reg32 name="DS_DW2_DEPTH" offset="2">
-			<bitfield pos="31" name="TEST_ENABLE"/>
-			<bitfield high="29" low="27" type="gen_compare_function" name="FUNC"/>
-			<bitfield pos="26" name="WRITE_ENABLE"/>
+		<reg32 name="ZS_DW2" offset="2">
+			<bitfield pos="31" name="DEPTH_TEST_ENABLE"/>
+			<bitfield high="29" low="27" type="gen_compare_function" name="DEPTH_FUNC"/>
+			<bitfield pos="26" name="DEPTH_WRITE_ENABLE"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -201,71 +201,66 @@
 	</stripe>
 </domain>
 
-<group name="render-gen6-clip-viewport">
-	<reg32 name="GB_MIN_X" type="float" offset="0"/>
-	<reg32 name="GB_MAX_X" type="float" offset="1"/>
-	<reg32 name="GB_MIN_Y" type="float" offset="2"/>
-	<reg32 name="GB_MAX_Y" type="float" offset="3"/>
-</group>
-
-<group name="render-gen6-sf-viewport">
-	<reg32 name="M00" type="float" offset="0"/>
-	<reg32 name="M11" type="float" offset="1"/>
-	<reg32 name="M22" type="float" offset="2"/>
-	<reg32 name="M30" type="float" offset="3"/>
-	<reg32 name="M31" type="float" offset="4"/>
-	<reg32 name="M32" type="float" offset="5"/>
-</group>
-
 <domain name="CLIP_VIEWPORT" width="32" size="4" bare="yes" prefix="gen" variants="GEN6">
-	<stripe name="CLIP_VP" offset="0">
-		<use-group name="render-gen6-clip-viewport"/>
+	<stripe>
+		<reg32 name="CLIPVP_DW0_GB_MIN_X" type="float" offset="0"/>
+		<reg32 name="CLIPVP_DW1_GB_MAX_X" type="float" offset="1"/>
+		<reg32 name="CLIPVP_DW2_GB_MIN_Y" type="float" offset="2"/>
+		<reg32 name="CLIPVP_DW3_GB_MAX_Y" type="float" offset="3"/>
 	</stripe>
 </domain>
 
 <domain name="SF_VIEWPORT" width="32" size="8" bare="yes" prefix="gen" variants="GEN6">
-	<stripe name="SF_VP" offset="0">
-		<use-group name="render-gen6-sf-viewport"/>
+	<stripe>
+		<reg32 name="SFVP_DW0_M00" type="float" offset="0"/>
+		<reg32 name="SFVP_DW1_M11" type="float" offset="1"/>
+		<reg32 name="SFVP_DW2_M22" type="float" offset="2"/>
+		<reg32 name="SFVP_DW3_M30" type="float" offset="3"/>
+		<reg32 name="SFVP_DW4_M31" type="float" offset="4"/>
+		<reg32 name="SFVP_DW5_M32" type="float" offset="5"/>
+		<!-- two unused dwords -->
 	</stripe>
 </domain>
 
 <domain name="SF_CLIP_VIEWPORT" width="32" size="16" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="SF_CLIP_VP_SF" offset="0">
-		<use-group name="render-gen6-sf-viewport"/>
-	</stripe>
-	<stripe name="SF_CLIP_VP_CLIP" offset="8">
-		<use-group name="render-gen6-clip-viewport"/>
+	<stripe>
+		<reg32 name="SFCLIP_DW_SF" offset="0" length="8"/>
+		<reg32 name="SFCLIP_DW_CLIP" offset="8" length="8"/>
 	</stripe>
 </domain>
 
 <domain name="CC_VIEWPORT" width="32" size="2" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="CC_VP_DW0_MIN_DEPTH" type="float" offset="0"/>
-		<reg32 name="CC_VP_DW1_MAX_DEPTH" type="float" offset="1"/>
+		<reg32 name="CCVP_DW0_MIN_DEPTH" type="float" offset="0"/>
+		<reg32 name="CCVP_DW1_MAX_DEPTH" type="float" offset="1"/>
 	</stripe>
 </domain>
 
 <domain name="SCISSOR_RECT" width="32" size="2" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="SCISSOR_DW0_MIN" offset="0">
-			<bitfield high="31" low="16" type="uint" name="Y"/>
-			<bitfield high="15" low="0" type="uint" name="X"/>
+		<reg32 name="SCISSOR_DW0" offset="0">
+			<bitfield high="31" low="16" type="uint" name="MIN_Y"/>
+			<bitfield high="15" low="0" type="uint" name="MIN_X"/>
 		</reg32>
-		<reg32 name="SCISSOR_DW1_MAX" offset="1">
-			<bitfield high="31" low="16" type="uint" name="Y"/>
-			<bitfield high="15" low="0" type="uint" name="X"/>
+		<reg32 name="SCISSOR_DW1" offset="1">
+			<bitfield high="31" low="16" type="uint" name="MAX_Y"/>
+			<bitfield high="15" low="0" type="uint" name="MAX_X"/>
 		</reg32>
 	</stripe>
 </domain>
 
 <domain name="BINDING_TABLE_STATE" width="32" size="256" bare="yes" prefix="gen">
-	<array name="BINDING_TABLE_DW" offset="0" stride="1" length="256"/>
+	<stripe>
+		<reg32 name="BINDING_TABLE_SURFACE" offset="0" length="256">
+			<bitfield high="31" low="5" shr="5" name="ADDR"/>
+		</reg32>
+	</stripe>
 </domain>
 
 <domain name="SAMPLER_BORDER_COLOR" width="32" size="20" bare="yes" prefix="gen">
 	<stripe>
-		<array name="BORDER_COLOR_DW" offset="0" stride="1" length="12" variants="GEN6"/>
-		<array name="BORDER_COLOR_DW" offset="0" stride="1" length="20" variants="GEN7-"/>
+		<reg32 name="BORDER_COLOR_DW" offset="0" length="12" variants="GEN6"/>
+		<reg32 name="BORDER_COLOR_DW" offset="0" length="20" variants="GEN7-"/>
 	</stripe>
 </domain>
 
