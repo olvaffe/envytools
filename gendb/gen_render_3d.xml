@@ -469,8 +469,8 @@
 	<reg32 name="VB_DW0" offset="0" type="gen_render_header"/>
 
 	<brief>up to 33 VERTEX_BUFFER_STATEs</brief>
-	<array offset="1" stride="4" length="33">
-		<reg32 name="VB_STATE" offset="0">
+	<array name="VB_STATE" offset="1" stride="4" length="33">
+		<reg32 name="DW0" offset="0">
 			<bitfield high="31" low="26" type="uint" name="INDEX"/>
 			<bitfield pos="20" name="ACCESS">
 				<value value="0x0" name="VERTEXDATA"/>
@@ -482,9 +482,9 @@
 			<bitfield pos="12" name="CACHE_INVALIDATE"/>
 			<bitfield high="11" low="0" name="PITCH"/>
 		</reg32>
-		<reg32 name="VB_START_ADDR" offset="1"/>
-		<reg32 name="VB_END_ADDR" offset="2"/>
-		<reg32 name="VB_STEP_RATE" type="uint" offset="3"/>
+		<reg32 name="DW1_START_ADDR" offset="1"/>
+		<reg32 name="DW2_END_ADDR" offset="2"/>
+		<reg32 name="DW3_STEP_RATE" type="uint" offset="3"/>
 	</array>
 </domain>
 
@@ -492,8 +492,8 @@
 	<reg32 name="VE_DW0" offset="0" type="gen_render_header"/>
 
 	<brief>up to 34 VERTEX_ELEMENT_STATEs</brief>
-	<array offset="1" stride="2" length="34">
-		<reg32 name="VE_STATE" offset="0">
+	<array name="VE_STATE" offset="1" stride="2" length="34">
+		<reg32 name="DW0" offset="0">
 			<bitfield high="31" low="26" type="uint" name="VB_INDEX"/>
 			<bitfield pos="25" name="VALID"/>
 			<bitfield high="24" low="16" type="gen_surface_format" name="FORMAT"/>
@@ -501,11 +501,11 @@
 			<bitfield high="10" low="0" name="VB_OFFSET" variants="GEN6"/>
 			<bitfield high="11" low="0" name="VB_OFFSET" variants="GEN75-"/>
 		</reg32>
-		<reg32 name="VE_COMP" offset="1">
-			<bitfield high="30" low="28" type="gen_vf_component" name="0"/>
-			<bitfield high="26" low="24" type="gen_vf_component" name="1"/>
-			<bitfield high="22" low="20" type="gen_vf_component" name="2"/>
-			<bitfield high="18" low="16" type="gen_vf_component" name="3"/>
+		<reg32 name="DW1" offset="1">
+			<bitfield high="30" low="28" type="gen_vf_component" name="COMP0"/>
+			<bitfield high="26" low="24" type="gen_vf_component" name="COMP1"/>
+			<bitfield high="22" low="20" type="gen_vf_component" name="COMP2"/>
+			<bitfield high="18" low="16" type="gen_vf_component" name="COMP3"/>
 		</reg32>
 	</array>
 </domain>
@@ -918,19 +918,20 @@
 			<bitfield high="15" low="8" type="uint" name="STREAM1_ENTRY_COUNT"/>
 			<bitfield high="7" low="0" type="uint" name="STREAM0_ENTRY_COUNT"/>
 		</reg32>
-		<array offset="2" stride="1" length="256">
-			<reg32 name="SO_DECL" offset="0">
-				<bitfield high="31" low="16" name="HIGH"/>
 
-				<bitfield high="13" low="12" type="uint" name="OUTPUT_SLOT"/>
-				<bitfield pos="11" name="HOLE_FLAG"/>
-				<bitfield high="9" low="4" type="uint" name="REG_INDEX"/>
-				<bitfield pos="3" name="COMPMASK_W"/>
-				<bitfield pos="2" name="COMPMASK_Z"/>
-				<bitfield pos="1" name="COMPMASK_Y"/>
-				<bitfield pos="0" name="COMPMASK_X"/>
-			</reg32>
-		</array>
+		<!-- 128 SO_DECL for each of the 4 streams -->
+		<reg32 name="SO_DECL" offset="3" length="256">
+			<!-- an SO_DECL takes up 16 bits -->
+			<bitfield high="31" low="16" name="HIGH"/>
+
+			<bitfield high="13" low="12" type="uint" name="OUTPUT_SLOT"/>
+			<bitfield pos="11" name="HOLE_FLAG"/>
+			<bitfield high="9" low="4" type="uint" name="REG_INDEX"/>
+			<bitfield pos="3" name="COMPMASK_W"/>
+			<bitfield pos="2" name="COMPMASK_Z"/>
+			<bitfield pos="1" name="COMPMASK_Y"/>
+			<bitfield pos="0" name="COMPMASK_X"/>
+		</reg32>
 	</stripe>
 </domain>
 
