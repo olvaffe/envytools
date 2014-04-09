@@ -348,27 +348,27 @@
 
 <domain name="3DSTATE_BINDING_TABLE_POINTERS" width="32" size="4" bare="yes" prefix="gen" variants="GEN6">
 	<stripe>
-		<reg32 name="BINDING_TABLE_PTR_DW0" offset="0" type="gen_render_header">
+		<reg32 name="PTR_BINDING_TABLE_DW0" offset="0" type="gen_render_header">
 			<bitfield pos="12" name="PS_CHANGED"/>
 			<bitfield pos="9" name="GS_CHANGED"/>
 			<bitfield pos="8" name="VS_CHANGED"/>
 		</reg32>
-		<reg32 name="BINDING_TABLE_PTR_DW1_VS" type="gen_render_3d_addr_32byte" offset="1"/>
-		<reg32 name="BINDING_TABLE_PTR_DW2_GS" type="gen_render_3d_addr_32byte" offset="2"/>
-		<reg32 name="BINDING_TABLE_PTR_DW3_PS" type="gen_render_3d_addr_32byte" offset="3"/>
+		<reg32 name="PTR_BINDING_TABLE_DW1_VS" type="gen_render_3d_addr_32byte" offset="1"/>
+		<reg32 name="PTR_BINDING_TABLE_DW2_GS" type="gen_render_3d_addr_32byte" offset="2"/>
+		<reg32 name="PTR_BINDING_TABLE_DW3_PS" type="gen_render_3d_addr_32byte" offset="3"/>
 	</stripe>
 </domain>
 
 <domain name="3DSTATE_SAMPLER_STATE_POINTERS" width="32" size="4" bare="yes" prefix="gen" variants="GEN6">
 	<stripe>
-		<reg32 name="SAMPLER_PTR_DW0" offset="0" type="gen_render_header">
+		<reg32 name="PTR_SAMPLER_DW0" offset="0" type="gen_render_header">
 			<bitfield pos="12" name="PS_CHANGED"/>
 			<bitfield pos="9" name="GS_CHANGED"/>
 			<bitfield pos="8" name="VS_CHANGED"/>
 		</reg32>
-		<reg32 name="SAMPLER_PTR_DW1_VS" type="gen_render_3d_addr_32byte" offset="1"/>
-		<reg32 name="SAMPLER_PTR_DW2_GS" type="gen_render_3d_addr_32byte" offset="2"/>
-		<reg32 name="SAMPLER_PTR_DW3_PS" type="gen_render_3d_addr_32byte" offset="3"/>
+		<reg32 name="PTR_SAMPLER_DW1_VS" type="gen_render_3d_addr_32byte" offset="1"/>
+		<reg32 name="PTR_SAMPLER_DW2_GS" type="gen_render_3d_addr_32byte" offset="2"/>
+		<reg32 name="PTR_SAMPLER_DW3_PS" type="gen_render_3d_addr_32byte" offset="3"/>
 	</stripe>
 </domain>
 
@@ -386,78 +386,44 @@
 	</stripe>
 </domain>
 
-<group name="render-gen7-3dstate-urb">
-	<reg32 name="DW0" offset="0" type="gen_render_header"/>
-	<reg32 name="DW1_URB" offset="1">
-		<bitfield high="29" low="25" type="uint" name="OFFSET"/>
-		<bitfield high="24" low="16" type="uint" name="ENTRY_SIZE"/>
-		<bitfield high="15" low="0" type="uint" name="ENTRY_COUNT"/>
-	</reg32>
-</group>
+<domain name="3DSTATE_URB_ANY" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
+	<doc>Generic command for
+		3DSTATE_URB_VS,
+		3DSTATE_URB_HS,
+		3DSTATE_URB_DS, and
+		3DSTATE_URB_GS.
+	</doc>
 
-<domain name="3DSTATE_URB_VS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="URB_VS" offset="0">
-		<use-group name="render-gen7-3dstate-urb"/>
+	<stripe>
+		<reg32 name="URB_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="URB_DW1" offset="1">
+			<bitfield high="29" low="25" type="uint" name="OFFSET"/>
+			<bitfield high="24" low="16" type="uint" name="ENTRY_SIZE"/>
+			<bitfield high="15" low="0" type="uint" name="ENTRY_COUNT"/>
+		</reg32>
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_URB_HS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="URB_HS" offset="0">
-		<use-group name="render-gen7-3dstate-urb"/>
-	</stripe>
-</domain>
+<domain name="3DSTATE_PUSH_CONSTANT_ALLOC_ANY" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
+	<doc>Generic command for
+		3DSTATE_PUSH_CONSTANT_ALLOC_VS,
+		3DSTATE_PUSH_CONSTANT_ALLOC_HS,
+		3DSTATE_PUSH_CONSTANT_ALLOC_DS,
+		3DSTATE_PUSH_CONSTANT_ALLOC_GS, and
+		3DSTATE_PUSH_CONSTANT_ALLOC_PS.
+	</doc>
 
-<domain name="3DSTATE_URB_DS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="URB_DS" offset="0">
-		<use-group name="render-gen7-3dstate-urb"/>
-	</stripe>
-</domain>
+	<stripe>
+		<reg32 name="PCB_ALLOC_DW0" offset="0" type="gen_render_header"/>
 
-<domain name="3DSTATE_URB_GS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="URB_GS" offset="0">
-		<use-group name="render-gen7-3dstate-urb"/>
-	</stripe>
-</domain>
-
-<group name="render-gen7-3dstate-pcb-alloc">
-	<reg32 name="DW0" offset="0" type="gen_render_header"/>
-	<reg32 name="DW1" offset="1" variants="GEN7">
-		<bitfield high="19" low="16" type="uint" name="OFFSET"/>
-		<bitfield high="4" low="0" type="uint" name="SIZE"/>
-	</reg32>
-	<reg32 name="DW1" offset="1" variants="GEN75-">
-		<bitfield high="20" low="16" type="uint" name="OFFSET"/>
-		<bitfield high="5" low="0" type="uint" name="SIZE"/>
-	</reg32>
-</group>
-
-<domain name="3DSTATE_PUSH_CONSTANT_ALLOC_VS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="PCB_ALLOC_VS" offset="0">
-		<use-group name="render-gen7-3dstate-pcb-alloc"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_PUSH_CONSTANT_ALLOC_HS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="PCB_ALLOC_HS" offset="0">
-		<use-group name="render-gen7-3dstate-pcb-alloc"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_PUSH_CONSTANT_ALLOC_DS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="PCB_ALLOC_DS" offset="0">
-		<use-group name="render-gen7-3dstate-pcb-alloc"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_PUSH_CONSTANT_ALLOC_GS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="PCB_ALLOC_GS" offset="0">
-		<use-group name="render-gen7-3dstate-pcb-alloc"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_PUSH_CONSTANT_ALLOC_PS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="PCB_ALLOC_PS" offset="0">
-		<use-group name="render-gen7-3dstate-pcb-alloc"/>
+		<reg32 name="PCB_ALLOC_DW1" offset="1" variants="GEN7">
+			<bitfield high="19" low="16" type="uint" name="OFFSET"/>
+			<bitfield high="4" low="0" type="uint" name="SIZE"/>
+		</reg32>
+		<reg32 name="PCB_ALLOC_DW1" offset="1" variants="GEN75-">
+			<bitfield high="20" low="16" type="uint" name="OFFSET"/>
+			<bitfield high="5" low="0" type="uint" name="SIZE"/>
+		</reg32>
 	</stripe>
 </domain>
 
@@ -533,130 +499,63 @@
 
 <domain name="3DSTATE_VIEWPORT_STATE_POINTERS" width="32" size="4" bare="yes" prefix="gen" variants="GEN6">
 	<stripe>
-		<reg32 name="VP_PTR_DW0" offset="0" type="gen_render_header">
+		<reg32 name="PTR_VP_DW0" offset="0" type="gen_render_header">
 			<bitfield pos="12" name="CC_CHANGED"/>
 			<bitfield pos="11" name="SF_CHANGED"/>
 			<bitfield pos="10" name="CLIP_CHANGED"/>
 		</reg32>
-		<reg32 name="VP_PTR_DW1_CLIP" type="gen_render_3d_addr_32byte" offset="1"/>
-		<reg32 name="VP_PTR_DW2_SF" type="gen_render_3d_addr_32byte" offset="2"/>
-		<reg32 name="VP_PTR_DW3_CC" type="gen_render_3d_addr_32byte" offset="3"/>
+		<reg32 name="PTR_VP_DW1_CLIP" type="gen_render_3d_addr_32byte" offset="1"/>
+		<reg32 name="PTR_VP_DW2_SF" type="gen_render_3d_addr_32byte" offset="2"/>
+		<reg32 name="PTR_VP_DW3_CC" type="gen_render_3d_addr_32byte" offset="3"/>
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_CC_STATE_POINTERS" width="32" size="4" bare="yes" prefix="gen">
+<domain name="3DSTATE_CC_STATE_POINTERS" width="32" size="4" bare="yes" prefix="gen" variants="GEN6">
 	<stripe variants="GEN6">
-		<reg32 name="CC_PTR_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="CC_PTR_DW1_BLEND" type="gen_render_3d_addr_64byte" offset="1">
+		<reg32 name="PTR_CC_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PTR_CC_DW1_BLEND" type="gen_render_3d_addr_64byte" offset="1">
 			<bitfield pos="0" name="CHANGED"/>
 		</reg32>
-		<reg32 name="CC_PTR_DW2_ZS" type="gen_render_3d_addr_64byte" offset="2">
+		<reg32 name="PTR_CC_DW2_ZS" type="gen_render_3d_addr_64byte" offset="2">
 			<bitfield pos="0" name="CHANGED"/>
 		</reg32>
-		<reg32 name="CC_PTR_DW3_CC" type="gen_render_3d_addr_64byte" offset="3">
+		<reg32 name="PTR_CC_DW3_CC" type="gen_render_3d_addr_64byte" offset="3">
 			<bitfield pos="0" name="CHANGED"/>
 		</reg32>
-	</stripe>
-	<stripe variants="GEN7">
-		<reg32 name="CC_PTR_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="CC_PTR_DW1" type="gen_render_3d_addr_64byte" offset="0"/>
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_SCISSOR_STATE_POINTERS" width="32" size="2" bare="yes" prefix="gen">
+<domain name="3DSTATE_SCISSOR_STATE_POINTERS" width="32" size="2" bare="yes" prefix="gen" variants="GEN6">
 	<stripe>
-		<reg32 name="SCISSOR_PTR_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="SCISSOR_PTR_DW1" type="gen_render_3d_addr_32byte" offset="1"/>
+		<reg32 name="PTR_SCISSOR_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PTR_SCISSOR_DW1" type="gen_render_3d_addr_32byte" offset="1"/>
 	</stripe>
 </domain>
 
-<group name="render-gen7-3dstate-state-pointers">
-	<reg32 name="PTR_DW0" offset="0" type="gen_render_header"/>
-	<!-- XXX alignment requirement differs -->
-	<reg32 name="PTR_DW1" type="gen_render_3d_addr_32byte" offset="1"/>
-</group>
+<domain name="3DSTATE_POINTERS_ANY" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
+	<doc>Generic command for
+		3DSTATE_CC_STATE_POINTERS,
+		3DSTATE_SCISSOR_STATE_POINTERS,
+		3DSTATE_VIEWPORT_STATE_POINTERS_SF_CLIP,
+		3DSTATE_VIEWPORT_STATE_POINTERS_CC,
+		3DSTATE_BLEND_STATE_POINTERS,
+		3DSTATE_DEPTH_STENCIL_STATE_POINTERS,
+		3DSTATE_BINDING_TABLE_POINTERS_VS,
+		3DSTATE_BINDING_TABLE_POINTERS_HS,
+		3DSTATE_BINDING_TABLE_POINTERS_DS,
+		3DSTATE_BINDING_TABLE_POINTERS_GS,
+		3DSTATE_BINDING_TABLE_POINTERS_PS,
+		3DSTATE_SAMPLER_STATE_POINTERS_VS,
+		3DSTATE_SAMPLER_STATE_POINTERS_HS,
+		3DSTATE_SAMPLER_STATE_POINTERS_DS,
+		3DSTATE_SAMPLER_STATE_POINTERS_GS, and
+		3DSTATE_SAMPLER_STATE_POINTERS_PS.
+	</doc>
 
-<domain name="3DSTATE_VIEWPORT_STATE_POINTERS_SF_CLIP" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="VP_SF_CLIP" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_VIEWPORT_STATE_POINTERS_CC" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="VP_CC" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_BLEND_STATE_POINTERS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="BLEND" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_DEPTH_STENCIL_STATE_POINTERS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="DS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_BINDING_TABLE_POINTERS_VS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="BINDING_TABLE_VS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_BINDING_TABLE_POINTERS_HS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="BINDING_TABLE_HS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_BINDING_TABLE_POINTERS_DS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="BINDING_TABLE_DS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_BINDING_TABLE_POINTERS_GS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="BINDING_TABLE_GS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_BINDING_TABLE_POINTERS_PS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="BINDING_TABLE_PS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_SAMPLER_STATE_POINTERS_VS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="SAMPLER_VS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_SAMPLER_STATE_POINTERS_HS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="SAMPLER_HS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_SAMPLER_STATE_POINTERS_DS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="SAMPLER_DS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_SAMPLER_STATE_POINTERS_GS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="SAMPLER_GS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
-	</stripe>
-</domain>
-
-<domain name="3DSTATE_SAMPLER_STATE_POINTERS_PS" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe name="SAMPLER_PS" offset="0">
-		<use-group name="render-gen7-3dstate-state-pointers"/>
+	<stripe>
+		<reg32 name="PTR_DW0" offset="0" type="gen_render_header"/>
+		<!-- note that CC related sates are actually 64-byte aligned -->
+		<reg32 name="PTR_DW1" type="gen_render_3d_addr_32byte" offset="1"/>
 	</stripe>
 </domain>
 
