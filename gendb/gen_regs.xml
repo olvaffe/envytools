@@ -11,7 +11,7 @@
 	<bitfield high="31" low="16" name="REG_MASK"/>
 </bitset>
 
-<domain name="REG" width="32" size="0x1000000" prefix="gen">
+<domain name="REG" width="32" size="0x400000" prefix="gen">
 	<reg32 name="HS_INVOCATION_COUNT" offset="0x2300"/>
 	<reg32 name="DS_INVOCATION_COUNT" offset="0x2308"/>
 	<reg32 name="IA_VERTICES_COUNT" offset="0x2310"/>
