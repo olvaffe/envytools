@@ -246,6 +246,11 @@
 	<value value="0x3" name="TILING_Y"/>
 </enum>
 
+<enum name="gen_surface_clear_color" bare="yes" prefix="gen" variants="GEN7-">
+	<value value="0x0" name="CC_ZERO"/>
+	<value value="0x1" name="CC_ONE"/>
+</enum>
+
 <enum name="gen_surface_scs" bare="yes" prefix="gen" variants="GEN75-">
 	<value value="0x0" name="SCS_ZERO"/>
 	<value value="0x1" name="SCS_ONE"/>
@@ -398,20 +403,28 @@
 		</reg32>
 		<reg32 name="SURFACE_DW6" offset="6">
 			<!-- if PLANAR -->
-			<!--bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/-->
-			<!--bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/-->
-			<!-- else if MCS -->
-			<!--bitfield high="31" low="12" shr="12" name="MCS_ADDR"/-->
-			<!--bitfield high="11" low="3" type="uint" name="MCS_PITCH"/-->
+			<bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/>
+			<bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/>
+
+			<!-- if MCS -->
+			<bitfield high="31" low="12" shr="12" name="MCS_ADDR"/>
+			<bitfield high="11" low="3" type="uint" name="MCS_PITCH"/>
+			<bitfield pos="0" name="MCS_ENABLE"/>
+
+			<!-- else -->
 			<bitfield high="31" low="6" shr="6" name="APPEND_COUNTER_ADDR"/>
 			<bitfield pos="1" name="APPEND_COUNTER_ENABLE"/>
-			<bitfield pos="0" name="MCS_ENABLE"/>
+
 		</reg32>
 		<reg32 name="SURFACE_DW7" offset="7">
-			<bitfield high="27" low="25" type="gen_surface_scs" name="SCS_R"/>
-			<bitfield high="24" low="22" type="gen_surface_scs" name="SCS_G"/>
-			<bitfield high="21" low="19" type="gen_surface_scs" name="SCS_B"/>
-			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A"/>
+			<bitfield pos="31" type="gen_surface_clear_color" name="CC_R"/>
+			<bitfield pos="30" type="gen_surface_clear_color" name="CC_G"/>
+			<bitfield pos="29" type="gen_surface_clear_color" name="CC_B"/>
+			<bitfield pos="28" type="gen_surface_clear_color" name="CC_A"/>
+			<bitfield high="27" low="25" type="gen_surface_scs" name="SCS_R" variants="GEN75-"/>
+			<bitfield high="24" low="22" type="gen_surface_scs" name="SCS_G" variants="GEN75-"/>
+			<bitfield high="21" low="19" type="gen_surface_scs" name="SCS_B" variants="GEN75-"/>
+			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A" variants="GEN75-"/>
 			<bitfield high="11" low="0" type="uint" name="RES_MIN_LOD"/>
 		</reg32>
 	</stripe>
