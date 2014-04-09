@@ -219,6 +219,15 @@
 	<value value="0x3" name="SAMPLE"/>
 </enum>
 
+<bitset name="gen_wm_barycentric_interp" bare="yes" prefix="gen">
+	<bitfield pos="5" name="INTERP_LINEAR_SAMPLE"/>
+	<bitfield pos="4" name="INTERP_LINEAR_CENTROID"/>
+	<bitfield pos="3" name="INTERP_LINTER_PIXEL"/>
+	<bitfield pos="2" name="INTERP_PERSPECTIVE_SAMPLE"/>
+	<bitfield pos="1" name="INTERP_PERSPECTIVE_CENTROID"/>
+	<bitfield pos="0" name="INTERP_PERSPECTIVE_PIXEL"/>
+</bitset>
+
 <enum name="gen_wm_point_rast_rule" inline="yes" varset="gen">
 	<value value="0x0" name="UPPER_LEFT"/>
 	<value value="0x1" name="UPPER_RIGHT"/>
@@ -1008,12 +1017,7 @@
 			<bitfield high="25" low="20" type="uint" name="SF_ATTR_COUNT"/>
 			<bitfield high="19" low="18" type="gen_wm_pos_xy_offset" name="POSOFFSET"/>
 			<bitfield high="17" low="16" type="gen_wm_zw_interp" name="ZW_INTERP"/>
-			<bitfield pos="15" name="LINEAR_INTERP_SAMPLE"/>
-			<bitfield pos="14" name="LINEAR_INTERP_CENTROID"/>
-			<bitfield pos="13" name="LINTER_INTERP_PIXEL"/>
-			<bitfield pos="12" name="PERSPECTIVE_INTERP_SAMPLE"/>
-			<bitfield pos="11" name="PERSPECTIVE_INTERP_CENTROID"/>
-			<bitfield pos="10" name="PERSPECTIVE_INTERP_PIXEL"/>
+			<bitfield high="15" low="10" type="gen_wm_barycentric_interp" name="BARYCENTRIC_INTERP"/>
 			<bitfield pos="9" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
 			<bitfield high="2" low="1" name="MSRASTMODE" type="gen_wm_ms_rast_mode"/>
 			<bitfield pos="0" type="gen_wm_ms_dispatch_mode" name="MSDISPMODE"/>
@@ -1035,12 +1039,7 @@
 			<bitfield pos="20" name="PS_USE_DEPTH"/>
 			<bitfield pos="19" name="PS_USE_W"/>
 			<bitfield high="18" low="17" type="gen_wm_zw_interp" name="ZW_INTERP"/>
-			<bitfield pos="16" name="LINEAR_INTERP_SAMPLE"/>
-			<bitfield pos="15" name="LINEAR_INTERP_CENTROID"/>
-			<bitfield pos="14" name="LINTER_INTERP_PIXEL"/>
-			<bitfield pos="13" name="PERSPECTIVE_INTERP_SAMPLE"/>
-			<bitfield pos="12" name="PERSPECTIVE_INTERP_CENTROID"/>
-			<bitfield pos="11" name="PERSPECTIVE_INTERP_PIXEL"/>
+			<bitfield high="16" low="11" type="gen_wm_barycentric_interp" name="BARYCENTRIC_INTERP"/>
 			<bitfield pos="10" name="PS_USE_COVERAGE"/>
 			<bitfield high="9" low="8" name="AA_LINE_CAP" type="gen_wm_aa_line_width"/>
 			<bitfield high="7" low="6" name="AA_LINE_WIDTH" type="gen_wm_aa_line_width"/>
