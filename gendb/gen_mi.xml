@@ -43,7 +43,7 @@
 
 <domain name="MI_STORE_DATA_IMM" width="32" size="5" bare="yes" prefix="gen">
 	<reg32 name="MI_SDI_DW0" offset="0" type="gen_mi_header">
-		<bitfield pos="22" name="GGTT_ENABLE"/>
+		<bitfield pos="22" name="USE_GGTT"/>
 	</reg32>
 	<!-- gap -->
 	<reg32 name="MI_SDI_DW2" type="gen_mi_addr_dw" offset="2"/>
@@ -60,7 +60,7 @@
 
 <domain name="MI_STORE_REGISTER_MEM" width="32" size="3" bare="yes" prefix="gen">
 	<reg32 name="MI_SRM_DW0" offset="0" type="gen_mi_header">
-		<bitfield pos="22" name="GGTT_ENABLE"/>
+		<bitfield pos="22" name="USE_GGTT"/>
 		<bitfield pos="21" name="PREDICATE_ENABLE" variants="GEN75-"/>
 	</reg32>
 	<reg32 name="MI_SRM_DW1" type="gen_mi_reg32" offset="1"/>
@@ -77,14 +77,14 @@
 	<reg32 name="DW1" offset="1">
 		<bitfield high="31" low="6" shr="6" name="ADDR"/>
 		<bitfield pos="4" name="CORE_MODE_ENABLE"/>
-		<bitfield pos="0" name="GGTT_ENABLE"/>
+		<bitfield pos="0" name="USE_GGTT"/>
 	</reg32>
 	<reg32 name="DW2_REPORT_ID" offset="2"/>
 </domain>
 
 <domain name="MI_LOAD_REGISTER_MEM" width="32" size="3" bare="yes" prefix="gen" variants="GEN7-">
 	<reg32 name="MI_LRM_DW0" offset="0" type="gen_mi_header">
-		<bitfield pos="22" name="GGTT_ENABLE"/>
+		<bitfield pos="22" name="USE_GGTT"/>
 		<bitfield pos="21" name="ASYNC_MODE_ENABLE" variants="GEN7-"/>
 	</reg32>
 	<reg32 name="MI_LRM_DW1" type="gen_mi_reg32" offset="1"/>
