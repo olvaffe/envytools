@@ -172,6 +172,24 @@
 	<value value="0x3f" name="3DPRIM_PATCHLIST_32" variants="GEN7-"/>
 </enum>
 
+<enum name="gen_state_alignment" bare="yes" prefix="gen">
+	<doc>Alignment in DWORDs required by 3DSTATE_SCISSOR_STATE_POINTERS and etc.</doc>
+
+	<value value="16" name="ALIGN_COLOR_CALC_STATE"/>
+	<value value="16" name="ALIGN_DEPTH_STENCIL_STATE"/>
+	<value value="16" name="ALIGN_BLEND_STATE"/>
+	<value value="8" name="ALIGN_CLIP_VIEWPORT" variants="GEN6"/>
+	<value value="8" name="ALIGN_SF_VIEWPORT" variants="GEN6"/>
+	<value value="16" name="ALIGN_SF_CLIP_VIEWPORT" variants="GEN7-"/>
+	<value value="8" name="ALIGN_CC_VIEWPORT"/>
+	<value value="8" name="ALIGN_SCISSOR_RECT"/>
+	<value value="8" name="ALIGN_BINDING_TABLE_STATE"/>
+	<value value="8" name="ALIGN_SAMPLER_BORDER_COLOR"/>
+	<value value="8" name="ALIGN_SAMPLER_STATE"/>
+
+	<value value="8" name="ALIGN_SURFACE_STATE"/>
+</enum>
+
 <enum name="gen_vf_component" bare="yes" prefix="gen">
 	<value value="0x0" name="VFCOMP_NOSTORE"/>
 	<value value="0x1" name="VFCOMP_STORE_SRC"/>
