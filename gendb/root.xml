@@ -6,6 +6,7 @@
 <import file="gen_copyright.xml"/>
 
 <import file="gen_chipsets.xml"/>
+<import file="gen_isa.xml"/>
 <import file="gen_regs.xml"/>
 <import file="gen_mi.xml"/>
 <import file="gen_blitter.xml"/>

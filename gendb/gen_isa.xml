@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<enum name="gen_isa_opcode" bare="yes" prefix="gen">
+	<value value="0x00" name="OPCODE_ILLEGAL"/>
+	<value value="0x01" name="OPCODE_MOV"/>
+	<value value="0x02" name="OPCODE_SEL"/>
+	<value value="0x03" name="OPCODE_MOVI"/>
+	<value value="0x04" name="OPCODE_NOT"/>
+	<value value="0x05" name="OPCODE_AND"/>
+	<value value="0x06" name="OPCODE_OR"/>
+	<value value="0x07" name="OPCODE_XOR"/>
+	<value value="0x08" name="OPCODE_SHR"/>
+	<value value="0x09" name="OPCODE_SHL"/>
+	<value value="0x0a" name="OPCODE_DIM"/>
+	<value value="0x0c" name="OPCODE_ASR"/>
+	<value value="0x10" name="OPCODE_CMP"/>
+	<value value="0x11" name="OPCODE_CMPN"/>
+	<value value="0x12" name="OPCODE_CSEL" variants="GEN7-"/>
+	<value value="0x13" name="OPCODE_F32TO16" variants="GEN7-"/>
+	<value value="0x14" name="OPCODE_F16TO32" variants="GEN7-"/>
+	<value value="0x17" name="OPCODE_BFREV" variants="GEN7-"/>
+	<value value="0x18" name="OPCODE_BFE" variants="GEN7-"/>
+	<value value="0x19" name="OPCODE_BFI1" variants="GEN7-"/>
+	<value value="0x1a" name="OPCODE_BFI2" variants="GEN7-"/>
+	<value value="0x20" name="OPCODE_JMPI"/>
+	<value value="0x21" name="OPCODE_BRD" variants="GEN7-"/>
+	<value value="0x22" name="OPCODE_IF"/>
+	<value value="0x23" name="OPCODE_BRC" variants="GEN7-"/>
+	<value value="0x24" name="OPCODE_ELSE"/>
+	<value value="0x25" name="OPCODE_ENDIF"/>
+	<value value="0x26" name="OPCODE_CASE"/>
+	<value value="0x27" name="OPCODE_WHILE"/>
+	<value value="0x28" name="OPCODE_BREAK"/>
+	<value value="0x29" name="OPCODE_CONT"/>
+	<value value="0x2a" name="OPCODE_HALT"/>
+	<value value="0x2b" name="OPCODE_CALLA" variants="GEN75-"/>
+	<value value="0x2c" name="OPCODE_CALL"/>
+	<value value="0x2d" name="OPCODE_RETURN"/>
+	<value value="0x30" name="OPCODE_WAIT"/>
+	<value value="0x31" name="OPCODE_SEND"/>
+	<value value="0x32" name="OPCODE_SENDC"/>
+	<value value="0x38" name="OPCODE_MATH"/>
+	<value value="0x40" name="OPCODE_ADD"/>
+	<value value="0x41" name="OPCODE_MUL"/>
+	<value value="0x42" name="OPCODE_AVG"/>
+	<value value="0x43" name="OPCODE_FRC"/>
+	<value value="0x44" name="OPCODE_RNDU"/>
+	<value value="0x45" name="OPCODE_RNDD"/>
+	<value value="0x46" name="OPCODE_RNDE"/>
+	<value value="0x47" name="OPCODE_RNDZ"/>
+	<value value="0x48" name="OPCODE_MAC"/>
+	<value value="0x49" name="OPCODE_MACH"/>
+	<value value="0x4a" name="OPCODE_LZD"/>
+	<value value="0x4b" name="OPCODE_FBH" variants="GEN7-"/>
+	<value value="0x4c" name="OPCODE_FBL" variants="GEN7-"/>
+	<value value="0x4d" name="OPCODE_CBIT" variants="GEN7-"/>
+	<value value="0x4e" name="OPCODE_ADDC" variants="GEN7-"/>
+	<value value="0x4f" name="OPCODE_SUBB" variants="GEN7-"/>
+	<value value="0x50" name="OPCODE_SAD2"/>
+	<value value="0x51" name="OPCODE_SADA2"/>
+	<value value="0x54" name="OPCODE_DP4"/>
+	<value value="0x55" name="OPCODE_DPH"/>
+	<value value="0x56" name="OPCODE_DP3"/>
+	<value value="0x57" name="OPCODE_DP2"/>
+	<value value="0x59" name="OPCODE_LINE"/>
+	<value value="0x5a" name="OPCODE_PLN"/>
+	<value value="0x5b" name="OPCODE_MAD"/>
+	<value value="0x5c" name="OPCODE_LRP"/>
+	<value value="0x7e" name="OPCODE_NOP"/>
+</enum>
+
+<enum name="gen_isa_access_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="ALIGN_1"/>
+	<value value="0x1" name="ALIGN_16"/>
+</enum>
+
+<bitset name="gen_isa_dependency_control" bare="yes" prefix="gen">
+	<bitfield pos="1" name="DEPCTRL_NODDCHK"/>
+	<bitfield pos="0" name="DEPCTRL_NODDCLR"/>
+</bitset>
+
+<enum name="gen_isa_quarter_control" bare="yes" prefix="gen">
+	<value value="0x0" name="QTRCTRL_1Q"/>
+	<value value="0x1" name="QTRCTRL_2Q"/>
+	<value value="0x2" name="QTRCTRL_3Q"/>
+	<value value="0x3" name="QTRCTRL_4Q"/>
+
+	<value value="0x0" name="QTRCTRL_1H"/>
+	<value value="0x2" name="QTRCTRL_2H"/>
+</enum>
+
+<enum name="gen_isa_thread_control" bare="yes" prefix="gen">
+	<value value="0x0" name="THREADCTRL_NORMAL"/>
+	<value value="0x1" name="THREADCTRL_SWITCH"/>
+	<value value="0x2" name="THREADCTRL_ATOMIC"/>
+</enum>
+
+<enum name="gen_isa_predicate_control" bare="yes" prefix="gen">
+	<value value="0x0" name="PREDCTRL_NONE"/>
+	<value value="0x1" name="PREDCTRL_NORMAL"/>
+
+	<value value="0x2" name="PREDCTRL_X"/>
+	<value value="0x3" name="PREDCTRL_Y"/>
+	<value value="0x4" name="PREDCTRL_Z"/>
+	<value value="0x5" name="PREDCTRL_W"/>
+	<value value="0x6" name="PREDCTRL_ANY4H"/>
+	<value value="0x7" name="PREDCTRL_ALL4H"/>
+
+	<value value="0x2" name="PREDCTRL_ANYV"/>
+	<value value="0x3" name="PREDCTRL_ALLV"/>
+	<value value="0x4" name="PREDCTRL_ANY2H"/>
+	<value value="0x5" name="PREDCTRL_ALL2H"/>
+	<value value="0x6" name="PREDCTRL_ANY4H"/>
+	<value value="0x7" name="PREDCTRL_ALL4H"/>
+	<value value="0x8" name="PREDCTRL_ANY8H"/>
+	<value value="0x9" name="PREDCTRL_ALL8H"/>
+	<value value="0xa" name="PREDCTRL_ANY16H"/>
+	<value value="0xb" name="PREDCTRL_ALL16H"/>
+	<value value="0xc" name="PREDCTRL_ANY32H" variants="GEN7-"/>
+	<value value="0xd" name="PREDCTRL_ALL32H" variants="GEN7-"/>
+</enum>
+
+<enum name="gen_isa_exec_size" bare="yes" prefix="gen">
+	<value value="0x0" name="EXECSIZE_1"/>
+	<value value="0x1" name="EXECSIZE_2"/>
+	<value value="0x2" name="EXECSIZE_4"/>
+	<value value="0x3" name="EXECSIZE_8"/>
+	<value value="0x4" name="EXECSIZE_16"/>
+	<value value="0x5" name="EXECSIZE_32"/>
+</enum>
+
+<enum name="gen_isa_condition_modifier" bare="yes" prefix="gen">
+	<value value="0x0" name="COND_NORMAL"/>
+	<value value="0x1" name="COND_Z"/>
+	<value value="0x2" name="COND_NZ"/>
+	<value value="0x3" name="COND_G"/>
+	<value value="0x4" name="COND_GE"/>
+	<value value="0x5" name="COND_L"/>
+	<value value="0x6" name="COND_LE"/>
+	<value value="0x8" name="COND_O"/>
+	<value value="0x9" name="COND_U"/>
+</enum>
+
+<enum name="gen_isa_math_function_control" bare="yes" prefix="gen">
+	<value value="0x1" name="MATH_INV"/>
+	<value value="0x2" name="MATH_LOG"/>
+	<value value="0x3" name="MATH_EXP"/>
+	<value value="0x4" name="MATH_SQRT"/>
+	<value value="0x5" name="MATH_RSQ"/>
+	<value value="0x6" name="MATH_SIN"/>
+	<value value="0x7" name="MATH_COS"/>
+	<value value="0x9" name="MATH_FDIV"/>
+	<value value="0xa" name="MATH_POW"/>
+	<value value="0xb" name="MATH_INT_DIV_BOTH"/>
+	<value value="0xc" name="MATH_INT_DIV_QUOTIENT"/>
+	<value value="0xd" name="MATH_INT_DIV_REMAINDER"/>
+</enum>
+
+<enum name="gen_isa_shared_function_id" bare="yes" prefix="gen">
+	<value value="0x0" name="SFID_NULL"/>
+	<value value="0x2" name="SFID_SAMPLER"/>
+	<value value="0x3" name="SFID_GATEWAY"/>
+	<value value="0x4" name="SFID_DP_SAMPLER"/>
+	<value value="0x5" name="SFID_DP_RC"/>
+	<value value="0x6" name="SFID_URB"/>
+	<value value="0x7" name="SFID_SPAWNER"/>
+	<value value="0x8" name="SFID_VME"/>
+	<value value="0x9" name="SFID_DP_CC"/>
+	<value value="0xa" name="SFID_DP_DC0" variants="GEN7-"/>
+	<value value="0xb" name="SFID_PI" variants="GEN7-"/>
+	<value value="0xc" name="SFID_DP_DC1" variants="GEN75-"/>
+</enum>
+
+<enum name="gen_isa_reg_file" bare="yes" prefix="gen">
+	<value value="0x0" name="FILE_ARF"/>
+	<value value="0x1" name="FILE_GRF"/>
+	<value value="0x2" name="FILE_MRF" variants="GEN6"/>
+	<value value="0x3" name="FILE_IMM"/>
+</enum>
+
+<enum name="gen_isa_reg_type" bare="yes" prefix="gen">
+	<value value="0x0" name="TYPE_UD"/>
+	<value value="0x1" name="TYPE_D"/>
+	<value value="0x2" name="TYPE_UW"/>
+	<value value="0x3" name="TYPE_W"/>
+	<value value="0x4" name="TYPE_UB"/>
+	<value value="0x5" name="TYPE_B"/>
+	<value value="0x6" name="TYPE_DF" variants="GEN7-"/>
+	<value value="0x7" name="TYPE_F"/>
+
+	<value value="0x4" name="TYPE_UV_IMM"/>
+	<value value="0x5" name="TYPE_VF_IMM"/>
+	<value value="0x6" name="TYPE_V_IMM"/>
+
+	<value value="0x0" name="TYPE_F_3SRC" variants="GEN7-"/>
+	<value value="0x1" name="TYPE_D_3SRC" variants="GEN7-"/>
+	<value value="0x2" name="TYPE_UD_3SRC" variants="GEN7-"/>
+	<value value="0x3" name="TYPE_DF_3SRC" variants="GEN7-"/>
+</enum>
+
+<enum name="gen_isa_vertical_stride" bare="yes" prefix="gen">
+	<value value="0x0" name="VERTSTRIDE_0"/>
+	<value value="0x1" name="VERTSTRIDE_1"/>
+	<value value="0x2" name="VERTSTRIDE_2"/>
+	<value value="0x3" name="VERTSTRIDE_4"/>
+	<value value="0x4" name="VERTSTRIDE_8"/>
+	<value value="0x5" name="VERTSTRIDE_16"/>
+	<value value="0x6" name="VERTSTRIDE_32"/>
+	<value value="0xf" name="VERTSTRIDE_VxH"/>
+</enum>
+
+<enum name="gen_isa_width" bare="yes" prefix="gen">
+	<value value="0x0" name="WIDTH_1"/>
+	<value value="0x1" name="WIDTH_2"/>
+	<value value="0x2" name="WIDTH_4"/>
+	<value value="0x3" name="WIDTH_8"/>
+	<value value="0x4" name="WIDTH_16"/>
+</enum>
+
+<enum name="gen_isa_horizontal_stride" bare="yes" prefix="gen">
+	<value value="0x0" name="HORZSTRIDE_0"/>
+	<value value="0x1" name="HORZSTRIDE_1"/>
+	<value value="0x2" name="HORZSTRIDE_2"/>
+	<value value="0x3" name="HORZSTRIDE_4"/>
+</enum>
+
+<bitset name="gen_isa_inst_control" inline="yes" varset="gen">
+	<bitfield pos="31" name="SATURATE"/>
+	<bitfield pos="28" name="ACCWRCTRL"/>
+
+	<!-- regular/send/math -->
+	<bitfield high="27" low="24" type="gen_isa_condition_modifier" name="CONDMODIFIER"/>
+	<bitfield high="27" low="24" type="gen_isa_shared_function_id" name="SFID"/>
+	<bitfield high="27" low="24" type="gen_isa_math_function_control" name="FC"/>
+
+	<bitfield high="23" low="21" type="gen_isa_exec_size" name="EXECSIZE"/>
+	<bitfield pos="20" name="PREDINV"/>
+	<bitfield high="19" low="16" type="gen_isa_predicate_control" name="PREDCTRL"/>
+	<bitfield high="15" low="14" type="gen_isa_thread_control" name="THREADCTRL"/>
+	<bitfield high="13" low="12" type="gen_isa_quarter_control" name="QTRCTRL"/>
+	<bitfield high="11" low="10" type="gen_isa_dependency_control" name="DEPCTRL"/>
+	<bitfield pos="9" name="MASKCTRL"/>
+	<bitfield pos="8" name="ACCESSMODE"/>
+	<bitfield high="6" low="0" type="gen_isa_opcode" name="OPCODE"/>
+</bitset>
+
+<bitset name="gen_isa_inst_dst" inline="yes" varset="gen">
+	<bitfield pos="31" name="ADDRMODE"/>
+	<bitfield high="30" low="29" type="gen_isa_horizontal_stride" name="HORZSTRIDE"/>
+
+	<!--
+	     RegNum := RegOffset[12:5]
+	     RegSubNum := RegOffset[4:0]
+	-->
+
+	<!-- direct, align1 -->
+	<bitfield high="28" low="16" type="uint" name="REG_OFFSET"/>
+	<!-- indirect, align1 -->
+	<bitfield high="28" low="26" type="uint" name="ADDR_SUBREG"/>
+	<bitfield high="25" low="16" type="int" name="ADDR_IMM"/>
+	<!-- align16 -->
+	<bitfield high="28" low="20" shr="4" type="uint" name="REG_OFFSET_ALIGN16"/>
+	<bitfield high="25" low="20" shr="4" type="int" name="ADDR_IMM_ALIGN16"/>
+	<bitfield high="19" low="16" name="WRITEMASK"/>
+
+	<bitfield pos="15" name="NIBCTRL" variants="GEN7-"/>
+	<bitfield high="14" low="12" type="gen_isa_reg_type" name="SRC1_TYPE"/>
+	<bitfield high="11" low="10" type="gen_isa_reg_file" name="SRC1_FILE"/>
+	<bitfield high="9" low="7" type="gen_isa_reg_type" name="SRC0_TYPE"/>
+	<bitfield high="6" low="5" type="gen_isa_reg_file" name="SRC0_FILE"/>
+	<bitfield high="4" low="2" type="gen_isa_reg_type" name="TYPE"/>
+	<bitfield high="1" low="0" type="gen_isa_reg_file" name="FILE"/>
+</bitset>
+
+<bitset name="gen_isa_inst_src" inline="yes" varset="gen">
+	<!-- only available to src0 -->
+	<bitfield pos="26" type="uint" name="FLAG_REG" variants="GEN7-"/>
+	<bitfield pos="25" type="uint" name="FLAG_SUBREG"/>
+
+	<bitfield high="24" low="21" type="gen_isa_vertical_stride" name="VERTSTRIDE"/>
+
+	<!-- align1 -->
+	<bitfield high="20" low="18" type="gen_isa_width" name="WIDTH"/>
+	<bitfield high="17" low="16" type="gen_isa_horizontal_stride" name="HORZSTRIDE"/>
+	<!-- align16 -->
+	<bitfield high="19" low="18" name="SWIZZLE_W"/>
+	<bitfield high="17" low="16" name="SWIZZLE_Z"/>
+
+	<bitfield pos="15" name="ADDRMODE"/>
+	<bitfield pos="14" name="NEGATE"/>
+	<bitfield pos="13" name="ABSOLUTE"/>
+
+	<!-- direct, align1 -->
+	<bitfield high="12" low="0" type="uint" name="REG_OFFSET"/>
+	<!-- indirect, align -->
+	<bitfield high="12" low="10" type="uint" name="ADDR_SUBREG"/>
+	<bitfield high="9" low="0" type="int" name="ADDR_IMM"/>
+	<!-- align16 -->
+	<bitfield high="12" low="4" shr="4" name="REG_OFFSET_ALIGN16"/>
+	<bitfield high="9" low="4" shr="4" name="ADDR_IMM_ALIGN16"/>
+	<bitfield high="3" low="2" name="SWIZZLE_Y"/>
+	<bitfield high="1" low="0" name="SWIZZLE_X"/>
+</bitset>
+
+<bitset name="gen_isa_3src_dst" inline="yes" varset="gen">
+	<bitfield high="31" low="21" shr="2" type="uint" name="REG_OFFSET"/>
+	<bitfield high="20" low="17" name="WRITEMASK"/>
+	<bitfield pos="15" name="NIBCTRL" variants="GEN7-"/>
+	<bitfield high="13" low="12" type="gen_isa_reg_type" name="TYPE" variants="GEN7-"/>
+	<bitfield high="11" low="10" type="gen_isa_reg_type" name="SRC_TYPE" variants="GEN7-"/>
+	<bitfield pos="9" name="SRC2_NEGATE"/>
+	<bitfield pos="8" name="SRC2_ABSOLUTE"/>
+	<bitfield pos="7" name="SRC1_NEGATE"/>
+	<bitfield pos="6" name="SRC1_ABSOLUTE"/>
+	<bitfield pos="5" name="SRC0_NEGATE"/>
+	<bitfield pos="4" name="SRC0_ABSOLUTE"/>
+	<bitfield pos="2" type="uint" name="FLAG_REG" variants="GEN7-"/>
+	<bitfield pos="1" type="uint" name="FLAG_SUBREG"/>
+	<bitfield pos="0" name="FILE_MRF" variants="GEN6"/>
+</bitset>
+
+<bitset name="gen_isa_3src_src" inline="yes" varset="gen">
+	<bitfield high="19" low="9" shr="2" name="REG_OFFSET"/>
+	<bitfield high="8" low="7" name="SWIZZLE_W"/>
+	<bitfield high="6" low="5" name="SWIZZLE_Z"/>
+	<bitfield high="4" low="3" name="SWIZZLE_Y"/>
+	<bitfield high="2" low="1" name="SWIZZLE_X"/>
+	<bitfield pos="0" name="REPCTRL"/>
+</bitset>
+
+<domain name="gen_inst" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="INST_DW0" offset="0" type="gen_isa_inst_control"/>
+		<reg32 name="INST_DW1" offset="1" type="gen_isa_inst_dst"/>
+		<reg32 name="INST_DW2" offset="3" type="gen_isa_inst_src"/>
+		<reg32 name="INST_DW3" offset="0" type="gen_isa_inst_src"/>
+	</stripe>
+</domain>
+
+<domain name="gen_3src" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="3SRC_DW0" offset="0" type="gen_isa_inst_control"/>
+		<reg32 name="3SRC_DW1" offset="1" type="gen_isa_3src_dst"/>
+		<reg64 name="3SRC_SRC" offset="2">
+			<bitfield high="62" low="42" type="gen_isa_3src_src" name="2"/>
+			<bitfield high="41" low="21" type="gen_isa_3src_src" name="1"/>
+			<bitfield high="20" low="0" type="gen_isa_3src_src" name="0"/>
+		</reg64>
+	</stripe>
+</domain>
+
+</database>
