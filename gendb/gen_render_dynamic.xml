@@ -259,10 +259,10 @@
 	</stripe>
 </domain>
 
-<domain name="SAMPLER_BORDER_COLOR" width="32" size="20" bare="yes" prefix="gen">
+<domain name="SAMPLER_BORDER_COLOR" width="32" size="12" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="BORDER_COLOR_DW" offset="0" length="12" variants="GEN6"/>
-		<reg32 name="BORDER_COLOR_DW" offset="0" length="20" variants="GEN7-"/>
+		<reg32 name="BORDER_COLOR_DW" offset="0" length="4" variants="GEN7-"/>
 	</stripe>
 </domain>
 
