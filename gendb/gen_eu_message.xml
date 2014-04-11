@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<enum name="gen_eu_urb_op" bare="yes" prefix="gen">
+	<value value="0x0" name="MDESC_URB_URB_WRITE" variants="GEN6"/>
+	<value value="0x1" name="MDESC_URB_FF_SYNC" variants="GEN6"/>
+
+	<value value="0x0" name="MDESC_URB_WRITE_HWORD" variants="GEN7-"/>
+	<value value="0x1" name="MDESC_URB_WRITE_OWORD" variants="GEN7-"/>
+	<value value="0x2" name="MDESC_URB_READ_HWORD" variants="GEN7-"/>
+	<value value="0x3" name="MDESC_URB_READ_OWORD" variants="GEN7-"/>
+	<value value="0x4" name="MDESC_URB_ATOMIC_MOV" variants="GEN7-"/>
+	<value value="0x5" name="MDESC_URB_ATOMIC_INC" variants="GEN7-"/>
+</enum>
+
+<enum name="gen_eu_sampler_simd" bare="yes" prefix="gen">
+	<value value="0x0" name="MDESC_SAMPLER_SIMD4X2"/>
+	<value value="0x1" name="MDESC_SAMPLER_SIMD8"/>
+	<value value="0x2" name="MDESC_SAMPLER_SIMD16"/>
+	<value value="0x3" name="MDESC_SAMPLER_SIMD32_64"/>
+</enum>
+
+<enum name="gen_eu_sampler_op" bare="yes" prefix="gen">
+	<value value="0x0" name="MDESC_SAMPLER_SAMPLE"/>
+	<value value="0x1" name="MDESC_SAMPLER_SAMPLE_B"/>
+	<value value="0x2" name="MDESC_SAMPLER_SAMPLE_L"/>
+	<value value="0x3" name="MDESC_SAMPLER_SAMPLE_C"/>
+	<value value="0x4" name="MDESC_SAMPLER_SAMPLE_D"/>
+	<value value="0x5" name="MDESC_SAMPLER_SAMPLE_B_C"/>
+	<value value="0x6" name="MDESC_SAMPLER_SAMPLE_L_C"/>
+	<value value="0x7" name="MDESC_SAMPLER_LD"/>
+	<value value="0x8" name="MDESC_SAMPLER_GATHER4"/>
+	<value value="0x9" name="MDESC_SAMPLER_LOD"/>
+	<value value="0xa" name="MDESC_SAMPLER_RESINFO"/>
+	<value value="0xb" name="MDESC_SAMPLER_SAMPLEINFO"/>
+</enum>
+
+<enum name="gen_eu_dp_op" bare="yes" prefix="gen">
+	<value value="0x0" name="MDESC_DP_OWORD_BLOCK_READ" variants="GEN6"/>
+	<value value="0x1" name="MDESC_DP_RT_UNORM_READ" variants="GEN6"/>
+	<value value="0x2" name="MDESC_DP_OWORD_DUAL_BLOCK_READ" variants="GEN6"/>
+	<value value="0x4" name="MDESC_DP_MEDIA_BLOCK_READ" variants="GEN6"/>
+	<value value="0x5" name="MDESC_DP_UNALIGNED_OWORD_BLOCK_READ" variants="GEN6"/>
+	<value value="0x6" name="MDESC_DP_DWORD_SCATTERED_READ" variants="GEN6"/>
+	<value value="0x7" name="MDESC_DP_DWORD_ATOMIC_WRITE" variants="GEN6"/>
+	<value value="0x8" name="MDESC_DP_OWORD_BLOCK_WRITE" variants="GEN6"/>
+	<value value="0x9" name="MDESC_DP_OWORD_DUAL_BLOCK_WRITE" variants="GEN6"/>
+	<value value="0xa" name="MDESC_DP_MEDIA_BLOCK_WRITE" variants="GEN6"/>
+	<value value="0xb" name="MDESC_DP_DWORD_SCATTERED_WRITE" variants="GEN6"/>
+	<value value="0xc" name="MDESC_DP_RT_WRITE" variants="GEN6"/>
+	<value value="0xd" name="MDESC_DP_SVB_WRITE" variants="GEN6" />
+	<value value="0xe" name="MDESC_DP_RT_UNORM_WRITE" variants="GEN6"/>
+
+	<value value="0x1" name="MDESC_DP_SAMPLER_OWORD_BLOCK_READ" variants="GEN7"/>
+	<value value="0x4" name="MDESC_DP_SAMPLER_MEDIA_BLOCK_READ" variants="GEN7"/>
+
+	<value value="0x4" name="MDESC_DP_RC_MEDIA_BLOCK_READ" variants="GEN7"/>
+	<value value="0x5" name="MDESC_DP_RC_TYPED_SURFACE_READ" variants="GEN7"/>
+	<value value="0x6" name="MDESC_DP_RC_TYPED_ATOMIC_OP" variants="GEN7"/>
+	<value value="0x7" name="MDESC_DP_RC_MEMORY_FENCE" variants="GEN7"/>
+	<value value="0xa" name="MDESC_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN7"/>
+	<value value="0xc" name="MDESC_DP_RC_RT_WRITE" variants="GEN7"/>
+	<value value="0xd" name="MDESC_DP_RC_TYPED_SURFACE_WRITE" variants="GEN7" />
+
+	<value value="0x0" name="MDESC_DP_CC_OWORD_BLOCK_READ" variants="GEN7"/>
+	<value value="0x1" name="MDESC_DP_CC_UNALIGNED_OWORD_BLOCK_READ" variants="GEN7"/>
+	<value value="0x2" name="MDESC_DP_CC_OWORD_DUAL_BLOCK_READ" variants="GEN7"/>
+	<value value="0x3" name="MDESC_DP_CC_DWORD_SCATTERED_READ" variants="GEN7"/>
+
+	<value value="0x0" name="MDESC_DP_DC0_OWORD_BLOCK_READ" variants="GEN7"/>
+	<value value="0x1" name="MDESC_DP_DC0_UNALIGNED_OWORD_BLOCK_READ" variants="GEN7"/>
+	<value value="0x2" name="MDESC_DP_DC0_OWORD_DUAL_BLOCK_READ" variants="GEN7"/>
+	<value value="0x3" name="MDESC_DP_DC0_DWORD_SCATTERED_READ" variants="GEN7"/>
+	<value value="0x4" name="MDESC_DP_DC0_BYTE_SCATTERED_READ" variants="GEN7"/>
+	<value value="0x5" name="MDESC_DP_DC0_UNTYPED_SURFACE_READ" variants="GEN7"/>
+	<value value="0x6" name="MDESC_DP_DC0_UNTYPED_ATOMIC_OP" variants="GEN7"/>
+	<value value="0x7" name="MDESC_DP_DC0_MEMORY_FENCE" variants="GEN7"/>
+	<value value="0x8" name="MDESC_DP_DC0_OWORD_BLOCK_WRITE" variants="GEN7"/>
+	<value value="0xa" name="MDESC_DP_DC0_OWORD_DUAL_BLOCK_WRITE" variants="GEN7"/>
+	<value value="0xb" name="MDESC_DP_DC0_DWORD_SCATTERED_WRITE" variants="GEN7"/>
+	<value value="0xc" name="MDESC_DP_DC0_BYTE_SCATTERED_WRITE" variants="GEN7"/>
+	<value value="0xd" name="MDESC_DP_DC0_UNTYPED_SURFACE_WRITE" variants="GEN7" />
+
+	<value value="0x0" name="MDESC_DP_SAMPLER_READ_SURFACE_INFO" variants="GEN75-"/>
+	<value value="0x1" name="MDESC_DP_SAMPLER_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x4" name="MDESC_DP_SAMPLER_MEDIA_BLOCK_READ" variants="GEN75-"/>
+
+	<value value="0x4" name="MDESC_DP_RC_MEDIA_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x7" name="MDESC_DP_RC_MEMORY_FENCE" variants="GEN75-"/>
+	<value value="0xa" name="MDESC_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN75-"/>
+	<value value="0xc" name="MDESC_DP_RC_RT_WRITE" variants="GEN75-"/>
+
+	<value value="0x0" name="MDESC_DP_CC_OWORD_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x1" name="MDESC_DP_CC_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x2" name="MDESC_DP_CC_OWORD_DUAL_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x3" name="MDESC_DP_CC_DWORD_SCATTERED_READ" variants="GEN75-"/>
+
+	<value value="0x0" name="MDESC_DP_DC0_OWORD_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x1" name="MDESC_DP_DC0_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x2" name="MDESC_DP_DC0_OWORD_DUAL_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x3" name="MDESC_DP_DC0_DWORD_SCATTERED_READ" variants="GEN75-"/>
+	<value value="0x4" name="MDESC_DP_DC0_BYTE_SCATTERED_READ" variants="GEN75-"/>
+	<value value="0x7" name="MDESC_DP_DC0_MEMORY_FENCE" variants="GEN75-"/>
+	<value value="0x8" name="MDESC_DP_DC0_OWORD_BLOCK_WRITE" variants="GEN75-"/>
+	<value value="0xa" name="MDESC_DP_DC0_OWORD_DUAL_BLOCK_WRITE" variants="GEN75-"/>
+	<value value="0xb" name="MDESC_DP_DC0_DWORD_SCATTERED_WRITE" variants="GEN75-"/>
+	<value value="0xc" name="MDESC_DP_DC0_BYTE_SCATTERED_WRITE" variants="GEN75-"/>
+
+	<value value="0x1" name="MDESC_DP_DC1_UNTYPED_SURFACE_READ" variants="GEN75-"/>
+	<value value="0x2" name="MDESC_DP_DC1_UNTYPED_ATOMIC_OP" variants="GEN75-"/>
+	<value value="0x3" name="MDESC_DP_DC1_UNTYPED_ATOMIC_OP_SIMD4X2" variants="GEN75-"/>
+	<value value="0x4" name="MDESC_DP_DC1_MEDIA_BLOCK_READ" variants="GEN75-"/>
+	<value value="0x5" name="MDESC_DP_DC1_TYPED_SURFACE_READ" variants="GEN75-"/>
+	<value value="0x6" name="MDESC_DP_DC1_TYPED_ATOMIC_OP" variants="GEN75-"/>
+	<value value="0x7" name="MDESC_DP_DC1_TYPED_ATOMIC_OP_SIMD4X2" variants="GEN75-"/>
+	<value value="0x9" name="MDESC_DP_DC1_UNTYPED_SURFACE_WRITE" variants="GEN75-"/>
+	<value value="0xa" name="MDESC_DP_DC1_MEDIA_BLOCK_WRITE" variants="GEN75-"/>
+	<value value="0xb" name="MDESC_DP_DC1_ATOMIC_COUNTER_OP" variants="GEN75-"/>
+	<value value="0xc" name="MDESC_DP_DC1_ATOMIC_COUNTER_OP_SIMD4X2" variants="GEN75-"/>
+	<value value="0xd" name="MDESC_DP_DC1_TYPED_SURFACE_WRITE" variants="GEN75-" />
+</enum>
+
+<bitset name="gen_eu_message_descriptor" bare="yes" prefix="gen">
+	<bitfield pos="31" name="MDESC_EOT"/>
+	<bitfield high="28" low="25" name="MDESC_MESSAGE_LENGTH"/>
+	<bitfield high="24" low="20" name="MDESC_RESPONSE_LENGTH"/>
+	<bitfield pos="19" name="MDESC_HEADER_PRESENT"/>
+	<bitfield high="18" low="0" name="MDESC_FUNCTION_CONTROL"/>
+</bitset>
+
+<bitset name="gen_eu_urb_mdesc" bare="yes" prefix="gen">
+	<bitfield pos="15" name="MDESC_URB_COMPLETE" variants="GEN6"/>
+	<bitfield pos="14" name="MDESC_URB_USED" variants="GEN6"/>
+	<bitfield pos="13" name="MDESC_URB_ALLOCATE" variants="GEN6"/>
+	<bitfield pos="10" name="MDESC_URB_INTERLEAVED" variants="GEN6"/>
+	<bitfield high="9" low="4" type="uint" name="MDESC_URB_OFFSET" variants="GEN6"/>
+	<bitfield high="3" low="0" type="gen_eu_urb_op" name="MDESC_URB_OPCODE" variants="GEN6"/>
+
+	<bitfield pos="16" name="MDESC_URB_PER_SLOT_OFFSET" variants="GEN7-"/>
+	<bitfield pos="15" name="MDESC_URB_COMPLETE" variants="GEN7-"/>
+	<bitfield pos="14" name="MDESC_URB_INTERLEAVED" variants="GEN7-"/>
+	<bitfield high="13" low="3" type="uint" name="MDESC_URB_GLOBAL_OFFSET" variants="GEN7-"/>
+	<bitfield high="2" low="0" type="gen_eu_urb_op" name="MDESC_URB_OPCODE" variants="GEN7-"/>
+</bitset>
+
+<bitset name="gen_eu_sampler_mdesc" bare="yes" prefix="gen">
+	<bitfield high="17" low="16" name="MDESC_SAMPLER_MODE" type="gen_eu_sampler_simd" variants="GEN6"/>
+	<bitfield high="15" low="12" name="MDESC_SAMPLER_TYPE" type="gen_eu_sampler_op" variants="GEN6"/>
+	<bitfield high="18" low="17" name="MDESC_SAMPLER_MODE" type="gen_eu_sampler_simd" variants="GEN7-"/>
+	<bitfield high="16" low="12" name="MDESC_SAMPLER_TYPE" type="gen_eu_sampler_op" variants="GEN7-"/>
+
+	<bitfield high="11" low="8" type="uint" name="MDESC_SAMPLER_INDEX"/>
+	<bitfield high="7" low="0" type="uint" name="MDESC_SAMPLER_BINDING_TABLE_INDEX"/>
+</bitset>
+
+<bitset name="gen_eu_dp_mdesc" bare="yes" prefix="gen">
+	<bitfield pos="17" name="MDESC_DP_SEND_WRITE_COMMIT" variants="GEN6"/>
+	<bitfield high="16" low="13" type="gen_eu_dp_op" name="MDESC_DP_TYPE" variants="GEN6"/>
+	<bitfield high="12" low="8" name="MDESC_DP_TYPE_CONTROL" variants="GEN6"/>
+
+	<bitfield pos="18" name="MDESC_DP_CATEGORY" variants="GEN7-"/>
+	<bitfield high="17" low="14" type="gen_eu_dp_op" name="MDESC_DP_TYPE" variants="GEN7-"/>
+	<bitfield high="13" low="8" name="MDESC_DP_TYPE_CONTROL" variants="GEN7-"/>
+
+	<bitfield high="7" low="0" type="uint" name="MDESC_DP_BINDING_TABLE_INDEX"/>
+</bitset>
+
+</database>

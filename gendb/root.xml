@@ -7,6 +7,7 @@
 
 <import file="gen_chipsets.xml"/>
 <import file="gen_eu_isa.xml"/>
+<import file="gen_eu_message.xml"/>
 <import file="gen_regs.xml"/>
 <import file="gen_mi.xml"/>
 <import file="gen_blitter.xml"/>
