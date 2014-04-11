@@ -136,7 +136,45 @@
 	<value value="0xd" name="MSG_DP_DC1_TYPED_SURFACE_WRITE" variants="GEN75-" />
 </enum>
 
-<bitset name="gen_eu_dp_op_control" bare="yes" prefix="gen">
+<bitset name="gen_eu_message_descriptor" bare="yes" prefix="gen">
+	<bitfield pos="31" name="MSG_EOT"/>
+	<bitfield high="28" low="25" name="MSG_MLEN"/>
+	<bitfield high="24" low="20" name="MSG_RLEN"/>
+	<bitfield pos="19" name="MSG_HEADER_PRESENT"/>
+	<bitfield high="18" low="0" name="MSG_FUNCTION_CONTROL"/>
+</bitset>
+
+<bitset name="gen_eu_message_urb" bare="yes" prefix="gen">
+	<bitfield pos="15" name="MSG_URB_COMPLETE" variants="GEN6"/>
+	<bitfield pos="14" name="MSG_URB_USED" variants="GEN6"/>
+	<bitfield pos="13" name="MSG_URB_ALLOCATE" variants="GEN6"/>
+	<bitfield pos="10" name="MSG_URB_INTERLEAVED" variants="GEN6"/>
+	<bitfield high="9" low="4" type="uint" name="MSG_URB_OFFSET" variants="GEN6"/>
+	<bitfield high="3" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN6"/>
+
+	<bitfield pos="16" name="MSG_URB_PER_SLOT_OFFSET" variants="GEN7-"/>
+	<bitfield pos="15" name="MSG_URB_COMPLETE" variants="GEN7-"/>
+	<bitfield pos="14" name="MSG_URB_INTERLEAVED" variants="GEN7-"/>
+	<bitfield high="13" low="3" type="uint" name="MSG_URB_GLOBAL_OFFSET" variants="GEN7-"/>
+	<bitfield high="2" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN7-"/>
+</bitset>
+
+<bitset name="gen_eu_message_sampler" bare="yes" prefix="gen">
+	<bitfield high="17" low="16" name="MSG_SAMPLER_SIMD" type="gen_eu_sampler_simd" variants="GEN6"/>
+	<bitfield high="15" low="12" name="MSG_SAMPLER_OP" type="gen_eu_sampler_op" variants="GEN6"/>
+	<bitfield high="18" low="17" name="MSG_SAMPLER_SIMD" type="gen_eu_sampler_simd" variants="GEN7-"/>
+	<bitfield high="16" low="12" name="MSG_SAMPLER_OP" type="gen_eu_sampler_op" variants="GEN7-"/>
+
+	<bitfield high="11" low="8" type="uint" name="MSG_SAMPLER_INDEX"/>
+	<bitfield high="7" low="0" type="uint" name="MSG_SAMPLER_SURFACE"/>
+</bitset>
+
+<bitset name="gen_eu_message_dp" bare="yes" prefix="gen">
+	<bitfield pos="17" name="MSG_DP_SEND_WRITE_COMMIT" variants="GEN6"/>
+	<bitfield high="16" low="13" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN6"/>
+	<bitfield pos="18" name="MSG_DP_CATEGORY" variants="GEN7-"/>
+	<bitfield high="17" low="14" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN7-"/>
+
 	<!-- OWord Block Read/Write -->
 	<bitfield pos="13" name="MSG_DP_OWORD_BLOCK_READ_INVALIDATE" variants="GEN7-"/>
 	<bitfield high="10" low="8" name="MSG_DP_OWORD_BLOCK_SIZE">
@@ -179,49 +217,6 @@
 		<value value="0x4" name="SIMD8_LO"/>
 		<value value="0x5" name="SIMD8_IMAGE_WR" variants="GEN6"/>
 	</bitfield>
-</bitset>
-
-<bitset name="gen_eu_message_descriptor" bare="yes" prefix="gen">
-	<bitfield pos="31" name="MSG_EOT"/>
-	<bitfield high="28" low="25" name="MSG_MLEN"/>
-	<bitfield high="24" low="20" name="MSG_RLEN"/>
-	<bitfield pos="19" name="MSG_HEADER_PRESENT"/>
-	<bitfield high="18" low="0" name="MSG_FUNCTION_CONTROL"/>
-</bitset>
-
-<bitset name="gen_eu_message_urb" bare="yes" prefix="gen">
-	<bitfield pos="15" name="MSG_URB_COMPLETE" variants="GEN6"/>
-	<bitfield pos="14" name="MSG_URB_USED" variants="GEN6"/>
-	<bitfield pos="13" name="MSG_URB_ALLOCATE" variants="GEN6"/>
-	<bitfield pos="10" name="MSG_URB_INTERLEAVED" variants="GEN6"/>
-	<bitfield high="9" low="4" type="uint" name="MSG_URB_OFFSET" variants="GEN6"/>
-	<bitfield high="3" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN6"/>
-
-	<bitfield pos="16" name="MSG_URB_PER_SLOT_OFFSET" variants="GEN7-"/>
-	<bitfield pos="15" name="MSG_URB_COMPLETE" variants="GEN7-"/>
-	<bitfield pos="14" name="MSG_URB_INTERLEAVED" variants="GEN7-"/>
-	<bitfield high="13" low="3" type="uint" name="MSG_URB_GLOBAL_OFFSET" variants="GEN7-"/>
-	<bitfield high="2" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN7-"/>
-</bitset>
-
-<bitset name="gen_eu_message_sampler" bare="yes" prefix="gen">
-	<bitfield high="17" low="16" name="MSG_SAMPLER_SIMD" type="gen_eu_sampler_simd" variants="GEN6"/>
-	<bitfield high="15" low="12" name="MSG_SAMPLER_OP" type="gen_eu_sampler_op" variants="GEN6"/>
-	<bitfield high="18" low="17" name="MSG_SAMPLER_SIMD" type="gen_eu_sampler_simd" variants="GEN7-"/>
-	<bitfield high="16" low="12" name="MSG_SAMPLER_OP" type="gen_eu_sampler_op" variants="GEN7-"/>
-
-	<bitfield high="11" low="8" type="uint" name="MSG_SAMPLER_INDEX"/>
-	<bitfield high="7" low="0" type="uint" name="MSG_SAMPLER_SURFACE"/>
-</bitset>
-
-<bitset name="gen_eu_message_dp" bare="yes" prefix="gen">
-	<bitfield pos="17" name="MSG_DP_SEND_WRITE_COMMIT" variants="GEN6"/>
-	<bitfield high="16" low="13" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN6"/>
-	<bitfield high="12" low="8" name="MSG_DP_OP_CONTROL" variants="GEN6"/>
-
-	<bitfield pos="18" name="MSG_DP_CATEGORY" variants="GEN7-"/>
-	<bitfield high="17" low="14" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN7-"/>
-	<bitfield high="13" low="8" name="MSG_DP_OP_CONTROL" variants="GEN7-"/>
 
 	<bitfield high="7" low="0" type="uint" name="MSG_DP_SURFACE"/>
 </bitset>
