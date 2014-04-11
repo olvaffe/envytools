@@ -212,7 +212,7 @@
 	<value value="0x4" name="VERTSTRIDE_8"/>
 	<value value="0x5" name="VERTSTRIDE_16"/>
 	<value value="0x6" name="VERTSTRIDE_32"/>
-	<value value="0xf" name="VERTSTRIDE_VxH"/>
+	<value value="0xf" name="VERTSTRIDE_VXH"/>
 </enum>
 
 <enum name="gen_eu_width" bare="yes" prefix="gen">
