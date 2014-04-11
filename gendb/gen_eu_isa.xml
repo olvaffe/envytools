@@ -256,18 +256,14 @@
 	<bitfield pos="31" name="ADDRMODE"/>
 	<bitfield high="30" low="29" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
 
-	<!--
-	     RegNum := RegOffset[12:5]
-	     RegSubNum := RegOffset[4:0]
-	-->
-
 	<!-- direct, align1 -->
-	<bitfield high="28" low="16" type="uint" name="REG_OFFSET"/>
+	<bitfield high="28" low="21" type="uint" name="REG"/>
+	<bitfield high="20" low="16" type="uint" name="SUBREG"/>
 	<!-- indirect, align1 -->
 	<bitfield high="28" low="26" type="uint" name="ADDR_SUBREG"/>
 	<bitfield high="25" low="16" type="int" name="ADDR_IMM"/>
 	<!-- align16 -->
-	<bitfield high="28" low="20" shr="4" type="uint" name="REG_OFFSET_ALIGN16"/>
+	<bitfield high="20" low="20" shr="4" type="uint" name="SUBREG_ALIGN16"/>
 	<bitfield high="25" low="20" shr="4" type="int" name="ADDR_IMM_ALIGN16"/>
 	<bitfield high="19" low="16" name="WRITEMASK"/>
 
@@ -299,19 +295,21 @@
 	<bitfield pos="13" name="ABSOLUTE"/>
 
 	<!-- direct, align1 -->
-	<bitfield high="12" low="0" type="uint" name="REG_OFFSET"/>
+	<bitfield high="12" low="5" type="uint" name="REG"/>
+	<bitfield high="4" low="0" type="uint" name="SUBREG"/>
 	<!-- indirect, align -->
 	<bitfield high="12" low="10" type="uint" name="ADDR_SUBREG"/>
 	<bitfield high="9" low="0" type="int" name="ADDR_IMM"/>
 	<!-- align16 -->
-	<bitfield high="12" low="4" shr="4" name="REG_OFFSET_ALIGN16"/>
+	<bitfield high="4" low="4" shr="4" name="SUBREG_ALIGN16"/>
 	<bitfield high="9" low="4" shr="4" name="ADDR_IMM_ALIGN16"/>
 	<bitfield high="3" low="2" name="SWIZZLE_Y"/>
 	<bitfield high="1" low="0" name="SWIZZLE_X"/>
 </bitset>
 
 <bitset name="gen_eu_3src_dst" inline="yes" varset="gen">
-	<bitfield high="31" low="21" shr="2" type="uint" name="REG_OFFSET"/>
+	<bitfield high="31" low="24" type="uint" name="REG"/>
+	<bitfield high="23" low="21" shr="2" type="uint" name="SUBREG"/>
 	<bitfield high="20" low="17" name="WRITEMASK"/>
 	<bitfield pos="15" name="NIBCTRL" variants="GEN7-"/>
 	<bitfield high="13" low="12" type="gen_eu_reg_type" name="TYPE" variants="GEN7-"/>
@@ -328,7 +326,8 @@
 </bitset>
 
 <bitset name="gen_eu_3src_src" inline="yes" varset="gen">
-	<bitfield high="19" low="9" shr="2" name="REG_OFFSET"/>
+	<bitfield high="19" low="12" type="uint" name="REG"/>
+	<bitfield high="11" low="9" shr="2" type="uint" name="SUBREG"/>
 	<bitfield high="8" low="7" name="SWIZZLE_W"/>
 	<bitfield high="6" low="5" name="SWIZZLE_Z"/>
 	<bitfield high="4" low="3" name="SWIZZLE_Y"/>
