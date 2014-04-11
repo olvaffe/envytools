@@ -238,9 +238,9 @@
 </enum>
 
 <bitset name="gen_wm_barycentric_interp" bare="yes" prefix="gen">
-	<bitfield pos="5" name="INTERP_LINEAR_SAMPLE"/>
-	<bitfield pos="4" name="INTERP_LINEAR_CENTROID"/>
-	<bitfield pos="3" name="INTERP_LINTER_PIXEL"/>
+	<bitfield pos="5" name="INTERP_NONPERSPECTIVE_SAMPLE"/>
+	<bitfield pos="4" name="INTERP_NONPERSPECTIVE_CENTROID"/>
+	<bitfield pos="3" name="INTERP_NONPERSPECTIVE_PIXEL"/>
 	<bitfield pos="2" name="INTERP_PERSPECTIVE_SAMPLE"/>
 	<bitfield pos="1" name="INTERP_PERSPECTIVE_CENTROID"/>
 	<bitfield pos="0" name="INTERP_PERSPECTIVE_PIXEL"/>
