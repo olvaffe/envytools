@@ -80,10 +80,12 @@
 	<value value="0x1" name="ALIGN_16"/>
 </enum>
 
-<bitset name="gen_eu_dependency_control" bare="yes" prefix="gen">
-	<bitfield pos="1" name="DEPCTRL_NODDCHK"/>
-	<bitfield pos="0" name="DEPCTRL_NODDCLR"/>
-</bitset>
+<enum name="gen_eu_dependency_control" bare="yes" prefix="gen">
+	<value value="0x0" name="DEPCTRL_NORMAL"/>
+	<value value="0x1" name="DEPCTRL_NODDCLR"/>
+	<value value="0x2" name="DEPCTRL_NODDCHK"/>
+	<value value="0x3" name="DEPCTRL_NEITHER"/>
+</enum>
 
 <enum name="gen_eu_quarter_control" bare="yes" prefix="gen">
 	<value value="0x0" name="QTRCTRL_1Q"/>
@@ -97,8 +99,8 @@
 
 <enum name="gen_eu_thread_control" bare="yes" prefix="gen">
 	<value value="0x0" name="THREADCTRL_NORMAL"/>
-	<value value="0x1" name="THREADCTRL_SWITCH"/>
-	<value value="0x2" name="THREADCTRL_ATOMIC"/>
+	<value value="0x1" name="THREADCTRL_ATOMIC"/>
+	<value value="0x2" name="THREADCTRL_SWITCH"/>
 </enum>
 
 <enum name="gen_eu_predicate_control" bare="yes" prefix="gen">
@@ -157,7 +159,7 @@
 	<value value="0x7" name="MATH_COS"/>
 	<value value="0x9" name="MATH_FDIV"/>
 	<value value="0xa" name="MATH_POW"/>
-	<value value="0xb" name="MATH_INT_DIV_BOTH"/>
+	<value value="0xb" name="MATH_INT_DIV"/>
 	<value value="0xc" name="MATH_INT_DIV_QUOTIENT"/>
 	<value value="0xd" name="MATH_INT_DIV_REMAINDER"/>
 </enum>
