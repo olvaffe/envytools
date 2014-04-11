@@ -232,6 +232,19 @@
 	<value value="0x3" name="HORZSTRIDE_4"/>
 </enum>
 
+<enum name="gen_eu_arf_reg" bare="yes" prefix="gen">
+	<value value="0x00" name="ARF_NULL"/>
+	<value value="0x10" name="ARF_A0"/>
+	<value value="0x20" name="ARF_ACC0"/>
+	<value value="0x30" name="ARF_F0"/>
+	<value value="0x70" name="ARF_SR0"/>
+	<value value="0x80" name="ARF_CR0"/>
+	<value value="0x90" name="ARF_N0"/>
+	<value value="0xa0" name="ARF_IP"/>
+	<value value="0xb0" name="ARF_TDR"/>
+	<value value="0xc0" name="ARF_TM0" variants="GEN7-"/>
+</enum>
+
 <bitset name="gen_eu_inst_control" inline="yes" varset="gen">
 	<bitfield pos="31" name="SATURATE"/>
 	<bitfield pos="28" name="ACCWRCTRL"/>
