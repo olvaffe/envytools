@@ -80,6 +80,11 @@
 	<value value="0x1" name="ALIGN_16"/>
 </enum>
 
+<enum name="gen_eu_mask_control" bare="yes" prefix="gen">
+	<value value="0x0" name="MASKCTRL_NORMAL"/>
+	<value value="0x1" name="MASKCTRL_NOMASK"/>
+</enum>
+
 <enum name="gen_eu_dependency_control" bare="yes" prefix="gen">
 	<value value="0x0" name="DEPCTRL_NORMAL"/>
 	<value value="0x1" name="DEPCTRL_NODDCLR"/>
@@ -232,6 +237,18 @@
 	<value value="0x3" name="HORZSTRIDE_4"/>
 </enum>
 
+<enum name="gen_eu_addressing_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="ADDRMODE_DIRECT"/>
+	<value value="0x1" name="ADDRMODE_INDIRECT"/>
+</enum>
+
+<enum name="gen_eu_swizzle" bare="yes" prefix="gen">
+	<value value="0x0" name="SWIZZLE_X"/>
+	<value value="0x1" name="SWIZZLE_Y"/>
+	<value value="0x2" name="SWIZZLE_Z"/>
+	<value value="0x3" name="SWIZZLE_W"/>
+</enum>
+
 <enum name="gen_eu_arf_reg" bare="yes" prefix="gen">
 	<value value="0x00" name="ARF_NULL"/>
 	<value value="0x10" name="ARF_A0"/>
@@ -260,13 +277,13 @@
 	<bitfield high="15" low="14" type="gen_eu_thread_control" name="THREADCTRL"/>
 	<bitfield high="13" low="12" type="gen_eu_quarter_control" name="QTRCTRL"/>
 	<bitfield high="11" low="10" type="gen_eu_dependency_control" name="DEPCTRL"/>
-	<bitfield pos="9" name="MASKCTRL"/>
-	<bitfield pos="8" name="ACCESSMODE"/>
+	<bitfield pos="9" type="gen_eu_mask_control" name="MASKCTRL"/>
+	<bitfield pos="8" type ="gen_eu_access_mode" name="ACCESSMODE"/>
 	<bitfield high="6" low="0" type="gen_eu_opcode" name="OPCODE"/>
 </bitset>
 
 <bitset name="gen_eu_inst_dst" inline="yes" varset="gen">
-	<bitfield pos="31" name="ADDRMODE"/>
+	<bitfield pos="31" type="gen_eu_addressing_mode" name="ADDRMODE"/>
 	<bitfield high="30" low="29" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
 
 	<!-- direct, align1 -->
@@ -300,10 +317,10 @@
 	<bitfield high="20" low="18" type="gen_eu_width" name="WIDTH"/>
 	<bitfield high="17" low="16" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
 	<!-- align16 -->
-	<bitfield high="19" low="18" name="SWIZZLE_W"/>
-	<bitfield high="17" low="16" name="SWIZZLE_Z"/>
+	<bitfield high="19" low="18" type="gen_eu_swizzle" name="SWIZZLE_W"/>
+	<bitfield high="17" low="16" type="gen_eu_swizzle" name="SWIZZLE_Z"/>
 
-	<bitfield pos="15" name="ADDRMODE"/>
+	<bitfield pos="15" type="gen_eu_addressing_mode" name="ADDRMODE"/>
 	<bitfield pos="14" name="NEGATE"/>
 	<bitfield pos="13" name="ABSOLUTE"/>
 
@@ -316,8 +333,8 @@
 	<!-- align16 -->
 	<bitfield high="4" low="4" shr="4" name="SUBREG_ALIGN16"/>
 	<bitfield high="9" low="4" shr="4" name="ADDR_IMM_ALIGN16"/>
-	<bitfield high="3" low="2" name="SWIZZLE_Y"/>
-	<bitfield high="1" low="0" name="SWIZZLE_X"/>
+	<bitfield high="3" low="2" type="gen_eu_swizzle" name="SWIZZLE_Y"/>
+	<bitfield high="1" low="0" type="gen_eu_swizzle" name="SWIZZLE_X"/>
 </bitset>
 
 <bitset name="gen_eu_3src_dst" inline="yes" varset="gen">
@@ -341,10 +358,10 @@
 <bitset name="gen_eu_3src_src" inline="yes" varset="gen">
 	<bitfield high="19" low="12" type="uint" name="REG"/>
 	<bitfield high="11" low="9" shr="2" type="uint" name="SUBREG"/>
-	<bitfield high="8" low="7" name="SWIZZLE_W"/>
-	<bitfield high="6" low="5" name="SWIZZLE_Z"/>
-	<bitfield high="4" low="3" name="SWIZZLE_Y"/>
-	<bitfield high="2" low="1" name="SWIZZLE_X"/>
+	<bitfield high="8" low="7" type="gen_eu_swizzle" name="SWIZZLE_W"/>
+	<bitfield high="6" low="5" type="gen_eu_swizzle" name="SWIZZLE_Z"/>
+	<bitfield high="4" low="3" type="gen_eu_swizzle" name="SWIZZLE_Y"/>
+	<bitfield high="2" low="1" type="gen_eu_swizzle" name="SWIZZLE_X"/>
 	<bitfield pos="0" name="REPCTRL"/>
 </bitset>
 
