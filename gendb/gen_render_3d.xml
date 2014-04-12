@@ -175,19 +175,19 @@
 <enum name="gen_state_alignment" bare="yes" prefix="gen">
 	<doc>Alignment in DWORDs required by 3DSTATE_SCISSOR_STATE_POINTERS and etc.</doc>
 
-	<value value="16" name="ALIGN_COLOR_CALC_STATE"/>
-	<value value="16" name="ALIGN_DEPTH_STENCIL_STATE"/>
-	<value value="16" name="ALIGN_BLEND_STATE"/>
-	<value value="8" name="ALIGN_CLIP_VIEWPORT" variants="GEN6"/>
-	<value value="8" name="ALIGN_SF_VIEWPORT" variants="GEN6"/>
-	<value value="16" name="ALIGN_SF_CLIP_VIEWPORT" variants="GEN7-"/>
-	<value value="8" name="ALIGN_CC_VIEWPORT"/>
-	<value value="8" name="ALIGN_SCISSOR_RECT"/>
-	<value value="8" name="ALIGN_BINDING_TABLE_STATE"/>
-	<value value="8" name="ALIGN_SAMPLER_BORDER_COLOR"/>
-	<value value="8" name="ALIGN_SAMPLER_STATE"/>
+	<value value="16" name="ALIGNMENT_COLOR_CALC_STATE"/>
+	<value value="16" name="ALIGNMENT_DEPTH_STENCIL_STATE"/>
+	<value value="16" name="ALIGNMENT_BLEND_STATE"/>
+	<value value="8" name="ALIGNMENT_CLIP_VIEWPORT" variants="GEN6"/>
+	<value value="8" name="ALIGNMENT_SF_VIEWPORT" variants="GEN6"/>
+	<value value="16" name="ALIGNMENT_SF_CLIP_VIEWPORT" variants="GEN7-"/>
+	<value value="8" name="ALIGNMENT_CC_VIEWPORT"/>
+	<value value="8" name="ALIGNMENT_SCISSOR_RECT"/>
+	<value value="8" name="ALIGNMENT_BINDING_TABLE_STATE"/>
+	<value value="8" name="ALIGNMENT_SAMPLER_BORDER_COLOR"/>
+	<value value="8" name="ALIGNMENT_SAMPLER_STATE"/>
 
-	<value value="8" name="ALIGN_SURFACE_STATE"/>
+	<value value="8" name="ALIGNMENT_SURFACE_STATE"/>
 </enum>
 
 <enum name="gen_vf_component" bare="yes" prefix="gen">
@@ -284,31 +284,31 @@
 </enum>
 
 <bitset name="gen_thread_dispatch" bare="yes" prefix="gen">
-	<bitfield pos="31" name="THRDISP_SPF"/>
-	<bitfield pos="30" name="THRDISP_VME"/>
-	<bitfield high="29" low="27" type="uint" name="THRDISP_SAMPLER_COUNT"/>
-	<bitfield pos="26" name="THRDISP_DENORMAL" variants="GEN7-">
+	<bitfield pos="31" name="THREADDISP_SPF"/>
+	<bitfield pos="30" name="THREADDISP_VME"/>
+	<bitfield high="29" low="27" type="uint" name="THREADDISP_SAMPLER_COUNT"/>
+	<bitfield pos="26" name="THREADDISP_DENORMAL" variants="GEN7-">
 		<value value="0x0" name="FTZ"/>
 		<value value="0x1" name="RET"/>
 	</bitfield>
-	<bitfield high="25" low="18" type="uint" name="THRDISP_BINDING_TABLE_SIZE"/>
-	<bitfield pos="17" name="THRDISP_PRIORITY_HIGH"/>
-	<bitfield pos="16" name="THRDISP_FP_MODE_ALT"/>
+	<bitfield high="25" low="18" type="uint" name="THREADDISP_BINDING_TABLE_SIZE"/>
+	<bitfield pos="17" name="THREADDISP_PRIORITY_HIGH"/>
+	<bitfield pos="16" name="THREADDISP_FP_MODE_ALT"/>
 	<bitfield high="15" low="14" name="ROUNDING_MODE" variants="GEN7-">
 		<value value="0x0" name="RTNE"/>
 		<value value="0x1" name="RU"/>
 		<value value="0x2" name="RD"/>
 		<value value="0x3" name="RTZ"/>
 	</bitfield>
-	<bitfield pos="13" name="THRDISP_ILLEGAL_CODE_EXCEPTION"/>
-	<bitfield pos="12" name="THRDISP_ACCESS_UAV" variants="GEN75-"/>
-	<bitfield pos="11" name="THRDISP_MASK_STACK_EXCEPTION"/>
-	<bitfield pos="7" name="THRDISP_SOFTWARE_EXCEPTION"/>
+	<bitfield pos="13" name="THREADDISP_ILLEGAL_CODE_EXCEPTION"/>
+	<bitfield pos="12" name="THREADDISP_ACCESS_UAV" variants="GEN75-"/>
+	<bitfield pos="11" name="THREADDISP_MASK_STACK_EXCEPTION"/>
+	<bitfield pos="7" name="THREADDISP_SOFTWARE_EXCEPTION"/>
 </bitset>
 
 <bitset name="gen_thread_scratch" bare="yes" prefix="gen">
-	<bitfield high="31" low="10" shr="10" name="THRSCRATCH_ADDR"/>
-	<bitfield high="3" low="0" type="uint" name="THRSCRATCH_SPACE_PER_THREAD"/>
+	<bitfield high="31" low="10" shr="10" name="THREADSCRATCH_ADDR"/>
+	<bitfield high="3" low="0" type="uint" name="THREADSCRATCH_SPACE_PER_THREAD"/>
 </bitset>
 
 <bitset name="gen_base_address" bare="yes" prefix="gen">
@@ -422,8 +422,8 @@
 	</doc>
 
 	<stripe>
-		<reg32 name="URB_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="URB_DW1" offset="1">
+		<reg32 name="URB_ANY_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="URB_ANY_DW1" offset="1">
 			<bitfield high="29" low="25" type="uint" name="OFFSET"/>
 			<bitfield high="24" low="16" type="uint" name="ENTRY_SIZE"/>
 			<bitfield high="15" low="0" type="uint" name="ENTRY_COUNT"/>
@@ -580,9 +580,9 @@
 	</doc>
 
 	<stripe>
-		<reg32 name="PTR_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PTR_ANY_DW0" offset="0" type="gen_render_header"/>
 		<!-- note that CC related sates are actually 64-byte aligned -->
-		<reg32 name="PTR_DW1" type="gen_render_3d_addr_32byte" offset="1"/>
+		<reg32 name="PTR_ANY_DW1" type="gen_render_3d_addr_32byte" offset="1"/>
 	</stripe>
 </domain>
 
@@ -1118,28 +1118,28 @@
 	</doc>
 
 	<stripe variants="GEN6">
-		<reg32 name="PCB_DW0" offset="0" type="gen_render_header">
+		<reg32 name="PCB_ANY_DW0" offset="0" type="gen_render_header">
 			<bitfield pos="15" name="PCB3_VALID"/>
 			<bitfield pos="14" name="PCB2_VALID"/>
 			<bitfield pos="13" name="PCB1_VALID"/>
 			<bitfield pos="12" name="PCB0_VALID"/>
 			<bitfield high="11" low="8" type="gen_surface_mocs" name="MOCS"/>
 		</reg32>
-		<reg32 name="PCB" offset="1" type="gen_render_3d_addr_32byte" length="4">
+		<reg32 name="PCB_ANY" offset="1" type="gen_render_3d_addr_32byte" length="4">
 			<bitfield high="4" low="0" type="uint" name="SIZE"/>
 		</reg32>
 	</stripe>
 	<stripe variants="GEN7-">
-		<reg32 name="PCB_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="PCB_DW1" offset="1">
+		<reg32 name="PCB_ANY_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PCB_ANY_DW1" offset="1">
 			<bitfield high="31" low="16" type="uint" name="PCB1_SIZE"/>
 			<bitfield high="15" low="0" type="uint" name="PCB0_SIZE"/>
 		</reg32>
-		<reg32 name="PCB_DW2" offset="2">
+		<reg32 name="PCB_ANY_DW2" offset="2">
 			<bitfield high="31" low="16" type="uint" name="PCB3_SIZE"/>
 			<bitfield high="15" low="0" type="uint" name="PCB2_SIZE"/>
 		</reg32>
-		<reg32 name="PCB" offset="3" type="gen_render_3d_addr_32byte" length="4">
+		<reg32 name="PCB_ANY" offset="3" type="gen_render_3d_addr_32byte" length="4">
 			<!-- an available for PCB0 -->
 			<bitfield high="4" low="0" type="gen_surface_mocs" name="MOCS"/>
 		</reg32>
@@ -1299,8 +1299,8 @@
 
 <domain name="3DSTATE_MULTISAMPLE" width="32" size="4" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="MS_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="MS_DW1" offset="1">
+		<reg32 name="MULTISAMPLE_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="MULTISAMPLE_DW1" offset="1">
 			<bitfield pos="5" name="DX9_MULTISAMPLE_ENABLE" variants="GEN75-"/>
 			<bitfield pos="4" name="PIXLOC">
 				<value value="0x0" name="CENTER"/>
@@ -1313,8 +1313,8 @@
 			</bitfield>
 		</reg32>
 
-		<reg32 name="MS_SAMPLEPOS" offset="2" length="1" variants="GEN6"/>
-		<reg32 name="MS_SAMPLEPOS" offset="2" length="2" variants="GEN7-"/>
+		<reg32 name="MULTISAMPLE_SAMPLEPOS" offset="2" length="1" variants="GEN6"/>
+		<reg32 name="MULTISAMPLE_SAMPLEPOS" offset="2" length="2" variants="GEN7-"/>
 	</stripe>
 </domain>
 

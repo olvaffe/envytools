@@ -247,8 +247,8 @@
 </enum>
 
 <enum name="gen_surface_clear_color" bare="yes" prefix="gen" variants="GEN7-">
-	<value value="0x0" name="CC_ZERO"/>
-	<value value="0x1" name="CC_ONE"/>
+	<value value="0x0" name="CLEAR_COLOR_ZERO"/>
+	<value value="0x1" name="CLEAR_COLOR_ONE"/>
 </enum>
 
 <enum name="gen_surface_scs" bare="yes" prefix="gen" variants="GEN75-">
