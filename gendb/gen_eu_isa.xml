@@ -112,19 +112,21 @@
 	<value value="0x0" name="PREDCTRL_NONE"/>
 	<value value="0x1" name="PREDCTRL_NORMAL"/>
 
-	<value value="0x2" name="PREDCTRL_X"/>
-	<value value="0x3" name="PREDCTRL_Y"/>
-	<value value="0x4" name="PREDCTRL_Z"/>
-	<value value="0x5" name="PREDCTRL_W"/>
-	<value value="0x6" name="PREDCTRL_ANY4H"/>
-	<value value="0x7" name="PREDCTRL_ALL4H"/>
-
+	<!-- align1 -->
 	<value value="0x2" name="PREDCTRL_ANYV"/>
 	<value value="0x3" name="PREDCTRL_ALLV"/>
 	<value value="0x4" name="PREDCTRL_ANY2H"/>
 	<value value="0x5" name="PREDCTRL_ALL2H"/>
+	<!-- align16 -->
+	<value value="0x2" name="PREDCTRL_X"/>
+	<value value="0x3" name="PREDCTRL_Y"/>
+	<value value="0x4" name="PREDCTRL_Z"/>
+	<value value="0x5" name="PREDCTRL_W"/>
+
 	<value value="0x6" name="PREDCTRL_ANY4H"/>
 	<value value="0x7" name="PREDCTRL_ALL4H"/>
+
+	<!-- align1 -->
 	<value value="0x8" name="PREDCTRL_ANY8H"/>
 	<value value="0x9" name="PREDCTRL_ALL8H"/>
 	<value value="0xa" name="PREDCTRL_ANY16H"/>
