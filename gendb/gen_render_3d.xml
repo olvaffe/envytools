@@ -441,13 +441,13 @@
 	</doc>
 
 	<stripe>
-		<reg32 name="PCB_ALLOC_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PCB_ALLOC_ANY_DW0" offset="0" type="gen_render_header"/>
 
-		<reg32 name="PCB_ALLOC_DW1" offset="1" variants="GEN7">
+		<reg32 name="PCB_ALLOC_ANY_DW1" offset="1" variants="GEN7">
 			<bitfield high="19" low="16" type="uint" name="OFFSET"/>
 			<bitfield high="4" low="0" type="uint" name="SIZE"/>
 		</reg32>
-		<reg32 name="PCB_ALLOC_DW1" offset="1" variants="GEN75-">
+		<reg32 name="PCB_ALLOC_ANY_DW1" offset="1" variants="GEN75-">
 			<bitfield high="20" low="16" type="uint" name="OFFSET"/>
 			<bitfield high="5" low="0" type="uint" name="SIZE"/>
 		</reg32>
