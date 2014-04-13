@@ -872,7 +872,7 @@
 				<value value="0x4" name="ACCEPT_ALL"/>
 			</bitfield>
 			<bitfield pos="9" name="PERSPECTIVE_DIVIDE_DISABLE"/>
-			<bitfield pos="8" name="LINEAR_BARYCENTRIC_ENABLE"/>
+			<bitfield pos="8" name="NONPERSPECTIVE_BARYCENTRIC_ENABLE"/>
 			<bitfield high="5" low="4" type="uint" name="TRI_PROVOKE"/>
 			<bitfield high="3" low="2" type="uint" name="LINE_PROVOKE"/>
 			<bitfield high="1" low="0" type="uint" name="TRIFAN_PROVOKE"/>
