@@ -12,7 +12,7 @@
 	</bitfield>
 
 	<bitfield high="28" low="16" name="AUB_OPCODE">
-		<value value="0x05" name="AUB_HEADER"/>
+		<value value="0x85" name="AUB_HEADER"/>
 		<value value="0xc1" name="AUB_TRACE_HEADER_BLOCK"/>
 		<value value="0x9e" name="AUB_DUMP_BMP"/>
 	</bitfield>
@@ -106,7 +106,7 @@
 	<!-- followed by (DW4_SIZE / 4 ) DWords -->
 </domain>
 
-<domain name="AUB_DUMP_BMP" width="32" size="5" prefix="gen">
+<domain name="AUB_DUMP_BMP" width="32" size="6" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_aub_header"/>
 	<reg32 name="DW1" offset="1">
 		<bitfield high="31" low="16" type="uint" name="Y"/>
