@@ -25,7 +25,7 @@
 	<bitfield pos="15" name="BLITTER_BR00_SRC_TILED"/>
 	<bitfield pos="11" name="BLITTER_BR00_DST_TILED"/>
 
-	<bitfield high="5" low="0" type="uint" name="BLITTER_LENGTH"/>
+	<bitfield high="5" low="0" type="uint" add="2" name="BLITTER_LENGTH"/>
 </bitset>
 
 <bitset name="gen_blitter_br13" bare="yes" prefix="gen">

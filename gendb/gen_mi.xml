@@ -22,7 +22,7 @@
 		<value value="0x29" name="MI_LOAD_REGISTER_MEM" variants="GEN7-"/>
 	</bitfield>
 
-	<bitfield high="5" low="0" type="uint" name="MI_LENGTH"/>
+	<bitfield high="5" low="0" type="uint" add="2" name="MI_LENGTH"/>
 </bitset>
 
 <bitset name="gen_mi_reg32" inline="yes" varset="gen">
