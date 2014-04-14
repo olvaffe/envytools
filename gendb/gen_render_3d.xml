@@ -404,10 +404,10 @@
 		<reg32 name="URB_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="URB_DW1_VS" offset="1">
 			<bitfield high="23" low="16" type="uint" name="ENTRY_SIZE"/>
-			<bitfield high="15" low="0" type="uint" name="ENTRY_COUNT"/>
+			<bitfield high="15" low="0" type="uint" align="4" name="ENTRY_COUNT"/>
 		</reg32>
 		<reg32 name="URB_DW2_GS" offset="2">
-			<bitfield high="17" low="8" type="uint" name="ENTRY_COUNT"/>
+			<bitfield high="17" low="8" type="uint" align="4" name="ENTRY_COUNT"/>
 			<bitfield high="2" low="0" type="uint" name="ENTRY_SIZE"/>
 		</reg32>
 	</stripe>
