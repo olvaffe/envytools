@@ -115,10 +115,6 @@
 	<value value="0x1" name="KEYFILTER_REPLACE_BLACK"/>
 </enum>
 
-<bitset name="gen_render_dynamic_addr_32byte" inline="yes" varset="gen">
-	<bitfield high="31" low="5" shr="5" name="ADDR"/>
-</bitset>
-
 <domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="CC_DW0" offset="0">
@@ -253,12 +249,6 @@
 	</stripe>
 </domain>
 
-<domain name="BINDING_TABLE_STATE" width="32" size="256" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="BINDING_TABLE_SURFACE" offset="0" type="gen_render_dynamic_addr_32byte" length="256"/>
-	</stripe>
-</domain>
-
 <domain name="SAMPLER_BORDER_COLOR" width="32" size="12" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="BORDER_COLOR_DW" offset="0" length="12" variants="GEN6"/>
@@ -290,7 +280,9 @@
 			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
 			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
 		</reg32>
-		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2" type="gen_render_dynamic_addr_32byte"/>
+		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2">
+			<bitfield high="31" low="5" shr="5" name="ADDR"/>
+		</reg32>
 		<reg32 name="SAMPLER_DW3" offset="3">
 			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
 			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
@@ -333,7 +325,9 @@
 				<value value="0x1" name="OVERRIDE"/>
 			</bitfield>
 		</reg32>
-		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2" type="gen_render_dynamic_addr_32byte"/>
+		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2">
+			<bitfield high="31" low="5" shr="5" name="ADDR"/>
+		</reg32>
 		<reg32 name="SAMPLER_DW3" offset="3">
 			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
 			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>

@@ -431,4 +431,12 @@
 	</stripe>
 </domain>
 
+<domain name="BINDING_TABLE_STATE" width="32" size="256" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="BINDING_TABLE_SURFACE" offset="0" length="256">
+			<bitfield high="31" low="5" shr="5" name="ADDR"/>
+		</reg32>
+	</stripe>
+</domain>
+
 </database>
