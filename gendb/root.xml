@@ -14,5 +14,6 @@
 <import file="gen_render_dynamic.xml"/>
 <import file="gen_render_surface.xml"/>
 <import file="gen_render_3d.xml"/>
+<import file="gen_aub.xml"/>
 
 </database>
