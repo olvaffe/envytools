@@ -802,10 +802,10 @@
 	<stripe>
 		<reg32 name="SO_DECL_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="SO_DECL_DW1" offset="1">
-			<bitfield high="15" low="12" type="uint" name="STREAM3_BUFFER_SELECTS"/>
-			<bitfield high="11" low="8" type="uint" name="STREAM2_BUFFER_SELECTS"/>
-			<bitfield high="7" low="4" type="uint" name="STREAM1_BUFFER_SELECTS"/>
-			<bitfield high="3" low="0" type="uint" name="STREAM0_BUFFER_SELECTS"/>
+			<bitfield high="15" low="12" name="STREAM3_BUFFER_SELECTS"/>
+			<bitfield high="11" low="8" name="STREAM2_BUFFER_SELECTS"/>
+			<bitfield high="7" low="4" name="STREAM1_BUFFER_SELECTS"/>
+			<bitfield high="3" low="0" name="STREAM0_BUFFER_SELECTS"/>
 		</reg32>
 		<reg32 name="SO_DECL_DW2" offset="2">
 			<bitfield high="31" low="24" type="uint" name="STREAM3_ENTRY_COUNT"/>
@@ -822,7 +822,7 @@
 			<bitfield high="13" low="12" type="uint" name="OUTPUT_SLOT"/>
 			<bitfield pos="11" name="HOLE_FLAG"/>
 			<bitfield high="9" low="4" type="uint" name="REG_INDEX"/>
-			<bitfield high="3" low="0" name="COMPMASK_XYZW"/>
+			<bitfield high="3" low="0" name="COMPONENT_MASK"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -878,8 +878,8 @@
 			<bitfield high="1" low="0" type="uint" name="TRIFAN_PROVOKE"/>
 		</reg32>
 		<reg32 name="CLIP_DW3" offset="3">
-			<bitfield high="27" low="17" type="uint" name="MIN_POINT_WIDTH"/>
-			<bitfield high="16" low="6" type="uint" name="MAX_POINT_WIDTH"/>
+			<bitfield high="27" low="17" type="ufixed" radix="3" name="MIN_POINT_WIDTH"/>
+			<bitfield high="16" low="6" type="ufixed" radix="3" name="MAX_POINT_WIDTH"/>
 			<bitfield pos="5" name="RTAINDEX_FORCED_ZERO"/>
 			<bitfield high="3" low="0" type="uint" name="MAX_VPINDEX"/>
 		</reg32>
@@ -890,7 +890,7 @@
 <domain name="3DSTATE_SFBODY" width="32" size="6" bare="yes" prefix="gen">
 	<stripe variants="GEN7-">
 		<reg32 name="SF_DW1" offset="0">
-			<bitfield high="14" low="12" name="DEPTH_FORMAT" type="gen_depth_format" variants="GEN7-"/>
+			<bitfield high="14" low="12" type="gen_depth_format" name="DEPTH_FORMAT" variants="GEN7-"/>
 
 			<bitfield pos="11" name="LEGACY_DEPTH_OFFSET"/>
 			<bitfield pos="10" name="STATISTICS"/>
@@ -912,12 +912,12 @@
 		</reg32>
 		<reg32 name="SF_DW2" offset="1">
 			<bitfield pos="31" name="AA_LINE_ENABLE"/>
-			<bitfield high="30" low="29" name="CULLMODE" type="gen_cull_mode"/>
-			<bitfield high="27" low="18" type="uint" name="LINE_WIDTH"/>
-			<bitfield high="17" low="16" name="AA_LINE_CAP" type="gen_wm_aa_line_width"/>
+			<bitfield high="30" low="29" type="gen_cull_mode" name="CULLMODE"/>
+			<bitfield high="27" low="18" type="ufixed" radix="7" name="LINE_WIDTH"/>
+			<bitfield high="17" low="16" type="gen_wm_aa_line_width" name="AA_LINE_CAP"/>
 			<bitfield pos="14" name="LINE_STIPPLE_ENABLE" variants="GEN75-"/>
 			<bitfield pos="11" name="SCISSOR_ENABLE"/>
-			<bitfield high="9" low="8" name="MSRASTMODE" type="gen_wm_ms_rast_mode"/>
+			<bitfield high="9" low="8" type="gen_wm_ms_rast_mode" name="MSRASTMODE"/>
 		</reg32>
 		<reg32 name="SF_DW3" offset="2">
 			<bitfield pos="31" name="LINE_LAST_PIXEL_ENABLE"/>
@@ -925,9 +925,9 @@
 			<bitfield high="28" low="27" type="uint" name="LINE_PROVOKE"/>
 			<bitfield high="26" low="25" type="uint" name="TRIFAN_PROVOKE"/>
 			<bitfield pos="14" name="TRUE_AA_LINE_DISTANCE"/>
-			<bitfield pos="12" name="SUBPIXEL" type="gen_subpixel_precision"/>
+			<bitfield pos="12" type="gen_subpixel_precision" name="SUBPIXEL"/>
 			<bitfield pos="11" name="USE_POINT_WIDTH"/>
-			<bitfield high="10" low="0" type="uint" name="POINT_WIDTH"/>
+			<bitfield high="10" low="0" type="ufixed" radix="3" name="POINT_WIDTH"/>
 		</reg32>
 		<reg32 name="SF_DW4_DEPTH_OFFET_CONSTANT" type="float" offset="3"/>
 		<reg32 name="SF_DW5_DEPTH_OFFET_SCALE" type="float" offset="4"/>
@@ -1264,8 +1264,8 @@
 			<bitfield high="15" low="0" name="PATTERN"/>
 		</reg32>
 		<reg32 name="LINE_STIPPLE_DW2" offset="2">
-			<bitfield high="31" low="16" type="uint" name="INVERSE_REPEAT_COUNT" variants="GEN6"/>
-			<bitfield high="31" low="15" type="uint" name="INVERSE_REPEAT_COUNT" variants="GEN7-"/>
+			<bitfield high="31" low="16" type="ufixed" radix="13" name="INVERSE_REPEAT_COUNT" variants="GEN6"/>
+			<bitfield high="31" low="15" type="ufixed" radix="16" name="INVERSE_REPEAT_COUNT" variants="GEN7-"/>
 			<bitfield high="8" low="0" type="uint" name="REPEAT_COUNT"/>
 		</reg32>
 	</stripe>
@@ -1275,12 +1275,12 @@
 	<stripe>
 		<reg32 name="AA_LINE_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="AA_LINE_DW1" offset="1">
-			<bitfield high="23" low="16" type="uint" name="BIAS"/>
-			<bitfield high="7" low="0" type="uint" name="SLOPE"/>
+			<bitfield high="23" low="16" type="ufixed" radix="8" name="BIAS"/>
+			<bitfield high="7" low="0" type="ufixed" radix="8" name="SLOPE"/>
 		</reg32>
 		<reg32 name="AA_LINE_DW2" offset="2">
-			<bitfield high="23" low="16" type="uint" name="CAP_BIAS"/>
-			<bitfield high="7" low="0" type="uint" name="CAP_SLOPE"/>
+			<bitfield high="23" low="16" type="ufixed" radix="8" name="CAP_BIAS"/>
+			<bitfield high="7" low="0" type="ufixed" radix="8" name="CAP_SLOPE"/>
 		</reg32>
 	</stripe>
 </domain>

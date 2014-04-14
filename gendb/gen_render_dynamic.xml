@@ -266,12 +266,12 @@
 			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
 			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
 			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
-			<bitfield high="13" low="3" type="int" name="LOD_BIAS"/>
+			<bitfield high="13" low="3" type="fixed" radix="6" name="LOD_BIAS"/>
 			<bitfield high="2" low="0" type="gen_compare_function" name="SHADOW_FUNC"/>
 		</reg32>
 		<reg32 name="SAMPLER_DW1" offset="1">
-			<bitfield high="31" low="22" type="uint" name="MIN_LOD"/>
-			<bitfield high="21" low="12" type="uint" name="MAX_LOD"/>
+			<bitfield high="31" low="22" type="ufixed" radix="6" name="MIN_LOD"/>
+			<bitfield high="21" low="12" type="ufixed" radix="6" name="MAX_LOD"/>
 			<bitfield high="9" low="9" name="CUBECTRLMODE">
 				<value value="0x0" name="PROGRAMMED"/>
 				<value value="0x1" name="OVERRIDE"/>
@@ -310,15 +310,15 @@
 			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
 			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
 			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
-			<bitfield high="13" low="1" type="int" name="LOD_BIAS"/>
+			<bitfield high="13" low="1" type="fixed" radix="8" name="LOD_BIAS"/>
 			<bitfield high="0" low="0" name="ANISO_ALGO">
 				<value value="0x0" name="LEGACY"/>
 				<value value="0x1" name="EWA"/>
 			</bitfield>
 		</reg32>
 		<reg32 name="SAMPLER_DW1" offset="1">
-			<bitfield high="31" low="20" type="uint" name="MIN_LOD"/>
-			<bitfield high="19" low="8" type="uint" name="MAX_LOD"/>
+			<bitfield high="31" low="20" type="ufixed" radix="8" name="MIN_LOD"/>
+			<bitfield high="19" low="8" type="ufixed" radix="8" name="MAX_LOD"/>
 			<bitfield high="3" low="1" type="gen_compare_function" name="SHADOW_FUNC"/>
 			<bitfield high="0" low="0" name="CUBECTRLMODE">
 				<value value="0x0" name="PROGRAMMED"/>
