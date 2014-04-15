@@ -26,15 +26,23 @@
 #define CTX_MAX_LEVELS (3)
 
 struct context {
-	const uint32_t *dwords;
-	size_t size;
-	struct rnndb *db;
-	struct rnndeccontext *dec;
 	int gen;
 
-	int err;
-	int level;
+	const char *aub_filename;
+	size_t aub_size;
+	int aub_fd;
+	void *aub_ptr;
+
+	const char *db_path;
+	const char *db_root;
+	int db_color;
+	struct rnndb *db;
+	struct rnndeccontext *dec;
+
+	const uint32_t *dwords;
 	size_t cur, end[CTX_MAX_LEVELS];
+	int level;
+	int err;
 };
 
 static void ctx_err(struct context *ctx)
@@ -451,50 +459,121 @@ static void err(const char *reason)
 	exit(1);
 }
 
-int main(int argc, char **argv)
+static void ctx_fini(struct context *ctx)
 {
-	const char filename[] = "intel.aub";
-	struct context ctx;
-	struct stat st;
-	int fd = -1;
-	void *ptr = NULL;
+	munmap(ctx->aub_ptr, ctx->aub_size);
+	close(ctx->aub_fd);
+}
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
+static void ctx_load_aub(struct context *ctx)
+{
+	struct stat st;
+
+	ctx->aub_fd = open(ctx->aub_filename, O_RDONLY);
+	if (ctx->aub_fd < 0)
 		err("failed to open .aub file\n");
 
-	if (fstat(fd, &st)) {
-		close(fd);
+	if (fstat(ctx->aub_fd, &st)) {
+		close(ctx->aub_fd);
 		err("failed to stat()\n");
 	}
+	ctx->aub_size = st.st_size;
 
-	ptr = mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
-	if (ptr == MAP_FAILED) {
-		close(fd);
+	ctx->aub_ptr = mmap(NULL, ctx->aub_size,
+			PROT_READ, MAP_SHARED, ctx->aub_fd, 0);
+	if (ctx->aub_ptr == MAP_FAILED) {
+		close(ctx->aub_fd);
 		err("failed to mmap()\n");
 	}
+}
 
-	memset(&ctx, 0, sizeof(ctx));
-	ctx.dwords = ptr;
-	ctx.size = st.st_size / 4;
+static void ctx_load_db(struct context *ctx)
+{
+	char variant[16];
+	int val;
+
+	if (ctx->db_path)
+		setenv("RNN_PATH", ctx->db_path, 0);
 
 	rnn_init();
-	ctx.db = rnn_newdb();
-	rnn_parsefile(ctx.db, "root.xml");
-	rnn_prepdb(ctx.db);
 
-	ctx.gen = GEN(6);
-	ctx.dec = rnndec_newcontext(ctx.db);
-	ctx.dec->colors = &envy_def_colors;
-	rnndec_varadd(ctx.dec, "gen", "GEN6");
+	ctx->db = rnn_newdb();
+	rnn_parsefile(ctx->db, (char *) ctx->db_root);
+	rnn_prepdb(ctx->db);
 
-	ctx.end[ctx.level] = ctx.size;
+	ctx->dec = rnndec_newcontext(ctx->db);
+	if (ctx->db_color)
+		ctx->dec->colors = &envy_def_colors;
+
+	val = ctx->gen;
+	while (val % 10 == 0)
+		val /= 10;
+	snprintf(variant, sizeof(variant), "GEN%d", val);
+
+	if (!rnndec_varadd(ctx->dec, "gen", variant))
+		err("unknown gen\n");
+}
+
+static void ctx_init(struct context *ctx, int argc, char **argv)
+{
+	int i;
+
+	memset(ctx, 0, sizeof(*ctx));
+
+	ctx->gen = GEN(6);
+	ctx->db_root = "root.xml";
+
+	i = 1;
+	while (i < argc) {
+		if (strcmp(argv[i], "-g") == 0 && i + 1 < argc) {
+			int val = atoi(argv[i + 1]);
+
+			if (val >= 100)
+				ctx->gen = GEN((float) val / 100.0f);
+			else if (val >= 10)
+				ctx->gen = GEN((float) val / 10.0f);
+			else
+				ctx->gen = GEN(val);
+
+			i += 2;
+		}
+		else if (strcmp(argv[i], "-p") == 0 && i + 1 < argc) {
+			ctx->db_path = argv[i + 1];
+			i += 2;
+		}
+		else if (strcmp(argv[i], "-c") == 0) {
+			ctx->db_color = 1;
+			i++;
+		}
+		else {
+			ctx->aub_filename = argv[i];
+			i++;
+		}
+	}
+
+	if (!ctx->aub_filename) {
+		printf("Usage: %s [-c] [-g <gen>] [-p <gendb-path>] <aub-file>\n",
+				argv[0]);
+		exit(1);
+	}
+
+	ctx_load_aub(ctx);
+	ctx->dwords = ctx->aub_ptr;
+	ctx->end[ctx->level] = ctx->aub_size / 4;
+
+	ctx_load_db(ctx);
+}
+
+int main(int argc, char **argv)
+{
+	struct context ctx;
+
+	ctx_init(&ctx, argc, argv);
 
 	while (ctx_len(&ctx) && !ctx.err)
 		decode_aub(&ctx);
 
-	munmap(ptr, st.st_size);
-	close(fd);
+	ctx_fini(&ctx);
 
 	return 0;
 }
