@@ -13,6 +13,7 @@
 
 #include "rnn.h"
 #include "rnndec.h"
+#include "util.h"
 
 #include "../gendb/gen_mi.xml.h"
 #include "../gendb/gen_blitter.xml.h"
@@ -22,7 +23,6 @@
 #include "../gendb/gen_aub.xml.h"
 
 #define GEN(gen) ((int) ((gen) * 100))
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTX_MAX_LEVELS (3)
 
 struct context {
@@ -69,9 +69,13 @@ static void ctx_unnest(struct context *ctx)
 static void out(struct context *ctx, int idx, const char *format, ...)
 {
 	FILE *fp = stdout;
-	int indent = ctx->level + ((idx) ? 1 : 0);
+	int indent = ctx->level;
 
-	fprintf(fp, "0x%08zd:  0x%08" PRIx32 ": ", (ctx->cur + idx) * 4, ctx->dwords[ctx->cur + idx]);
+	fprintf(fp, "%s0x%08zd:  0x%08" PRIx32 ": %s",
+			(idx == 0) ? ctx->dec->colors->rname : "",
+			(ctx->cur + idx) * 4, ctx->dwords[ctx->cur + idx],
+			(idx == 0) ? ctx->dec->colors->reset : "");
+
 	while (indent--)
 		fprintf(fp, "  ");
 
@@ -481,6 +485,7 @@ int main(int argc, char **argv)
 
 	ctx.gen = GEN(6);
 	ctx.dec = rnndec_newcontext(ctx.db);
+	ctx.dec->colors = &envy_def_colors;
 	rnndec_varadd(ctx.dec, "gen", "GEN6");
 
 	ctx.end[ctx.level] = ctx.size;
