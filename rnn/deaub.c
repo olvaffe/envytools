@@ -79,7 +79,7 @@ static void out(struct context *ctx, int idx, const char *format, ...)
 	FILE *fp = stdout;
 	int indent = ctx->level;
 
-	fprintf(fp, "%s0x%08zd:  0x%08" PRIx32 ": %s",
+	fprintf(fp, "%s0x%08zx:  0x%08" PRIx32 ":%s ",
 			(idx == 0) ? ctx->dec->colors->rname : "",
 			(ctx->cur + idx) * 4, ctx->dwords[ctx->cur + idx],
 			(idx == 0) ? ctx->dec->colors->reset : "");
