@@ -1140,7 +1140,7 @@
 			<bitfield high="15" low="0" type="uint" name="PCB2_SIZE"/>
 		</reg32>
 		<reg32 name="PCB_ANY" offset="3" type="gen_render_3d_addr_32byte" length="4">
-			<!-- an available for PCB0 -->
+			<!-- only available for PCB0 -->
 			<bitfield high="4" low="0" type="gen_surface_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>

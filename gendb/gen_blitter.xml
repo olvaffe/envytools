@@ -29,9 +29,10 @@
 </bitset>
 
 <bitset name="gen_blitter_br13" bare="yes" prefix="gen">
-	<bitfield pos="30" name="BLITTER_BR13_CLIP_ENABLE"/>
-	<brief>when opcode is SRC_COPY_BLT</brief>
+	<!-- if BLITTER_OPCODE == SRC_COPY_BLT -->
 	<bitfield pos="30" name="BLITTER_BR13_DIR_RTL"/>
+	<!-- else -->
+	<bitfield pos="30" name="BLITTER_BR13_CLIP_ENABLE"/>
 
 	<bitfield high="25" low="24" name="BLITTER_BR13_FORMAT">
 		<value value="0x0" name="8"/>

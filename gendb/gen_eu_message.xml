@@ -67,9 +67,10 @@
 	<value value="0xd" name="MSG_DP_SVB_WRITE" variants="GEN6" />
 	<value value="0xe" name="MSG_DP_RT_UNORM_WRITE" variants="GEN6"/>
 
+	<!-- if SFID == DP_SAMPLER -->
 	<value value="0x1" name="MSG_DP_SAMPLER_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x4" name="MSG_DP_SAMPLER_MEDIA_BLOCK_READ" variants="GEN7"/>
-
+	<!-- else if SFID == DP_RC -->
 	<value value="0x4" name="MSG_DP_RC_MEDIA_BLOCK_READ" variants="GEN7"/>
 	<value value="0x5" name="MSG_DP_RC_TYPED_SURFACE_READ" variants="GEN7"/>
 	<value value="0x6" name="MSG_DP_RC_TYPED_ATOMIC_OP" variants="GEN7"/>
@@ -77,12 +78,12 @@
 	<value value="0xa" name="MSG_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN7"/>
 	<value value="0xc" name="MSG_DP_RC_RT_WRITE" variants="GEN7"/>
 	<value value="0xd" name="MSG_DP_RC_TYPED_SURFACE_WRITE" variants="GEN7" />
-
+	<!-- else if SFID == DP_CC -->
 	<value value="0x0" name="MSG_DP_CC_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x1" name="MSG_DP_CC_UNALIGNED_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x2" name="MSG_DP_CC_OWORD_DUAL_BLOCK_READ" variants="GEN7"/>
 	<value value="0x3" name="MSG_DP_CC_DWORD_SCATTERED_READ" variants="GEN7"/>
-
+	<!-- else if SFID == DP_DC0 -->
 	<value value="0x0" name="MSG_DP_DC0_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x1" name="MSG_DP_DC0_UNALIGNED_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x2" name="MSG_DP_DC0_OWORD_DUAL_BLOCK_READ" variants="GEN7"/>
@@ -97,20 +98,21 @@
 	<value value="0xc" name="MSG_DP_DC0_BYTE_SCATTERED_WRITE" variants="GEN7"/>
 	<value value="0xd" name="MSG_DP_DC0_UNTYPED_SURFACE_WRITE" variants="GEN7" />
 
+	<!-- if SFID == DP_SAMPLER -->
 	<value value="0x0" name="MSG_DP_SAMPLER_READ_SURFACE_INFO" variants="GEN75-"/>
 	<value value="0x1" name="MSG_DP_SAMPLER_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x4" name="MSG_DP_SAMPLER_MEDIA_BLOCK_READ" variants="GEN75-"/>
-
+	<!-- else if SFID == DP_RC -->
 	<value value="0x4" name="MSG_DP_RC_MEDIA_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x7" name="MSG_DP_RC_MEMORY_FENCE" variants="GEN75-"/>
 	<value value="0xa" name="MSG_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN75-"/>
 	<value value="0xc" name="MSG_DP_RC_RT_WRITE" variants="GEN75-"/>
-
+	<!-- else if SFID == DP_CC -->
 	<value value="0x0" name="MSG_DP_CC_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x1" name="MSG_DP_CC_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x2" name="MSG_DP_CC_OWORD_DUAL_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x3" name="MSG_DP_CC_DWORD_SCATTERED_READ" variants="GEN75-"/>
-
+	<!-- else if SFID == DP_DC0 -->
 	<value value="0x0" name="MSG_DP_DC0_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x1" name="MSG_DP_DC0_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x2" name="MSG_DP_DC0_OWORD_DUAL_BLOCK_READ" variants="GEN75-"/>
@@ -121,7 +123,7 @@
 	<value value="0xa" name="MSG_DP_DC0_OWORD_DUAL_BLOCK_WRITE" variants="GEN75-"/>
 	<value value="0xb" name="MSG_DP_DC0_DWORD_SCATTERED_WRITE" variants="GEN75-"/>
 	<value value="0xc" name="MSG_DP_DC0_BYTE_SCATTERED_WRITE" variants="GEN75-"/>
-
+	<!-- else if SFID == DP_DC1 -->
 	<value value="0x1" name="MSG_DP_DC1_UNTYPED_SURFACE_READ" variants="GEN75-"/>
 	<value value="0x2" name="MSG_DP_DC1_UNTYPED_ATOMIC_OP" variants="GEN75-"/>
 	<value value="0x3" name="MSG_DP_DC1_UNTYPED_ATOMIC_OP_SIMD4X2" variants="GEN75-"/>
@@ -175,7 +177,7 @@
 	<bitfield pos="18" name="MSG_DP_CATEGORY" variants="GEN7-"/>
 	<bitfield high="17" low="14" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN7-"/>
 
-	<!-- OWord Block Read/Write -->
+	<!-- if MSG_DP_OP == OWord Block Read/Write -->
 	<bitfield pos="13" name="MSG_DP_OWORD_BLOCK_READ_INVALIDATE" variants="GEN7-"/>
 	<bitfield high="10" low="8" name="MSG_DP_OWORD_BLOCK_SIZE">
 		<value value="0x0" name="1_LO"/>
@@ -184,8 +186,7 @@
 		<value value="0x3" name="4"/>
 		<value value="0x4" name="8"/>
 	</bitfield>
-
-	<!-- Unaligned OWord Block Read -->
+	<!-- else if MSG_DP_OP == Unaligned OWord Block Read -->
 	<bitfield high="10" low="8" name="MSG_DP_UNALIGNED_OWORD_BLOCK_SIZE">
 		<value value="0x0" name="1_LO"/>
 		<value value="0x1" name="1_HI"/>
@@ -193,21 +194,18 @@
 		<value value="0x3" name="4"/>
 		<value value="0x4" name="8"/>
 	</bitfield>
-
-	<!-- OWord Dual Block Read/Write -->
+	<!-- else if MSG_DP_OP == OWord Dual Block Read/Write -->
 	<bitfield high="9" low="8" name="MSG_DP_OWORD_DUAL_BLOCK_SIZE">
 		<value value="0x0" name="1"/>
 		<value value="0x2" name="4"/>
 	</bitfield>
-
-	<!-- DWord Scattered Read/Write -->
+	<!-- else if MSG_DP_OP == DWord Scattered Read/Write -->
 	<bitfield pos="13" name="MSG_DP_DWORD_SCATTERED_READ_INVALIDATE" variants="GEN7-"/>
 	<bitfield high="9" low="8" name="MSG_DP_DWORD_SCATTERED_SIZE">
 		<value value="0x2" name="8"/>
 		<value value="0x3" name="16"/>
 	</bitfield>
-
-	<!-- Render Target Write -->
+	<!-- else if MSG_DP_OP == Render Target Write -->
 	<bitfield pos="12" name="MSG_DP_RT_LAST"/>
 	<bitfield high="10" low="8" name="MSG_DP_RT_MODE">
 		<value value="0x0" name="SIMD16"/>

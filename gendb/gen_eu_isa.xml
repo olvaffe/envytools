@@ -93,11 +93,12 @@
 </enum>
 
 <enum name="gen_eu_quarter_control" bare="yes" prefix="gen">
+	<!-- if EXECSIZE == EXECSIZE_8 -->
 	<value value="0x0" name="QTRCTRL_1Q"/>
 	<value value="0x1" name="QTRCTRL_2Q"/>
 	<value value="0x2" name="QTRCTRL_3Q"/>
 	<value value="0x3" name="QTRCTRL_4Q"/>
-
+	<!-- else if EXECSIZE == EXECSIZE_16 -->
 	<value value="0x0" name="QTRCTRL_1H"/>
 	<value value="0x2" name="QTRCTRL_2H"/>
 </enum>
@@ -112,12 +113,12 @@
 	<value value="0x0" name="PREDCTRL_NONE"/>
 	<value value="0x1" name="PREDCTRL_NORMAL"/>
 
-	<!-- align1 -->
+	<!-- if ACCESSMODE == ALIGN_1 -->
 	<value value="0x2" name="PREDCTRL_ANYV"/>
 	<value value="0x3" name="PREDCTRL_ALLV"/>
 	<value value="0x4" name="PREDCTRL_ANY2H"/>
 	<value value="0x5" name="PREDCTRL_ALL2H"/>
-	<!-- align16 -->
+	<!-- else -->
 	<value value="0x2" name="PREDCTRL_X"/>
 	<value value="0x3" name="PREDCTRL_Y"/>
 	<value value="0x4" name="PREDCTRL_Z"/>
@@ -126,7 +127,7 @@
 	<value value="0x6" name="PREDCTRL_ANY4H"/>
 	<value value="0x7" name="PREDCTRL_ALL4H"/>
 
-	<!-- align1 -->
+	<!-- if ACCESSMODE == ALIGN_1 -->
 	<value value="0x8" name="PREDCTRL_ANY8H"/>
 	<value value="0x9" name="PREDCTRL_ALL8H"/>
 	<value value="0xa" name="PREDCTRL_ANY16H"/>
@@ -203,10 +204,12 @@
 	<value value="0x6" name="TYPE_DF" variants="GEN7-"/>
 	<value value="0x7" name="TYPE_F"/>
 
+	<!-- if FILE == FILE_IMM -->
 	<value value="0x4" name="TYPE_UV_IMM"/>
 	<value value="0x5" name="TYPE_VF_IMM"/>
 	<value value="0x6" name="TYPE_V_IMM"/>
 
+	<!-- if 3-src instruction -->
 	<value value="0x0" name="TYPE_F_3SRC" variants="GEN7-"/>
 	<value value="0x1" name="TYPE_D_3SRC" variants="GEN7-"/>
 	<value value="0x2" name="TYPE_UD_3SRC" variants="GEN7-"/>
@@ -268,9 +271,10 @@
 	<bitfield pos="31" name="SATURATE"/>
 	<bitfield pos="28" name="ACCWRCTRL"/>
 
-	<!-- regular/send/math -->
 	<bitfield high="27" low="24" type="gen_eu_condition_modifier" name="CONDMODIFIER"/>
+	<!-- if OPCODE == OPCODE_SEND -->
 	<bitfield high="27" low="24" type="gen_eu_shared_function_id" name="SFID"/>
+	<!-- else if OPCODE == OPCODE_MATH -->
 	<bitfield high="27" low="24" type="gen_eu_math_function_control" name="FC"/>
 
 	<bitfield high="23" low="21" type="gen_eu_exec_size" name="EXECSIZE"/>
@@ -288,13 +292,13 @@
 	<bitfield pos="31" type="gen_eu_addressing_mode" name="ADDRMODE"/>
 	<bitfield high="30" low="29" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
 
-	<!-- direct, align1 -->
+	<!-- if ADDRMODE == ADDRMODE_DIRECT and ACCESSMODE == ALIGN_1 -->
 	<bitfield high="28" low="21" type="uint" name="REG"/>
 	<bitfield high="20" low="16" type="uint" name="SUBREG"/>
-	<!-- indirect, align1 -->
+	<!-- else if ADDRMODE == ADDRMODE_INDIRECT and ACCESSMODE == ALIGN_1 -->
 	<bitfield high="28" low="26" type="uint" name="ADDR_SUBREG"/>
 	<bitfield high="25" low="16" type="int" name="ADDR_IMM"/>
-	<!-- align16 -->
+	<!-- else if ACCESSMODE == ALIGN16 -->
 	<bitfield high="20" low="20" shr="4" type="uint" name="SUBREG_ALIGN16"/>
 	<bitfield high="25" low="20" shr="4" type="int" name="ADDR_IMM_ALIGN16"/>
 	<bitfield high="19" low="16" name="WRITEMASK"/>
@@ -315,10 +319,10 @@
 
 	<bitfield high="24" low="21" type="gen_eu_vertical_stride" name="VERTSTRIDE"/>
 
-	<!-- align1 -->
+	<!-- if ACCESSMODE == ALIGN_1 -->
 	<bitfield high="20" low="18" type="gen_eu_width" name="WIDTH"/>
 	<bitfield high="17" low="16" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
-	<!-- align16 -->
+	<!-- else -->
 	<bitfield high="19" low="18" type="gen_eu_swizzle" name="SWIZZLE_W"/>
 	<bitfield high="17" low="16" type="gen_eu_swizzle" name="SWIZZLE_Z"/>
 
@@ -326,13 +330,13 @@
 	<bitfield pos="14" name="NEGATE"/>
 	<bitfield pos="13" name="ABSOLUTE"/>
 
-	<!-- direct, align1 -->
+	<!-- if ADDRMODE == ADDRMODE_DIRECT and ACCESSMODE == ALIGN_1 -->
 	<bitfield high="12" low="5" type="uint" name="REG"/>
 	<bitfield high="4" low="0" type="uint" name="SUBREG"/>
-	<!-- indirect, align -->
+	<!-- else if ADDRMODE == ADDRMODE_INDIRECT and ACCESSMODE == ALIGN_1 -->
 	<bitfield high="12" low="10" type="uint" name="ADDR_SUBREG"/>
 	<bitfield high="9" low="0" type="int" name="ADDR_IMM"/>
-	<!-- align16 -->
+	<!-- else if ACCESSMODE == ALIGN16 -->
 	<bitfield high="4" low="4" shr="4" name="SUBREG_ALIGN16"/>
 	<bitfield high="9" low="4" shr="4" name="ADDR_IMM_ALIGN16"/>
 	<bitfield high="3" low="2" type="gen_eu_swizzle" name="SWIZZLE_Y"/>

@@ -379,6 +379,7 @@
 			<bitfield high="17" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="SURFACE_DW4" offset="4">
+			<!-- if SURFACE_DW0_TYPE != STRBUF -->
 			<bitfield high="30" low="29" type="gen_surface_rotate" name="RTROTATE"/>
 			<bitfield high="28" low="18" type="uint" name="MIN_ARRAY_ELEMENT"/>
 			<bitfield high="17" low="7" type="uint" name="RT_VIEW_EXTENT"/>
@@ -392,8 +393,8 @@
 				<value value="0x3" name="8"/>
 			</bitfield>
 			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
-			<!-- if STRBUF -->
-			<!--bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT"/-->
+			<!-- else -->
+			<bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT_STRBUF"/>
 		</reg32>
 		<reg32 name="SURFACE_DW5" offset="5">
 			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
@@ -403,19 +404,18 @@
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
 		</reg32>
 		<reg32 name="SURFACE_DW6" offset="6">
-			<!-- if PLANAR -->
+			<!-- if DW0_SURFACE_FORMAT == PLANAR -->
 			<bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/>
 			<bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/>
 
-			<!-- if MCS -->
+			<!-- else if SURFACE_DW6_MCS_ENABLE == 1 -->
 			<bitfield high="31" low="12" shr="12" name="MCS_ADDR"/>
 			<bitfield high="11" low="3" type="uint" name="MCS_PITCH"/>
-			<bitfield pos="0" name="MCS_ENABLE"/>
-
 			<!-- else -->
 			<bitfield high="31" low="6" shr="6" name="APPEND_COUNTER_ADDR"/>
 			<bitfield pos="1" name="APPEND_COUNTER_ENABLE"/>
 
+			<bitfield pos="0" name="MCS_ENABLE"/>
 		</reg32>
 		<reg32 name="SURFACE_DW7" offset="7">
 			<bitfield pos="31" type="gen_surface_clear_color" name="CC_R"/>
