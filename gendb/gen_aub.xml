@@ -20,6 +20,68 @@
 	<bitfield high="5" low="0" type="uint" add="2" name="AUB_LENGTH"/>
 </bitset>
 
+<enum name="gen_aub_trace_op" inline="yes" varset="gen">
+	<value value="0x0" name="COMMENT"/>
+	<value value="0x1" name="DATA_WRITE"/>
+	<value value="0x2" name="COMMAND_WRITE"/>
+	<value value="0x3" name="MMIO_WRITE"/>
+</enum>
+
+<enum name="gen_aub_trace_memtype" inline="yes" varset="gen">
+	<value value="0x0" name="GTT"/>
+	<value value="0x1" name="LOCAL"/>
+	<value value="0x2" name="NONLOCAL"/>
+	<value value="0x3" name="PCI"/>
+	<value value="0x4" name="GTT_ENTRY"/>
+</enum>
+
+<enum name="gen_aub_trace_type" bare="yes" prefix="gen">
+	<!-- if OP == DATA_WRITE -->
+	<value value="0x0" name="AUB_TRACE_NOTYPE"/>
+	<value value="0x1" name="AUB_TRACE_BATCH"/>
+	<value value="0x5" name="AUB_TRACE_VERTEX_BUFFER"/>
+	<value value="0x6" name="AUB_TRACE_2D_MAP"/>
+	<value value="0x7" name="AUB_TRACE_CUBE_MAP"/>
+	<value value="0x9" name="AUB_TRACE_VOLUME_MAP"/>
+	<value value="0xa" name="AUB_TRACE_1D_MAP"/>
+	<value value="0xb" name="AUB_TRACE_CONSTANT_BUFFER"/>
+	<value value="0xc" name="AUB_TRACE_CONSTANT_URB"/>
+	<value value="0xd" name="AUB_TRACE_INDEX_BUFFER"/>
+	<value value="0xe" name="AUB_TRACE_GENERAL"/>
+	<value value="0xf" name="AUB_TRACE_SURFACE"/>
+	<!-- else if OP == COMMAND_WRITE -->
+	<value value="0x1" name="AUB_TRACE_HWB"/>
+	<value value="0x2" name="AUB_TRACE_PRB0"/>
+	<value value="0x3" name="AUB_TRACE_PRB1"/>
+	<value value="0x4" name="AUB_TRACE_PRB2"/>
+</enum>
+
+<enum name="gen_aub_trace_subtype" bare="yes" prefix="gen">
+	<!-- if TYPE == GENERAL -->
+	<value value="0x01" name="AUB_TRACE_VS_STATE"/>
+	<value value="0x02" name="AUB_TRACE_GS_STATE"/>
+	<value value="0x03" name="AUB_TRACE_CLIP_STATE"/>
+	<value value="0x04" name="AUB_TRACE_SF_STATE"/>
+	<value value="0x05" name="AUB_TRACE_WM_STATE"/>
+	<value value="0x06" name="AUB_TRACE_CC_STATE"/>
+	<value value="0x07" name="AUB_TRACE_CLIP_VP_STATE"/>
+	<value value="0x08" name="AUB_TRACE_SF_VP_STATE"/>
+	<value value="0x09" name="AUB_TRACE_CC_VP_STATE"/>
+	<value value="0x0a" name="AUB_TRACE_SAMPLER_STATE"/>
+	<value value="0x0b" name="AUB_TRACE_KERNEL_INSTRUCTIONS"/>
+	<value value="0x0c" name="AUB_TRACE_SCRATCH_SPACE"/>
+	<value value="0x0d" name="AUB_TRACE_SAMPLER_DEFAULT_COLOR"/>
+	<value value="0x15" name="AUB_TRACE_SCISSOR_STATE"/>
+	<value value="0x16" name="AUB_TRACE_BLEND_STATE"/>
+	<value value="0x17" name="AUB_TRACE_DEPTH_STENCIL_STATE"/>
+	<!-- else if TYPE == SURFACE -->
+	<value value="0x100" name="AUB_TRACE_BINDING_TABLE"/>
+	<value value="0x200" name="AUB_TRACE_SURFACE_STATE"/>
+	<!-- else if TYPE == CONSTANT_BUFFER -->
+	<value value="0x0" name="AUB_TRACE_VS_CONSTANTS"/>
+	<value value="0x1" name="AUB_TRACE_WM_CONSTANTS"/>
+</enum>
+
 <domain name="AUB_HEADER" width="32" size="13" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_aub_header"/>
 	<reg32 name="DW1" offset="1">
@@ -34,71 +96,12 @@
 <domain name="AUB_TRACE_HEADER_BLOCK" width="32" size="5" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_aub_header"/>
 	<reg32 name="DW1" offset="1">
-		<bitfield high="31" low="16" name="MEMTYPE">
-			<value value="0x0" name="GTT"/>
-			<value value="0x1" name="LOCAL"/>
-			<value value="0x2" name="NONLOCAL"/>
-			<value value="0x3" name="PCI"/>
-			<value value="0x4" name="GTT_ENTRY"/>
-		</bitfield>
-
-		<bitfield high="15" low="8" name="TYPE">
-			<!-- DATA_WRITE -->
-			<value value="0x0" name="NOTYPE"/>
-			<value value="0x1" name="BATCH"/>
-			<value value="0x5" name="VERTEX_BUFFER"/>
-			<value value="0x6" name="2D_MAP"/>
-			<value value="0x7" name="CUBE_MAP"/>
-			<value value="0x9" name="VOLUME_MAP"/>
-			<value value="0xa" name="1D_MAP"/>
-			<value value="0xb" name="CONSTANT_BUFFER"/>
-			<value value="0xc" name="CONSTANT_URB"/>
-			<value value="0xd" name="INDEX_BUFFER"/>
-			<value value="0xe" name="GENERAL"/>
-			<value value="0xf" name="SURFACE"/>
-
-			<!-- COMMAND_WRITE -->
-			<value value="0x1" name="RING_HWB"/>
-			<value value="0x2" name="RING_PRB0"/>
-			<value value="0x3" name="RING_PRB1"/>
-			<value value="0x4" name="RING_PRB2"/>
-		</bitfield>
-
-		<bitfield high="7" low="0" name="OP">
-			<value value="0x0" name="COMMENT"/>
-			<value value="0x1" name="DATA_WRITE"/>
-			<value value="0x2" name="COMMAND_WRITE"/>
-			<value value="0x3" name="MMIO_WRITE"/>
-		</bitfield>
+		<bitfield high="31" low="16" type="gen_aub_trace_memtype" name="MEMTYPE"/>
+		<bitfield high="15" low="8" type="gen_aub_trace_type" name="TYPE"/>
+		<bitfield high="7" low="0" type="gen_aub_trace_op" name="OP"/>
 	</reg32>
 	<reg32 name="DW2" offset="2">
-		<bitfield high="15" low="0" name="SUBTYPE">
-			<!-- type GENERAL -->
-			<value value="0x01" name="VS_STATE"/>
-			<value value="0x02" name="GS_STATE"/>
-			<value value="0x03" name="CLIP_STATE"/>
-			<value value="0x04" name="SF_STATE"/>
-			<value value="0x05" name="WM_STATE"/>
-			<value value="0x06" name="CC_STATE"/>
-			<value value="0x07" name="CLIP_VP_STATE"/>
-			<value value="0x08" name="SF_VP_STATE"/>
-			<value value="0x09" name="CC_VP_STATE"/>
-			<value value="0x0a" name="SAMPLER_STATE"/>
-			<value value="0x0b" name="KERNEL_INSTRUCTIONS"/>
-			<value value="0x0c" name="SCRATCH_SPACE"/>
-			<value value="0x0d" name="SAMPLER_DEFAULT_COLOR"/>
-			<value value="0x15" name="SCISSOR_STATE"/>
-			<value value="0x16" name="BLEND_STATE"/>
-			<value value="0x17" name="DEPTH_STENCIL_STATE"/>
-
-			<!-- type SURFACE -->
-			<value value="0x100" name="BINDING_TABLE"/>
-			<value value="0x200" name="SURFACE_STATE"/>
-
-			<!-- type CONSTANT_BUFFER -->
-			<value value="0x0" name="VS_CONSTANTS"/>
-			<value value="0x1" name="WM_CONSTANTS"/>
-		</bitfield>
+		<bitfield high="15" low="0" type="gen_aub_trace_subtype" name="SUBTYPE"/>
 	</reg32>
 	<reg32 name="DW3_ADDR" offset="3"/>
 	<reg32 name="DW4_SIZE" type="uint" offset="4"/>
