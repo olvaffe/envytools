@@ -346,8 +346,7 @@ static void decode_render_state(struct context *ctx, int type, int subtype)
 		int min_len, max_len;
 		const char *dom_name;
 	} render_state_map[] = {
-#define GEN6_ENTRY(type, subtype, dom, min_len) { GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_ ## type, \
-	GEN6_AUB_TRACE_HEADER_BLOCK_DW2_SUBTYPE_ ## subtype, min_len, GEN6_ ## dom ## __SIZE, #dom }
+#define GEN6_ENTRY(type, subtype, dom, min_len) { GEN6_AUB_TRACE_ ## type, GEN6_AUB_TRACE_ ## subtype, min_len, GEN6_ ## dom ## __SIZE, #dom }
 		GEN6_ENTRY(SURFACE, BINDING_TABLE, BINDING_TABLE_STATE, 1),
 		GEN6_ENTRY(SURFACE, SURFACE_STATE, SURFACE_STATE, 6),
 		GEN6_ENTRY(GENERAL, CC_STATE, COLOR_CALC_STATE, 1),
@@ -359,8 +358,8 @@ static void decode_render_state(struct context *ctx, int type, int subtype)
 		GEN6_ENTRY(GENERAL, SCISSOR_STATE, SCISSOR_RECT, 1),
 		GEN6_ENTRY(GENERAL, BLEND_STATE, BLEND_STATE, 1),
 		GEN6_ENTRY(GENERAL, DEPTH_STENCIL_STATE, DEPTH_STENCIL_STATE, 1),
-		{ GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_CONSTANT_BUFFER, GEN6_AUB_TRACE_HEADER_BLOCK_DW2_SUBTYPE_VS_CONSTANTS, 1, 512, NULL, },
-		{ GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_CONSTANT_BUFFER, GEN6_AUB_TRACE_HEADER_BLOCK_DW2_SUBTYPE_WM_CONSTANTS, 1, 512, NULL, },
+		{ GEN6_AUB_TRACE_CONSTANT_BUFFER, GEN6_AUB_TRACE_VS_CONSTANTS, 1, 512, NULL, },
+		{ GEN6_AUB_TRACE_CONSTANT_BUFFER, GEN6_AUB_TRACE_WM_CONSTANTS, 1, 512, NULL, },
 #undef GEN6_ENTRY
 	};
 	const uint32_t *dw = &ctx->dwords[ctx->cur];
@@ -435,8 +434,10 @@ static void decode_aub_trace_header_block(struct context *ctx, int len)
 	int op, type, subtype, size;
 
 	op = dw[1] & GEN6_AUB_TRACE_HEADER_BLOCK_DW1_OP__MASK;
-	type = dw[1] & GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE__MASK;
-	subtype = dw[2] & GEN6_AUB_TRACE_HEADER_BLOCK_DW2_SUBTYPE__MASK;
+	type = (dw[1] & GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE__MASK) >>
+		GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE__SHIFT;
+	subtype = (dw[2] & GEN6_AUB_TRACE_HEADER_BLOCK_DW2_SUBTYPE__MASK) >>
+		GEN6_AUB_TRACE_HEADER_BLOCK_DW2_SUBTYPE__SHIFT;
 	size = dw[4] / 4;
 
 	decode_auto(ctx, "AUB_TRACE_HEADER_BLOCK", len);
@@ -450,12 +451,12 @@ static void decode_aub_trace_header_block(struct context *ctx, int len)
 		break;
 	case GEN6_AUB_TRACE_HEADER_BLOCK_DW1_OP_DATA_WRITE:
 		switch (type) {
-		case GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_BATCH:
+		case GEN6_AUB_TRACE_BATCH:
 			decode_ring(ctx);
 			break;
-		case GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_GENERAL:
-		case GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_SURFACE:
-		case GEN6_AUB_TRACE_HEADER_BLOCK_DW1_TYPE_CONSTANT_BUFFER:
+		case GEN6_AUB_TRACE_GENERAL:
+		case GEN6_AUB_TRACE_SURFACE:
+		case GEN6_AUB_TRACE_CONSTANT_BUFFER:
 			decode_render_state(ctx, type, subtype);
 			break;
 		default:
