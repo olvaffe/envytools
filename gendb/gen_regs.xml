@@ -11,19 +11,43 @@
 	<bitfield high="31" low="16" name="REG_MASK"/>
 </bitset>
 
-<domain name="REG" width="32" size="0x400000" prefix="gen">
-	<reg32 name="HS_INVOCATION_COUNT" offset="0x2300"/>
-	<reg32 name="DS_INVOCATION_COUNT" offset="0x2308"/>
-	<reg32 name="IA_VERTICES_COUNT" offset="0x2310"/>
-	<reg32 name="IA_PRIMITIVES_COUNT" offset="0x2318"/>
-	<reg32 name="VS_INVOCATION_COUNT" offset="0x2320"/>
-	<reg32 name="GS_INVOCATION_COUNT" offset="0x2328"/>
-	<reg32 name="GS_PRIMITIVES_COUNT" offset="0x2330"/>
-	<reg32 name="CL_INVOCATION_COUNT" offset="0x2338"/>
-	<reg32 name="CL_PRIMITIVES_COUNT" offset="0x2340"/>
-	<reg32 name="PS_INVOCATION_COUNT" offset="0x2348"/>
+<domain name="REG" size="0x400000" prefix="gen">
+	<reg64 name="HS_INVOCATION_COUNT" offset="0x2300" variants="GEN7-"/>
+	<reg64 name="DS_INVOCATION_COUNT" offset="0x2308" variants="GEN7-"/>
+	<reg64 name="IA_VERTICES_COUNT" offset="0x2310"/>
+	<reg64 name="IA_PRIMITIVES_COUNT" offset="0x2318"/>
+	<reg64 name="VS_INVOCATION_COUNT" offset="0x2320"/>
+	<reg64 name="GS_INVOCATION_COUNT" offset="0x2328"/>
+	<reg64 name="GS_PRIMITIVES_COUNT" offset="0x2330"/>
+	<reg64 name="CL_INVOCATION_COUNT" offset="0x2338"/>
+	<reg64 name="CL_PRIMITIVES_COUNT" offset="0x2340"/>
+	<reg64 name="PS_INVOCATION_COUNT" offset="0x2348"/>
+	<reg64 name="PS_DEPTH_COUNT" offset="0x2350"/>
+	<reg64 name="TIMESTAMP" offset="0x2358"/>
 
-	<reg32 name="TIMESTAMP" offset="0x2358"/>
+	<stripe variants="GEN7-">
+		<reg32 name="3DPRIM_END_OFFSET" offset="0x2420"/>
+		<reg32 name="3DPRIM_START_VERTEX" offset="0x2430"/>
+		<reg32 name="3DPRIM_VERTEX_COUNT" offset="0x2434"/>
+		<reg32 name="3DPRIM_INSTANCE_COUNT" offset="0x2438"/>
+		<reg32 name="3DPRIM_START_INSTANCE" offset="0x243c"/>
+		<reg32 name="3DPRIM_BASE_VERTEX" offset="0x2440"/>
+	</stripe>
+
+	<reg32 name="OACONTROL" offset="0x2360">
+		<bitfield high="4" low="2" name="COUNTER_SELECT"/>
+		<bitfield pos="0" name="PERFORMANCE_COUNTER_ENABLE"/>
+	</reg32>
+
+	<stripe variants="GEN6">
+		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x2280"/>
+		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x2288"/>
+	</stripe>
+	<stripe variants="GEN7-">
+		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x5200" length="4"/>
+		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x5240" length="4"/>
+		<reg64 name="SO_WRITE_OFFSET" offset="0x5280" length="4"/>
+	</stripe>
 
 	<reg32 name="BCS_SWCTRL" offset="0x22200" type="gen_reg_with_writemask">
 		<bitfield pos="1" name="DST_TILING_Y"/>
