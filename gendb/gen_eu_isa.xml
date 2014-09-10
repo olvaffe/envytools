@@ -145,7 +145,7 @@
 </enum>
 
 <enum name="gen_eu_condition_modifier" bare="yes" prefix="gen">
-	<value value="0x0" name="COND_NORMAL"/>
+	<value value="0x0" name="COND_NONE"/>
 	<value value="0x1" name="COND_Z"/>
 	<value value="0x2" name="COND_NZ"/>
 	<value value="0x3" name="COND_G"/>
