@@ -267,127 +267,130 @@
 	<value value="0xc0" name="ARF_TM0" variants="GEN7-"/>
 </enum>
 
-<bitset name="gen_eu_inst_control" inline="yes" varset="gen">
-	<bitfield pos="31" name="SATURATE"/>
-	<bitfield pos="28" name="ACCWRCTRL"/>
+<bitset name="gen_eu_instruction_header" bare="yes" prefix="gen">
+	<bitfield pos="31" name="INST_SATURATE"/>
+	<bitfield pos="30" name="INST_DEBUGCTRL"/>
+	<bitfield pos="29" name="INST_CMPTCTRL"/>
+	<bitfield pos="28" name="INST_ACCWRCTRL"/>
 
-	<bitfield high="27" low="24" type="gen_eu_condition_modifier" name="CONDMODIFIER"/>
+	<bitfield high="27" low="24" type="gen_eu_condition_modifier" name="INST_CONDMODIFIER"/>
 	<!-- if OPCODE == OPCODE_SEND -->
-	<bitfield high="27" low="24" type="gen_eu_shared_function_id" name="SFID"/>
+	<bitfield high="27" low="24" type="gen_eu_shared_function_id" name="INST_SFID"/>
 	<!-- else if OPCODE == OPCODE_MATH -->
-	<bitfield high="27" low="24" type="gen_eu_math_function_control" name="FC"/>
+	<bitfield high="27" low="24" type="gen_eu_math_function_control" name="INST_FC"/>
 
-	<bitfield high="23" low="21" type="gen_eu_exec_size" name="EXECSIZE"/>
-	<bitfield pos="20" name="PREDINV"/>
-	<bitfield high="19" low="16" type="gen_eu_predicate_control" name="PREDCTRL"/>
-	<bitfield high="15" low="14" type="gen_eu_thread_control" name="THREADCTRL"/>
-	<bitfield high="13" low="12" type="gen_eu_quarter_control" name="QTRCTRL"/>
-	<bitfield high="11" low="10" type="gen_eu_dependency_control" name="DEPCTRL"/>
-	<bitfield pos="9" type="gen_eu_mask_control" name="MASKCTRL"/>
-	<bitfield pos="8" type ="gen_eu_access_mode" name="ACCESSMODE"/>
-	<bitfield high="6" low="0" type="gen_eu_opcode" name="OPCODE"/>
+	<bitfield high="23" low="21" type="gen_eu_exec_size" name="INST_EXECSIZE"/>
+	<bitfield pos="20" name="INST_PREDINV"/>
+	<bitfield high="19" low="16" type="gen_eu_predicate_control" name="INST_PREDCTRL"/>
+	<bitfield high="15" low="14" type="gen_eu_thread_control" name="INST_THREADCTRL"/>
+	<bitfield high="13" low="12" type="gen_eu_quarter_control" name="INST_QTRCTRL"/>
+	<bitfield high="11" low="10" type="gen_eu_dependency_control" name="INST_DEPCTRL"/>
+	<bitfield pos="9" type="gen_eu_mask_control" name="INST_MASKCTRL"/>
+	<bitfield pos="8" type ="gen_eu_access_mode" name="INST_ACCESSMODE"/>
+
+	<bitfield high="6" low="0" type="gen_eu_opcode" name="INST_OPCODE"/>
 </bitset>
 
-<bitset name="gen_eu_inst_dst" inline="yes" varset="gen">
-	<bitfield pos="31" type="gen_eu_addressing_mode" name="ADDRMODE"/>
-	<bitfield high="30" low="29" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
+<bitset name="gen_eu_instruction_operand_controls" bare="yes" prefix="gen">
+	<bitfield pos="31" type="gen_eu_addressing_mode" name="INST_DST_ADDRMODE"/>
+	<bitfield high="30" low="29" type="gen_eu_horizontal_stride" name="INST_DST_HORZSTRIDE"/>
 
 	<!-- if ADDRMODE == ADDRMODE_DIRECT and ACCESSMODE == ALIGN_1 -->
-	<bitfield high="28" low="21" type="uint" name="REG"/>
-	<bitfield high="20" low="16" type="uint" name="SUBREG"/>
+	<bitfield high="28" low="21" type="uint" name="INST_DST_REG"/>
+	<bitfield high="20" low="16" type="uint" name="INST_DST_SUBREG"/>
 	<!-- else if ADDRMODE == ADDRMODE_INDIRECT and ACCESSMODE == ALIGN_1 -->
-	<bitfield high="28" low="26" type="uint" name="ADDR_SUBREG"/>
-	<bitfield high="25" low="16" type="int" name="ADDR_IMM"/>
+	<bitfield high="28" low="26" type="uint" name="INST_DST_ADDR_SUBREG"/>
+	<bitfield high="25" low="16" type="int" name="INST_DST_ADDR_IMM"/>
 	<!-- else if ACCESSMODE == ALIGN16 -->
-	<bitfield high="20" low="20" shr="4" type="uint" name="SUBREG_ALIGN16"/>
-	<bitfield high="25" low="20" shr="4" type="int" name="ADDR_IMM_ALIGN16"/>
-	<bitfield high="19" low="16" name="WRITEMASK"/>
+	<bitfield high="20" low="20" shr="4" type="uint" name="INST_DST_SUBREG_ALIGN16"/>
+	<bitfield high="25" low="20" shr="4" type="int" name="INST_DST_ADDR_IMM_ALIGN16"/>
+	<bitfield high="19" low="16" name="INST_DST_WRITEMASK"/>
 
-	<bitfield pos="15" name="NIBCTRL" variants="GEN7-"/>
-	<bitfield high="14" low="12" type="gen_eu_reg_type" name="SRC1_TYPE"/>
-	<bitfield high="11" low="10" type="gen_eu_reg_file" name="SRC1_FILE"/>
-	<bitfield high="9" low="7" type="gen_eu_reg_type" name="SRC0_TYPE"/>
-	<bitfield high="6" low="5" type="gen_eu_reg_file" name="SRC0_FILE"/>
-	<bitfield high="4" low="2" type="gen_eu_reg_type" name="TYPE"/>
-	<bitfield high="1" low="0" type="gen_eu_reg_file" name="FILE"/>
+	<bitfield pos="15" name="INST_NIBCTRL" variants="GEN7-"/>
+	<bitfield high="14" low="12" type="gen_eu_reg_type" name="INST_SRC1_TYPE"/>
+	<bitfield high="11" low="10" type="gen_eu_reg_file" name="INST_SRC1_FILE"/>
+	<bitfield high="9" low="7" type="gen_eu_reg_type" name="INST_SRC0_TYPE"/>
+	<bitfield high="6" low="5" type="gen_eu_reg_file" name="INST_SRC0_FILE"/>
+	<bitfield high="4" low="2" type="gen_eu_reg_type" name="INST_DST_TYPE"/>
+	<bitfield high="1" low="0" type="gen_eu_reg_file" name="INST_DST_FILE"/>
 </bitset>
 
-<bitset name="gen_eu_inst_src" inline="yes" varset="gen">
+<bitset name="gen_eu_instruction_operand_src" bare="yes" prefix="gen">
 	<!-- only available to src0 -->
-	<bitfield pos="26" type="uint" name="FLAG_REG" variants="GEN7-"/>
-	<bitfield pos="25" type="uint" name="FLAG_SUBREG"/>
+	<bitfield pos="26" type="uint" name="INST_FLAG_REG" variants="GEN7-"/>
+	<bitfield pos="25" type="uint" name="INST_FLAG_SUBREG"/>
 
-	<bitfield high="24" low="21" type="gen_eu_vertical_stride" name="VERTSTRIDE"/>
+	<bitfield high="24" low="21" type="gen_eu_vertical_stride" name="INST_SRC_VERTSTRIDE"/>
 
 	<!-- if ACCESSMODE == ALIGN_1 -->
-	<bitfield high="20" low="18" type="gen_eu_width" name="WIDTH"/>
-	<bitfield high="17" low="16" type="gen_eu_horizontal_stride" name="HORZSTRIDE"/>
+	<bitfield high="20" low="18" type="gen_eu_width" name="INST_SRC_WIDTH"/>
+	<bitfield high="17" low="16" type="gen_eu_horizontal_stride" name="INST_SRC_HORZSTRIDE"/>
 	<!-- else -->
-	<bitfield high="19" low="18" type="gen_eu_swizzle" name="SWIZZLE_W"/>
-	<bitfield high="17" low="16" type="gen_eu_swizzle" name="SWIZZLE_Z"/>
+	<bitfield high="19" low="18" type="gen_eu_swizzle" name="INST_SRC_SWIZZLE_W"/>
+	<bitfield high="17" low="16" type="gen_eu_swizzle" name="INST_SRC_SWIZZLE_Z"/>
 
-	<bitfield pos="15" type="gen_eu_addressing_mode" name="ADDRMODE"/>
-	<bitfield pos="14" name="NEGATE"/>
-	<bitfield pos="13" name="ABSOLUTE"/>
+	<bitfield pos="15" type="gen_eu_addressing_mode" name="INST_SRC_ADDRMODE"/>
+	<bitfield pos="14" name="INST_SRC_NEGATE"/>
+	<bitfield pos="13" name="INST_SRC_ABSOLUTE"/>
 
 	<!-- if ADDRMODE == ADDRMODE_DIRECT and ACCESSMODE == ALIGN_1 -->
-	<bitfield high="12" low="5" type="uint" name="REG"/>
-	<bitfield high="4" low="0" type="uint" name="SUBREG"/>
+	<bitfield high="12" low="5" type="uint" name="INST_SRC_REG"/>
+	<bitfield high="4" low="0" type="uint" name="INST_SRC_SUBREG"/>
 	<!-- else if ADDRMODE == ADDRMODE_INDIRECT and ACCESSMODE == ALIGN_1 -->
-	<bitfield high="12" low="10" type="uint" name="ADDR_SUBREG"/>
-	<bitfield high="9" low="0" type="int" name="ADDR_IMM"/>
+	<bitfield high="12" low="10" type="uint" name="INST_SRC_ADDR_SUBREG"/>
+	<bitfield high="9" low="0" type="int" name="INST_SRC_ADDR_IMM"/>
 	<!-- else if ACCESSMODE == ALIGN16 -->
-	<bitfield high="4" low="4" shr="4" name="SUBREG_ALIGN16"/>
-	<bitfield high="9" low="4" shr="4" name="ADDR_IMM_ALIGN16"/>
-	<bitfield high="3" low="2" type="gen_eu_swizzle" name="SWIZZLE_Y"/>
-	<bitfield high="1" low="0" type="gen_eu_swizzle" name="SWIZZLE_X"/>
+	<bitfield high="4" low="4" shr="4" type="uint" name="INST_SRC_SUBREG_ALIGN16"/>
+	<bitfield high="9" low="4" shr="4" type="uint" name="INST_SRC_ADDR_IMM_ALIGN16"/>
+	<bitfield high="3" low="2" type="gen_eu_swizzle" name="INST_SRC_SWIZZLE_Y"/>
+	<bitfield high="1" low="0" type="gen_eu_swizzle" name="INST_SRC_SWIZZLE_X"/>
 </bitset>
 
-<bitset name="gen_eu_3src_dst" inline="yes" varset="gen">
-	<bitfield high="31" low="24" type="uint" name="REG"/>
-	<bitfield high="23" low="21" shr="2" type="uint" name="SUBREG"/>
-	<bitfield high="20" low="17" name="WRITEMASK"/>
-	<bitfield pos="15" name="NIBCTRL" variants="GEN7-"/>
-	<bitfield high="13" low="12" type="gen_eu_reg_type" name="TYPE" variants="GEN7-"/>
-	<bitfield high="11" low="10" type="gen_eu_reg_type" name="SRC_TYPE" variants="GEN7-"/>
-	<bitfield pos="9" name="SRC2_NEGATE"/>
-	<bitfield pos="8" name="SRC2_ABSOLUTE"/>
-	<bitfield pos="7" name="SRC1_NEGATE"/>
-	<bitfield pos="6" name="SRC1_ABSOLUTE"/>
-	<bitfield pos="5" name="SRC0_NEGATE"/>
-	<bitfield pos="4" name="SRC0_ABSOLUTE"/>
-	<bitfield pos="2" type="uint" name="FLAG_REG" variants="GEN7-"/>
-	<bitfield pos="1" type="uint" name="FLAG_SUBREG"/>
-	<bitfield pos="0" name="FILE_MRF" variants="GEN6"/>
+<bitset name="gen_eu_instruction_3src_controls" bare="yes" prefix="gen">
+	<bitfield high="31" low="24" type="uint" name="3SRC_DST_REG"/>
+	<bitfield high="23" low="21" shr="2" type="uint" name="3SRC_DST_SUBREG"/>
+	<bitfield high="20" low="17" name="3SRC_DST_WRITEMASK"/>
+	<bitfield pos="15" name="3SRC_NIBCTRL" variants="GEN7-"/>
+	<bitfield high="13" low="12" type="gen_eu_reg_type" name="3SRC_DST_TYPE" variants="GEN7-"/>
+	<bitfield high="11" low="10" type="gen_eu_reg_type" name="3SRC_SRC_TYPE" variants="GEN7-"/>
+	<bitfield pos="9" name="3SRC_SRC2_NEGATE"/>
+	<bitfield pos="8" name="3SRC_SRC2_ABSOLUTE"/>
+	<bitfield pos="7" name="3SRC_SRC1_NEGATE"/>
+	<bitfield pos="6" name="3SRC_SRC1_ABSOLUTE"/>
+	<bitfield pos="5" name="3SRC_SRC0_NEGATE"/>
+	<bitfield pos="4" name="3SRC_SRC0_ABSOLUTE"/>
+	<bitfield pos="2" type="uint" name="3SRC_FLAG_REG" variants="GEN7-"/>
+	<bitfield pos="1" type="uint" name="3SRC_FLAG_SUBREG"/>
+	<bitfield pos="0" name="3SRC_DST_FILE_MRF" variants="GEN6"/>
 </bitset>
 
-<bitset name="gen_eu_3src_src" inline="yes" varset="gen">
-	<bitfield high="19" low="12" type="uint" name="REG"/>
-	<bitfield high="11" low="9" shr="2" type="uint" name="SUBREG"/>
-	<bitfield high="8" low="7" type="gen_eu_swizzle" name="SWIZZLE_W"/>
-	<bitfield high="6" low="5" type="gen_eu_swizzle" name="SWIZZLE_Z"/>
-	<bitfield high="4" low="3" type="gen_eu_swizzle" name="SWIZZLE_Y"/>
-	<bitfield high="2" low="1" type="gen_eu_swizzle" name="SWIZZLE_X"/>
-	<bitfield pos="0" name="REPCTRL"/>
+<bitset name="gen_eu_instruction_3src_src" bare="yes" prefix="gen">
+	<bitfield high="19" low="12" type="uint" name="3SRC_SRC_REG"/>
+	<bitfield high="11" low="9" shr="2" type="uint" name="3SRC_SRC_SUBREG"/>
+	<bitfield high="8" low="7" type="gen_eu_swizzle" name="3SRC_SRC_SWIZZLE_W"/>
+	<bitfield high="6" low="5" type="gen_eu_swizzle" name="3SRC_SRC_SWIZZLE_Z"/>
+	<bitfield high="4" low="3" type="gen_eu_swizzle" name="3SRC_SRC_SWIZZLE_Y"/>
+	<bitfield high="2" low="1" type="gen_eu_swizzle" name="3SRC_SRC_SWIZZLE_X"/>
+	<bitfield pos="0" name="3SRC_SRC_REPCTRL"/>
 </bitset>
 
 <domain name="gen_eu_inst" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="INST_DW0" offset="0" type="gen_eu_inst_control"/>
-		<reg32 name="INST_DW1" offset="1" type="gen_eu_inst_dst"/>
-		<reg32 name="INST_DW2" offset="3" type="gen_eu_inst_src"/>
-		<reg32 name="INST_DW3" offset="0" type="gen_eu_inst_src"/>
+		<reg32 name="INST_DW0" offset="0" type="gen_eu_instruction_header"/>
+		<reg32 name="INST_DW1" offset="1" type="gen_eu_instruction_operand_controls"/>
+		<reg32 name="INST_DW2" offset="2" type="gen_eu_instruction_operand_src"/>
+		<reg32 name="INST_DW3" offset="3" type="gen_eu_instruction_operand_src"/>
 	</stripe>
 </domain>
 
 <domain name="gen_eu_3src" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="3SRC_DW0" offset="0" type="gen_eu_inst_control"/>
-		<reg32 name="3SRC_DW1" offset="1" type="gen_eu_3src_dst"/>
+		<reg32 name="3SRC_DW0" offset="0" type="gen_eu_instruction_header"/>
+		<reg32 name="3SRC_DW1" offset="1" type="gen_eu_instruction_3src_controls"/>
 		<reg64 name="3SRC_SRC" offset="2">
-			<bitfield high="62" low="42" type="gen_eu_3src_src" name="2"/>
-			<bitfield high="41" low="21" type="gen_eu_3src_src" name="1"/>
-			<bitfield high="20" low="0" type="gen_eu_3src_src" name="0"/>
+			<bitfield high="62" low="42" type="gen_eu_instruction_3src_src" name="2"/>
+			<bitfield high="41" low="21" type="gen_eu_instruction_3src_src" name="1"/>
+			<bitfield high="20" low="0" type="gen_eu_instruction_3src_src" name="0"/>
 		</reg64>
 	</stripe>
 </domain>
