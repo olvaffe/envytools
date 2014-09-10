@@ -173,21 +173,21 @@
 </enum>
 
 <enum name="gen_state_alignment" bare="yes" prefix="gen">
-	<doc>Alignment in DWORDs required by 3DSTATE_SCISSOR_STATE_POINTERS and etc.</doc>
+	<doc>Alignment in bytes required by 3DSTATE_SCISSOR_STATE_POINTERS and etc.</doc>
 
-	<value value="16" name="ALIGNMENT_COLOR_CALC_STATE"/>
-	<value value="16" name="ALIGNMENT_DEPTH_STENCIL_STATE"/>
-	<value value="16" name="ALIGNMENT_BLEND_STATE"/>
-	<value value="8" name="ALIGNMENT_CLIP_VIEWPORT" variants="GEN6"/>
-	<value value="8" name="ALIGNMENT_SF_VIEWPORT" variants="GEN6"/>
-	<value value="16" name="ALIGNMENT_SF_CLIP_VIEWPORT" variants="GEN7-"/>
-	<value value="8" name="ALIGNMENT_CC_VIEWPORT"/>
-	<value value="8" name="ALIGNMENT_SCISSOR_RECT"/>
-	<value value="8" name="ALIGNMENT_BINDING_TABLE_STATE"/>
-	<value value="8" name="ALIGNMENT_SAMPLER_BORDER_COLOR"/>
-	<value value="8" name="ALIGNMENT_SAMPLER_STATE"/>
+	<value value="64" name="ALIGNMENT_COLOR_CALC_STATE"/>
+	<value value="64" name="ALIGNMENT_DEPTH_STENCIL_STATE"/>
+	<value value="64" name="ALIGNMENT_BLEND_STATE"/>
+	<value value="32" name="ALIGNMENT_CLIP_VIEWPORT" variants="GEN6"/>
+	<value value="32" name="ALIGNMENT_SF_VIEWPORT" variants="GEN6"/>
+	<value value="64" name="ALIGNMENT_SF_CLIP_VIEWPORT" variants="GEN7-"/>
+	<value value="32" name="ALIGNMENT_CC_VIEWPORT"/>
+	<value value="32" name="ALIGNMENT_SCISSOR_RECT"/>
+	<value value="32" name="ALIGNMENT_BINDING_TABLE_STATE"/>
+	<value value="32" name="ALIGNMENT_SAMPLER_BORDER_COLOR"/>
+	<value value="32" name="ALIGNMENT_SAMPLER_STATE"/>
 
-	<value value="8" name="ALIGNMENT_SURFACE_STATE"/>
+	<value value="32" name="ALIGNMENT_SURFACE_STATE"/>
 </enum>
 
 <enum name="gen_vf_component" bare="yes" prefix="gen">
