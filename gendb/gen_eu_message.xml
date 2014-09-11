@@ -207,6 +207,7 @@
 	</bitfield>
 	<!-- else if MSG_DP_OP == Render Target Write -->
 	<bitfield pos="12" name="MSG_DP_RT_LAST"/>
+	<bitfield pos="11" name="MSG_DP_SLOTGRP_HI"/>
 	<bitfield high="10" low="8" name="MSG_DP_RT_MODE">
 		<value value="0x0" name="SIMD16"/>
 		<value value="0x1" name="SIMD16_REPDATA"/>
