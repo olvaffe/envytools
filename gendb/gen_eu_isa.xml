@@ -373,6 +373,22 @@
 	<bitfield pos="0" name="3SRC_SRC_REPCTRL"/>
 </bitset>
 
+<bitset name="gen_eu_instruction_compact" bare="yes" prefix="gen">
+	<bitfield high="63" low="56" name="COMPACT_SRC1_REG"/>
+	<bitfield high="55" low="48" name="COMPACT_SRC0_REG"/>
+	<bitfield high="47" low="40" name="COMPACT_DST_REG"/>
+	<bitfield high="39" low="35" name="COMPACT_SRC1_INDEX"/>
+	<bitfield high="34" low="30" name="COMPACT_SRC0_INDEX"/>
+	<bitfield pos="29" name="COMPACT_CMPTCTRL"/>
+	<bitfield high="27" low="24" name="COMPACT_CONDMODIFIER"/>
+	<bitfield pos="23" name="COMPACT_ACCWRCTRL"/>
+	<bitfield high="22" low="18" name="COMPACT_SUBREG_INDEX"/>
+	<bitfield high="17" low="13" name="COMPACT_DATATYPE_INDEX"/>
+	<bitfield high="12" low="8" name="COMPACT_CONTROL_INDEX"/>
+	<bitfield pos="7" name="COMPACT_DEBUGCTRL"/>
+	<bitfield high="6" low="0" type="gen_eu_opcode" name="COMPACT_OPCODE"/>
+</bitset>
+
 <domain name="gen_eu_inst" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="INST_DW0" offset="0" type="gen_eu_instruction_header"/>
@@ -391,6 +407,12 @@
 			<bitfield high="41" low="21" type="gen_eu_instruction_3src_src" name="1"/>
 			<bitfield high="20" low="0" type="gen_eu_instruction_3src_src" name="0"/>
 		</reg64>
+	</stripe>
+</domain>
+
+<domain name="gen_eu_compact" bare="yes" prefix="gen">
+	<stripe>
+		<reg64 name="COMPACT_QWORD" offset="0" type="gen_eu_instruction_compact"/>
 	</stripe>
 </domain>
 
