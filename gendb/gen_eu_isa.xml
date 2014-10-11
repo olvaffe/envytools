@@ -380,7 +380,7 @@
 	<bitfield high="39" low="35" name="COMPACT_SRC1_INDEX"/>
 	<bitfield high="34" low="30" name="COMPACT_SRC0_INDEX"/>
 	<bitfield pos="29" name="COMPACT_CMPTCTRL"/>
-	<bitfield pos="28" name="COMPACT_FLAG_SUBREG" variants="GEN6"/>
+	<bitfield pos="28" type="uint" name="COMPACT_FLAG_SUBREG" variants="GEN6"/>
 	<bitfield high="27" low="24" name="COMPACT_CONDMODIFIER"/>
 	<bitfield pos="23" name="COMPACT_ACCWRCTRL"/>
 	<bitfield high="22" low="18" name="COMPACT_SUBREG_INDEX"/>
