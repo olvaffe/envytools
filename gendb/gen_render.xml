@@ -32,9 +32,7 @@
 		<value value="0x000" name="MEDIA_VFE_STATE"/>
 		<value value="0x001" name="MEDIA_CURBE_LOAD"/>
 		<value value="0x002" name="MEDIA_INTERFACE_DESCRIPTOR_LOAD"/>
-		<value value="0x003" name="MEDIA_GATEWAY_STATE" variants="GEN6"/>
 		<value value="0x004" name="MEDIA_STATE_FLUSH"/>
-		<value value="0x103" name="MEDIA_OBJECT_WALKER"/>
 		<value value="0x105" name="GPGPU_WALKER" variants="GEN7-"/>
 
 		<brief>3D ops</brief>
