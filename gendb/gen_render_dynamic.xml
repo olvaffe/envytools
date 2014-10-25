@@ -5,6 +5,7 @@
 
 <import file="gen_copyright.xml"/>
 <import file="gen_chipsets.xml"/>
+<import file="gen_render.xml"/>
 
 <enum name="gen_compare_function" bare="yes" prefix="gen">
 	<value value="0x0" name="COMPAREFUNCTION_ALWAYS"/>

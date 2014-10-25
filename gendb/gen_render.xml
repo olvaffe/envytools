@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://nouveau.freedesktop.org/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://nouveau.freedesktop.org/ rules-ng.xsd">
+
+<import file="gen_copyright.xml"/>
+<import file="gen_chipsets.xml"/>
+
+<bitset name="gen_render_header" bare="yes" prefix="gen">
+	<bitfield high="31" low="29" name="RENDER_TYPE">
+		<value value="0x3" name="RENDER"/>
+	</bitfield>
+	<bitfield high="28" low="27" name="RENDER_SUBTYPE">
+		<value value="0x0" name="COMMON"/>
+		<value value="0x1" name="SINGLE_DW"/>
+		<value value="0x2" name="MEDIA"/>
+		<value value="0x3" name="3D"/>
+	</bitfield>
+
+	<bitfield high="26" low="16" name="RENDER_OPCODE">
+		<brief>bit 26:24 is op and bit 23:16 is subop</brief>
+
+		<brief>COMMON ops</brief>
+		<value value="0x101" name="STATE_BASE_ADDRESS"/>
+		<value value="0x102" name="STATE_SIP"/>
+
+		<brief>SINGLE_DW ops</brief>
+		<value value="0x00b" name="3DSTATE_VF_STATISTICS"/>
+		<value value="0x104" name="PIPELINE_SELECT"/>
+
+		<brief>MEDIA ops</brief>
+		<value value="0x000" name="MEDIA_VFE_STATE"/>
+		<value value="0x001" name="MEDIA_CURBE_LOAD"/>
+		<value value="0x002" name="MEDIA_INTERFACE_DESCRIPTOR_LOAD"/>
+		<value value="0x003" name="MEDIA_GATEWAY_STATE" variants="GEN6"/>
+		<value value="0x004" name="MEDIA_STATE_FLUSH"/>
+		<value value="0x103" name="MEDIA_OBJECT_WALKER"/>
+		<value value="0x105" name="GPGPU_WALKER" variants="GEN7-"/>
+
+		<brief>3D ops</brief>
+		<value value="0x001" name="3DSTATE_BINDING_TABLE_POINTERS" variants="GEN6"/>
+		<value value="0x002" name="3DSTATE_SAMPLER_STATE_POINTERS" variants="GEN6"/>
+		<value value="0x004" name="3DSTATE_CLEAR_PARAMS" variants="GEN7-"/>
+		<value value="0x005" name="3DSTATE_URB" variants="GEN6"/>
+		<value value="0x005" name="3DSTATE_DEPTH_BUFFER" variants="GEN7-"/>
+		<value value="0x006" name="3DSTATE_STENCIL_BUFFER" variants="GEN7-"/>
+		<value value="0x007" name="3DSTATE_HIER_DEPTH_BUFFER" variants="GEN7-"/>
+		<value value="0x008" name="3DSTATE_VERTEX_BUFFERS"/>
+		<value value="0x009" name="3DSTATE_VERTEX_ELEMENTS"/>
+		<value value="0x00a" name="3DSTATE_INDEX_BUFFER"/>
+		<value value="0x00c" name="3DSTATE_VF" variants="GEN75-"/>
+		<value value="0x00d" name="3DSTATE_VIEWPORT_STATE_POINTERS" variants="GEN6"/>
+		<value value="0x00e" name="3DSTATE_CC_STATE_POINTERS"/>
+		<value value="0x00f" name="3DSTATE_SCISSOR_STATE_POINTERS"/>
+		<value value="0x010" name="3DSTATE_VS"/>
+		<value value="0x011" name="3DSTATE_GS"/>
+		<value value="0x012" name="3DSTATE_CLIP"/>
+		<value value="0x013" name="3DSTATE_SF"/>
+		<value value="0x014" name="3DSTATE_WM"/>
+		<value value="0x015" name="3DSTATE_CONSTANT_VS"/>
+		<value value="0x016" name="3DSTATE_CONSTANT_GS"/>
+		<value value="0x017" name="3DSTATE_CONSTANT_PS"/>
+		<value value="0x018" name="3DSTATE_SAMPLE_MASK"/>
+		<value value="0x019" name="3DSTATE_CONSTANT_HS" variants="GEN7-"/>
+		<value value="0x01a" name="3DSTATE_CONSTANT_DS" variants="GEN7-"/>
+		<value value="0x01b" name="3DSTATE_HS" variants="GEN7-"/>
+		<value value="0x01c" name="3DSTATE_TE" variants="GEN7-"/>
+		<value value="0x01d" name="3DSTATE_DS" variants="GEN7-"/>
+		<value value="0x01e" name="3DSTATE_STREAMOUT" variants="GEN7-"/>
+		<value value="0x01f" name="3DSTATE_SBE" variants="GEN7-"/>
+		<value value="0x020" name="3DSTATE_PS" variants="GEN7-"/>
+		<value value="0x021" name="3DSTATE_VIEWPORT_STATE_POINTERS_SF_CLIP" variants="GEN7-"/>
+		<value value="0x023" name="3DSTATE_VIEWPORT_STATE_POINTERS_CC" variants="GEN7-"/>
+		<value value="0x024" name="3DSTATE_BLEND_STATE_POINTERS" variants="GEN7-"/>
+		<value value="0x025" name="3DSTATE_DEPTH_STENCIL_STATE_POINTERS" variants="GEN7-"/>
+		<value value="0x026" name="3DSTATE_BINDING_TABLE_POINTERS_VS" variants="GEN7-"/>
+		<value value="0x027" name="3DSTATE_BINDING_TABLE_POINTERS_HS" variants="GEN7-"/>
+		<value value="0x028" name="3DSTATE_BINDING_TABLE_POINTERS_DS" variants="GEN7-"/>
+		<value value="0x029" name="3DSTATE_BINDING_TABLE_POINTERS_GS" variants="GEN7-"/>
+		<value value="0x02a" name="3DSTATE_BINDING_TABLE_POINTERS_PS" variants="GEN7-"/>
+		<value value="0x02b" name="3DSTATE_SAMPLER_STATE_POINTERS_VS" variants="GEN7-"/>
+		<value value="0x02c" name="3DSTATE_SAMPLER_STATE_POINTERS_HS" variants="GEN7-"/>
+		<value value="0x02d" name="3DSTATE_SAMPLER_STATE_POINTERS_DS" variants="GEN7-"/>
+		<value value="0x02e" name="3DSTATE_SAMPLER_STATE_POINTERS_GS" variants="GEN7-"/>
+		<value value="0x02f" name="3DSTATE_SAMPLER_STATE_POINTERS_PS" variants="GEN7-"/>
+		<value value="0x030" name="3DSTATE_URB_VS" variants="GEN7-"/>
+		<value value="0x031" name="3DSTATE_URB_HS" variants="GEN7-"/>
+		<value value="0x032" name="3DSTATE_URB_DS" variants="GEN7-"/>
+		<value value="0x033" name="3DSTATE_URB_GS" variants="GEN7-"/>
+		<value value="0x100" name="3DSTATE_DRAWING_RECTANGLE"/>
+		<value value="0x105" name="3DSTATE_DEPTH_BUFFER" variants="GEN6"/>
+		<value value="0x106" name="3DSTATE_POLY_STIPPLE_OFFSET"/>
+		<value value="0x107" name="3DSTATE_POLY_STIPPLE_PATTERN"/>
+		<value value="0x108" name="3DSTATE_LINE_STIPPLE"/>
+		<value value="0x10a" name="3DSTATE_AA_LINE_PARAMETERS"/>
+		<value value="0x10b" name="3DSTATE_GS_SVB_INDEX" variants="GEN6"/>
+		<value value="0x10d" name="3DSTATE_MULTISAMPLE"/>
+		<value value="0x10e" name="3DSTATE_STENCIL_BUFFER" variants="GEN6"/>
+		<value value="0x10f" name="3DSTATE_HIER_DEPTH_BUFFER" variants="GEN6"/>
+		<value value="0x110" name="3DSTATE_CLEAR_PARAMS" variants="GEN6"/>
+		<value value="0x112" name="3DSTATE_PUSH_CONSTANT_ALLOC_VS" variants="GEN7-"/>
+		<value value="0x113" name="3DSTATE_PUSH_CONSTANT_ALLOC_HS" variants="GEN7-"/>
+		<value value="0x114" name="3DSTATE_PUSH_CONSTANT_ALLOC_DS" variants="GEN7-"/>
+		<value value="0x115" name="3DSTATE_PUSH_CONSTANT_ALLOC_GS" variants="GEN7-"/>
+		<value value="0x116" name="3DSTATE_PUSH_CONSTANT_ALLOC_PS" variants="GEN7-"/>
+		<value value="0x117" name="3DSTATE_SO_DECL_LIST" variants="GEN7-"/>
+		<value value="0x118" name="3DSTATE_SO_BUFFER" variants="GEN7-"/>
+		<value value="0x200" name="PIPE_CONTROL"/>
+		<value value="0x300" name="3DPRIMITIVE"/>
+	</bitfield>
+
+	<bitfield high="7" low="0" type="uint" add="2" name="RENDER_LENGTH"/>
+</bitset>
+
+<bitset name="gen_render_mocs" bare="yes" prefix="gen">
+	<bitfield high="1" low="0" name="MOCS_LLC" variants="GEN6">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="UC"/>
+		<value value="0x2" name="ON"/>
+	</bitfield>
+	<bitfield pos="1" name="MOCS_LLC" variants="GEN7">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="ON"/>
+	</bitfield>
+	<bitfield high="2" low="1" name="MOCS_LLC" variants="GEN75-">
+		<value value="0x0" name="PTE"/>
+		<value value="0x1" name="UC"/>
+		<value value="0x2" name="ON"/>
+		<value value="0x3" name="ELLC"/>
+	</bitfield>
+
+	<bitfield pos="0" name="MOCS_L3" variants="GEN7-">
+		<value value="0x0" name="UC"/>
+		<value value="0x1" name="ON"/>
+	</bitfield>
+</bitset>
+
+<bitset name="gen_base_address" bare="yes" prefix="gen">
+	<bitfield high="31" low="12" shr="12" name="BASE_ADDR"/>
+	<bitfield high="11" low="8" type="gen_render_mocs" name="BASE_ADDR_MOCS"/>
+	<bitfield pos="0" name="BASE_ADDR_MODIFIED"/>
+</bitset>
+
+<domain name="STATE_BASE_ADDRESS" width="32" size="10" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="BASE_ADDR_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="BASE_ADDR_DW1_GENERAL" offset="1" type="gen_base_address">
+			<bitfield high="7" type="gen_render_mocs" low="4" name="STATELESS_MOCS"/>
+			<bitfield pos="3" name="STATELESS_FORCE_WRITE_THRU" variants="GEN6"/>
+		</reg32>
+		<reg32 name="BASE_ADDR_DW2_SURFACE" offset="2" type="gen_base_address"/>
+		<reg32 name="BASE_ADDR_DW3_DYNAMIC" offset="3" type="gen_base_address"/>
+		<reg32 name="BASE_ADDR_DW4_INDIRECT" offset="4" type="gen_base_address"/>
+		<reg32 name="BASE_ADDR_DW5_INSTRUCTION" offset="5" type="gen_base_address"/>
+
+		<reg32 name="BASE_ADDR_DW6_GENERAL_BOUND" offset="6" type="gen_base_address"/>
+		<reg32 name="BASE_ADDR_DW7_DYNAMIC_BOUND" offset="7" type="gen_base_address"/>
+		<reg32 name="BASE_ADDR_DW8_INDIRECT_BOUND" offset="8" type="gen_base_address"/>
+		<reg32 name="BASE_ADDR_DW9_INSTRUCTION_BOUND" offset="9" type="gen_base_address"/>
+	</stripe>
+</domain>
+
+<domain name="STATE_SIP" width="32" size="2" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="SIP_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SIP_DW1_KERNEL" offset="1">
+			<bitfield high="31" low="4" shr="4" name="ADDR"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="PIPELINE_SELECT" width="32" size="1" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="PIPELINE_SELECT_DW0" offset="0" type="gen_render_header">
+			<bitfield high="1" low="0" name="SELECT">
+				<value value="0x0" name="3D"/>
+				<value value="0x1" name="MEDIA"/>
+				<value value="0x2" name="GPGPU" variants="GEN75-"/>
+			</bitfield>
+		</reg32>
+	</stripe>
+</domain>
+
+</database>

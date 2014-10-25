@@ -5,6 +5,7 @@
 
 <import file="gen_copyright.xml"/>
 <import file="gen_chipsets.xml"/>
+<import file="gen_render.xml"/>
 
 <enum name="gen_surface_format" bare="yes" prefix="gen">
 	<value value="0x000" name="FORMAT_R32G32B32A32_FLOAT"/>
@@ -276,29 +277,6 @@
 	<value value="0x3" name="270DEG"/>
 </enum>
 
-<bitset name="gen_surface_mocs" bare="yes" prefix="gen">
-	<bitfield high="1" low="0" name="MOCS_LLC" variants="GEN6">
-		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="UC"/>
-		<value value="0x2" name="ON"/>
-	</bitfield>
-	<bitfield pos="1" name="MOCS_LLC" variants="GEN7">
-		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="ON"/>
-	</bitfield>
-	<bitfield high="2" low="1" name="MOCS_LLC" variants="GEN75-">
-		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="UC"/>
-		<value value="0x2" name="ON"/>
-		<value value="0x3" name="ELLC"/>
-	</bitfield>
-
-	<bitfield pos="0" name="MOCS_L3" variants="GEN7-">
-		<value value="0x0" name="UC"/>
-		<value value="0x1" name="ON"/>
-	</bitfield>
-</bitset>
-
 <domain name="SURFACE_STATE" width="32" size="8" bare="yes" prefix="gen">
 	<stripe variants="GEN6">
 		<reg32 name="SURFACE_DW0" offset="0">
@@ -343,7 +321,7 @@
 			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
 			<bitfield high="24" low="24" type="gen_surface_valign" name="VALIGN"/>
 			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
-			<bitfield high="19" low="16" type="gen_surface_mocs" name="MOCS"/>
+			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>
 
@@ -399,7 +377,7 @@
 		<reg32 name="SURFACE_DW5" offset="5">
 			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
 			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
-			<bitfield high="19" low="16" type="gen_surface_mocs" name="MOCS"/>
+			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
 		</reg32>
