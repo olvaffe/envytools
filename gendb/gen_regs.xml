@@ -49,6 +49,34 @@
 		<reg64 name="SO_WRITE_OFFSET" offset="0x5280" length="4"/>
 	</stripe>
 
+	<stripe variants="GEN7-">
+		<reg32 name="L3SQCREG1" offset="0xb010">
+			<bitfield pos="24" name="CON4DCUNC"/>
+			<bitfield high="23" low="19" name="SQGPCI"/>
+			<bitfield high="18" low="14" name="SQHPCI"/>
+		</reg32>
+		<reg32 name="L3SQCREG2" offset="0xb014"/>
+		<reg32 name="L3SQCREG3" offset="0xb018"/>
+		<reg32 name="L3CNTLREG1" offset="0xb01c"/>
+		<reg32 name="L3CNTLREG2" offset="0xb020">
+			<bitfield pos="27" name="DCWASLMB"/>
+			<bitfield high="26" low="21" name="DCWASS"/>
+			<bitfield pos="20" name="ROCPSLMB"/>
+			<bitfield high="19" low="14" name="RDOCPL"/>
+			<bitfield pos="7" name="URBSLMB"/>
+			<bitfield high="6" low="1" name="URBALL"/>
+			<bitfield pos="0" name="SLMMENB"/>
+		</reg32>
+		<reg32 name="L3CNTLREG3" offset="0xb024">
+			<bitfield pos="21" name="TWALSLMB"/>
+			<bitfield high="20" low="15" name="TXWYALL"/>
+			<bitfield pos="14" name="CWASLMB"/>
+			<bitfield high="13" low="8" name="CTWYALL"/>
+			<bitfield pos="7" name="ISWYSLMB"/>
+			<bitfield high="6" low="1" name="ISWYALL"/>
+		</reg32>
+	</stripe>
+
 	<reg32 name="BCS_SWCTRL" offset="0x22200" type="gen_reg_with_writemask">
 		<bitfield pos="1" name="DST_TILING_Y"/>
 		<bitfield pos="0" name="SRC_TILING_Y"/>
