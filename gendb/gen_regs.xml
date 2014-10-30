@@ -52,8 +52,10 @@
 	<stripe variants="GEN7-">
 		<reg32 name="L3SQCREG1" offset="0xb010">
 			<bitfield pos="24" name="CON4DCUNC"/>
-			<bitfield high="23" low="19" name="SQGPCI"/>
-			<bitfield high="18" low="14" name="SQHPCI"/>
+
+			<bitfield high="23" low="16" name="SQGHPCI" variants="GEN7"/>
+			<bitfield high="23" low="19" name="SQGPCI" variants="GEN75-"/>
+			<bitfield high="18" low="14" name="SQHPCI" variants="GEN75-"/>
 		</reg32>
 		<reg32 name="L3SQCREG2" offset="0xb014"/>
 		<reg32 name="L3SQCREG3" offset="0xb018"/>
