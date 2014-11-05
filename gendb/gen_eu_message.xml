@@ -174,8 +174,11 @@
 <bitset name="gen_eu_message_dp" bare="yes" prefix="gen">
 	<bitfield pos="17" name="MSG_DP_SEND_WRITE_COMMIT" variants="GEN6"/>
 	<bitfield high="16" low="13" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN6"/>
+	<bitfield high="12" low="8" name="MSG_DP_CTRL" variants="GEN6"/>
+
 	<bitfield pos="18" name="MSG_DP_CATEGORY" variants="GEN7-"/>
 	<bitfield high="17" low="14" type="gen_eu_dp_op" name="MSG_DP_OP" variants="GEN7-"/>
+	<bitfield high="13" low="8" name="MSG_DP_CTRL" variants="GEN7-"/>
 
 	<!-- if MSG_DP_OP == OWord Block Read/Write -->
 	<bitfield pos="13" name="MSG_DP_OWORD_BLOCK_READ_INVALIDATE" variants="GEN7-"/>
@@ -215,6 +218,18 @@
 		<value value="0x3" name="SIMD8_DUALSRC_HI"/>
 		<value value="0x4" name="SIMD8_LO"/>
 		<value value="0x5" name="SIMD8_IMAGE_WR" variants="GEN6"/>
+	</bitfield>
+	<!-- else if MSG_DP_OP == Untyped Surface Read/Write -->
+	<bitfield high="13" low="12" name="MSG_DP_UNTYPED_MODE" variants="GEN7-">
+		<value value="0x0" name="SIMD4X2"/>
+		<value value="0x1" name="SIMD16"/>
+		<value value="0x2" name="SIMD8"/>
+	</bitfield>
+	<bitfield high="11" low="8" name="MSG_DP_UNTYPED_MASK" variants="GEN7-">
+		<value value="0x0" name="R"/>
+		<value value="0x1" name="G"/>
+		<value value="0x2" name="B"/>
+		<value value="0x4" name="A"/>
 	</bitfield>
 
 	<bitfield high="7" low="0" type="uint" name="MSG_DP_SURFACE"/>
