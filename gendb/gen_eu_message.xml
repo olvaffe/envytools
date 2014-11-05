@@ -235,4 +235,25 @@
 	<bitfield high="7" low="0" type="uint" name="MSG_DP_SURFACE"/>
 </bitset>
 
+<bitset name="gen_eu_message_thread_spawner" bare="yes" prefix="gen">
+	<bitfield pos="4" name="MSG_TS_RESOURCE_SELECT">
+		<!-- if TS_OPCODE == SPAWN -->
+		<value value="0x0" name="CHILD"/>
+		<value value="0x1" name="ROOT"/>
+		<!-- else if TS_OPCODE == DEREF -->
+		<value value="0x0" name="DEREF"/>
+		<value value="0x1" name="NO_DEREF"/>
+	</bitfield>
+
+	<bitfield pos="1" name="MSG_TS_REQUESTER_TYPE">
+		<value value="0x0" name="ROOT"/>
+		<value value="0x1" name="CHILD"/>
+	</bitfield>
+
+	<bitfield pos="0" name="MSG_TS_OPCODE">
+		<value value="0x0" name="DEREF"/>
+		<value value="0x1" name="SPAWN"/>
+	</bitfield>
+</bitset>
+
 </database>
