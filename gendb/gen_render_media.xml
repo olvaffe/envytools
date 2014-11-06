@@ -46,7 +46,8 @@
 			<bitfield pos="21" name="BARRIER_ENABLE"/>
 			<bitfield high="20" low="16" type="uint" name="SLM_SIZE"/>
 			<bitfield high="15" low="8" name="BARRIER_RETURN_BYTE" variants="GEN7"/>
-			<bitfield high="7" low="0" name="THREAD_GROUP_SIZE" type="uint" variants="GEN75-"/>
+			<!-- appear to be available since Gen7, not Gen7.5 -->
+			<bitfield high="7" low="0" name="THREAD_GROUP_SIZE" type="uint" variants="GEN7-"/>
 		</reg32>
 		<reg32 name="IDRT_DW6" offset="6">
 			<bitfield high="7" low="0" name="CROSS_THREAD_CURBE_READ_LEN" type="uint" variants="GEN75-"/>
@@ -73,6 +74,7 @@
 				<value value="0x0" name="NONE"/>
 				<value value="0x2" name="ANY"/>
 			</bitfield>
+			<!-- appear to be available since Gen7, not Gen7.5 -->
 			<bitfield pos="2" name="GPGPU_MODE" variants="GEN7-"/>
 		</reg32>
 		<reg32 name="VFE_DW3" offset="3">

@@ -173,7 +173,8 @@
 			<bitfield high="1" low="0" name="SELECT">
 				<value value="0x0" name="3D"/>
 				<value value="0x1" name="MEDIA"/>
-				<value value="0x2" name="GPGPU" variants="GEN75-"/>
+				<!-- appear to be available since Gen7, not Gen7.5 -->
+				<value value="0x2" name="GPGPU" variants="GEN7-"/>
 			</bitfield>
 		</reg32>
 	</stripe>
