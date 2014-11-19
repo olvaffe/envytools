@@ -95,15 +95,19 @@
 </enum>
 
 <enum name="gen_mfx_qm_type" bare="yes" prefix="gen" variants="GEN7-">
-	<!-- AVC -->
+	<!-- if STANDARD == AVC -->
 	<value value="0x0" name="MFX_QM_AVC_4X4_INTRA"/>
 	<value value="0x1" name="MFX_QM_AVC_4X4_INTER"/>
 	<value value="0x2" name="MFX_QM_AVC_8X8_INTRA"/>
 	<value value="0x3" name="MFX_QM_AVC_8X8_INTER"/>
-
-	<!-- MPEG2 -->
+	<!-- else if STANDARD == MPEG2 -->
 	<value value="0x0" name="MFX_QM_MPEG_INTRA"/>
 	<value value="0x1" name="MFX_QM_MPEG_NON_INTRA"/>
+	<!-- else if STANDARD == JPEG -->
+	<value value="0x0" name="MFX_QM_JPEG_Y"/>
+	<value value="0x1" name="MFX_QM_JPEG_CB"/>
+	<value value="0x1" name="MFX_QM_JPEG_CR"/>
+	<value value="0x1" name="MFX_QM_JPEG_A"/>
 </enum>
 
 <bitset name="gen_mfx_buf_addr" bare="yes" prefix="gen">
@@ -795,30 +799,31 @@
 	<stripe>
 		<reg32 name="DW0" offset="0" type="gen_mfx_header"/>
 		<reg32 name="DW1" offset="1">
-			<bitfield high="31" low="16" name="FCODE"/>
+			<bitfield high="31" low="16" name="F_CODE"/>
 			<bitfield high="15" low="14" name="INTRA_DC_PRECISION"/>
-			<bitfield high="13" low="12" name="PICT_STRUCT"/>
-			<bitfield pos="11" name="TFF"/>
+			<bitfield high="13" low="12" name="PIC_STRUCT"/>
+			<bitfield pos="11" name="TOP_FIELD_FIRST"/>
 			<bitfield pos="10" name="FRAME_PRED_FRAME_DCT"/>
-			<bitfield pos="9" name="CONCEALMENT_MOTION_VECTOR"/>
-			<bitfield pos="8" name="QUANTIZER_SCALE_TYPE"/>
+			<bitfield pos="9" name="CONCEALMENT_MOTION_VECTORS"/>
+			<bitfield pos="8" name="Q_SCALE_TYPE"/>
 			<bitfield pos="7" name="INTRA_VLC_FORMAT"/>
-			<bitfield pos="6" name="SCAN_ORDER"/>
+			<bitfield pos="6" name="ALTERNATE_SCAN"/>
 		</reg32>
 		<reg32 name="DW2" offset="2">
-			<bitfield pos="31" name="I_SLICE_CONCEALMENT_MODE"/>
-			<bitfield high="29" low="28" name="PB_SLICE_CONCEALMENT_MODE"/>
-			<bitfield high="26" low="25" name="PB_SLICE_PRED_BIDIR_MOTION_TYPE_OVERRIDE"/>
-			<bitfield pos="24" name="PB_SLICE_PRED_MOTION_VECTOR_FINAL_MV_OVERRIDE"/>
+			<bitfield pos="31" name="I_SLICE_CONCEALMENT_MODE" variants="GEN75-"/>
+			<bitfield high="29" low="28" name="PB_SLICE_CONCEALMENT_MODE" variants="GEN75-"/>
+			<bitfield high="26" low="25" name="PB_SLICE_PRED_BIDIR_MOTION_TYPE_OVERRIDE" variants="GEN75-"/>
+			<bitfield pos="24" name="PB_SLICE_PRED_MOTION_VECTOR_FINAL_MV_OVERRIDE" variants="GEN75-"/>
+
 			<bitfield pos="14" name="LOAD_SLICE_POINTER"/>
-			<bitfield high="10" low="9" name="PICT_CODING_TYPE"/>
+			<bitfield high="10" low="9" name="PIC_CODING_TYPE"/>
 			<bitfield pos="1" name="MISMATCH_CONTROL_DISABLE"/>
-			<bitfield pos="0" name="DISABLE_MISMATCH"/>
+			<bitfield pos="0" name="MISMATCH_DISABLE"/>
 		</reg32>
 		<reg32 name="DW3" offset="3">
 			<bitfield pos="31" name="SLICE_CONCEALMENT_DISABLE"/>
-			<bitfield high="23" low="16" type="uint" name="FRAME_HEIGHT"/>
-			<bitfield high="7" low="0" type="uint" name="FRAME_WIDTH"/>
+			<bitfield high="23" low="16" type="uint" name="HEIGHT"/>
+			<bitfield high="7" low="0" type="uint" name="WIDTH"/>
 		</reg32>
 		<reg32 name="DW4" offset="4">
 			<bitfield high="31" low="16" type="uint" name="MIN_FRAME_SIZE"/>
@@ -869,7 +874,9 @@
 <domain name="MFX_MPEG2_QM_STATE" width="32" size="18" prefix="gen" variants="GEN6">
 	<stripe>
 		<reg32 name="DW0" offset="0" type="gen_mfx_header"/>
-		<reg32 name="DW1" offset="1"/>
+		<reg32 name="DW1" offset="1">
+			<bitfield high="1" low="0" type="gen_mfx_qm_type" name="TYPE"/>
+		</reg32>
 		<reg32 name="DW_QM" offset="2" length="16"/>
 	</stripe>
 </domain>
@@ -878,21 +885,29 @@
 	<stripe>
 		<reg32 name="DW0" offset="0" type="gen_mfx_header"/>
 		<reg32 name="DW1" offset="1">
-			<bitfield high="31" low="0" type="uint" name="INDIRECT_BSD_DATA_LEN"/>
+			<bitfield high="31" low="0" type="uint" name="BSD_DATA_LEN"/>
 		</reg32>
 		<reg32 name="DW2" offset="2">
-			<bitfield high="28" low="0" type="uint" name="INDIRECT_BSD_DATA_ADDR"/>
+			<bitfield high="28" low="0" type="uint" name="BSD_DATA_ADDR"/>
 		</reg32>
 		<reg32 name="DW3" offset="3">
-			<bitfield high="30" low="24" name="SLICE_HORIZONTAL_POS"/>
-			<bitfield high="22" low="16" name="SLICE_VERTICAL_POS"/>
-			<bitfield high="14" low="8" name="MACROBLOCK_COUNT"/>
-			<bitfield pos="5" name="LAST_PIC_SLICE"/>
+			<bitfield high="30" low="24" type="uint" name="SLICE_HORIZONTAL_POS"/>
+			<bitfield high="22" low="16" type="uint" name="SLICE_VERTICAL_POS"/>
+
+			<bitfield high="14" low="8" type="uint" name="MB_COUNT" variants="GEN6-GEN7"/>
+			<bitfield high="15" low="8" type="uint" name="MB_COUNT" variants="GEN75-"/>
+
+			<bitfield pos="7" name="SLICE_CONCEALMENT_OVERRIDE" variants="GEN75-"/>
+			<bitfield pos="6" name="SLICE_CONCEALMENT_TYPE" variants="GEN75-"/>
+
+			<bitfield pos="5" name="IS_LAST_SLICE"/>
 			<bitfield pos="3" name="IS_LAST_MB"/>
-			<bitfield high="2" low="0" name="FIRST_MB_BIT_OFFSET"/>
+			<bitfield high="2" low="0" type="uint" name="MB_BIT_OFFSET"/>
 		</reg32>
 		<reg32 name="DW4" offset="4">
 			<bitfield high="28" low="24" name="QUANTIZER_SCALE_CODE"/>
+			<bitfield high="16" low="8" type="uint" name="NEXT_VERTICAL_POS" variants="GEN75-"/>
+			<bitfield high="7" low="0" type="uint" name="NEXT_HORIZONTAL_POS" variants="GEN75-"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -997,16 +1012,36 @@
 	<stripe>
 		<reg32 name="DW0" offset="0" type="gen_mfx_header"/>
 		<reg32 name="DW1" offset="1">
-			<bitfield pos="20" name="VERTICAL_UP_SAMPLING_ENABLE"/>
-			<bitfield pos="17" name="VERTICAL_DOWN_SAMPLING_ENABLE"/>
-			<bitfield pos="16" name="AVERAGE_DOWN_SAMPLING"/>
-			<bitfield high="11" low="8" name="OUTPUT_FORMAT_YUV"/>
-			<bitfield high="5" low="4" name="ROTATION"/>
-			<bitfield high="2" low="0" name="INPUT_FORMAT_YUV"/>
+			<bitfield pos="20" name="VERTICAL_UP_SAMPLING" variants="GEN75-"/>
+			<bitfield pos="17" name="VERTICAL_DOWN_SAMPLING" variants="GEN75-"/>
+			<bitfield pos="16" name="AVERAGE_DOWN_SAMPLING" variants="GEN75-"/>
+			<bitfield high="11" low="8" name="OUTPUT_FORMAT" variants="GEN75-">
+				<value value="0x0" name="PLANAR"/>
+				<value value="0x1" name="NV12"/>
+				<value value="0x2" name="UYVY"/>
+				<value value="0x3" name="YUY2"/>
+			</bitfield>
+
+			<bitfield high="5" low="4" name="ROTATION">
+				<value value="0x0" name="0"/>
+				<value value="0x1" name="90"/>
+				<value value="0x2" name="270"/>
+				<value value="0x3" name="180"/>
+			</bitfield>
+			<bitfield high="2" low="0" name="INPUT_FORMAT">
+				<value value="0x0" name="YUV400"/>
+				<value value="0x1" name="YUV420"/>
+				<value value="0x2" name="YUV422H_2Y"/>
+				<value value="0x3" name="YUV444"/>
+				<value value="0x4" name="YUV411"/>
+				<value value="0x5" name="YUV422V_2Y"/>
+				<value value="0x6" name="YUV422H_4Y"/>
+				<value value="0x7" name="YUV422V_4Y"/>
+			</bitfield>
 		</reg32>
 		<reg32 name="DW2" offset="1">
-			<bitfield high="28" low="16" type="uint" name="FRAME_HEIGHT"/>
-			<bitfield high="12" low="0" type="uint" name="FRAME_WIDTH"/>
+			<bitfield high="28" low="16" type="uint" name="HEIGHT"/>
+			<bitfield high="12" low="0" type="uint" name="WIDTH"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -1015,7 +1050,7 @@
 	<stripe>
 		<reg32 name="DW0" offset="0" type="gen_mfx_header"/>
 		<reg32 name="DW1" offset="1">
-			<bitfield pos="0" name="HUFF_TABLE_ID"/>
+			<bitfield pos="0" type="uint" name="HUFF_TABLE_ID"/>
 		</reg32>
 		<reg32 name="DW_DC_BITS" offset="2" length="3"/>
 		<reg32 name="DW_DC_HUFFVAL" offset="5" length="3"/>
@@ -1028,22 +1063,22 @@
 	<stripe>
 		<reg32 name="DW0" offset="0" type="gen_mfx_header"/>
 		<reg32 name="DW1" offset="1">
-			<bitfield high="31" low="0" type="uint" name="INDIRECT_BSD_DATA_LEN"/>
+			<bitfield high="31" low="0" type="uint" name="BSD_DATA_LEN"/>
 		</reg32>
 		<reg32 name="DW2" offset="2">
-			<bitfield high="28" low="0" type="uint" name="INDIRECT_BSD_DATA_ADDR"/>
+			<bitfield high="28" low="0" type="uint" name="BSD_DATA_ADDR"/>
 		</reg32>
 		<reg32 name="DW3" offset="3">
-			<bitfield high="28" low="16" name="SCAN_HORIZONTAL_POS"/>
-			<bitfield high="12" low="0" name="SCAN_VERTICAL_POS"/>
+			<bitfield high="28" low="16" type="uint" name="SCAN_HORIZONTAL_POS"/>
+			<bitfield high="12" low="0" type="uint" name="SCAN_VERTICAL_POS"/>
 		</reg32>
 		<reg32 name="DW4" offset="4">
 			<bitfield pos="30" name="INTERLEAVED"/>
 			<bitfield high="29" low="27" name="SCAN_COMPONENTS"/>
-			<bitfield high="25" low="0" name="MCU_COUNT"/>
+			<bitfield high="25" low="0" type="uint" name="MCU_COUNT"/>
 		</reg32>
 		<reg32 name="DW5" offset="5">
-			<bitfield high="15" low="0" name="RESTART_INTERVAL"/>
+			<bitfield high="15" low="0" type="uint" name="RESTART_INTERVAL"/>
 		</reg32>
 	</stripe>
 </domain>
