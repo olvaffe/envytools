@@ -13,33 +13,154 @@
 
 	<bitfield high="28" low="23" name="MI_OPCODE">
 		<value value="0x00" name="MI_NOOP"/>
+		<value value="0x01" name="MI_SET_PREDICATE" variants="GEN75-"/>
+		<value value="0x06" name="MI_RS_CONTROL" variants="GEN75-"/>
+		<value value="0x09" name="MI_URB_ATOMIC_ALLOC" variants="GEN75-"/>
 		<value value="0x0a" name="MI_BATCH_BUFFER_END"/>
+		<value value="0x0c" name="MI_PREDICATE" variants="GEN7-"/>
+		<value value="0x19" name="MI_URB_CLEAR" variants="GEN7-"/>
+		<value value="0x1a" name="MI_MATH" variants="GEN75-"/>
 		<value value="0x20" name="MI_STORE_DATA_IMM"/>
 		<value value="0x22" name="MI_LOAD_REGISTER_IMM"/>
 		<value value="0x24" name="MI_STORE_REGISTER_MEM"/>
 		<value value="0x26" name="MI_FLUSH_DW"/>
 		<value value="0x28" name="MI_REPORT_PERF_COUNT"/>
 		<value value="0x29" name="MI_LOAD_REGISTER_MEM" variants="GEN7-"/>
+		<value value="0x2a" name="MI_LOAD_REGISTER_REG" variants="GEN75-"/>
+		<value value="0x2c" name="MI_LOAD_URB_MEM" variants="GEN75-"/>
+		<value value="0x2d" name="MI_STORE_URB_MEM" variants="GEN75-"/>
 		<value value="0x31" name="MI_BATCH_BUFFER_START"/>
 	</bitfield>
 
 	<bitfield high="5" low="0" type="uint" add="2" name="MI_LENGTH"/>
 </bitset>
 
+<enum name="gen_mi_alu_opcode" bare="yes" prefix="gen" variants="GEN75-">
+	<value value="0x000" name="MI_ALU_NOOP"/>
+	<value value="0x080" name="MI_ALU_LOAD"/>
+	<value value="0x480" name="MI_ALU_LOADINV"/>
+	<value value="0x081" name="MI_ALU_LOAD0"/>
+	<value value="0x481" name="MI_ALU_LOAD1"/>
+	<value value="0x100" name="MI_ALU_ADD"/>
+	<value value="0x101" name="MI_ALU_SUB"/>
+	<value value="0x102" name="MI_ALU_AND"/>
+	<value value="0x103" name="MI_ALU_OR"/>
+	<value value="0x104" name="MI_ALU_XOR"/>
+	<value value="0x180" name="MI_ALU_STORE"/>
+	<value value="0x580" name="MI_ALU_STOREINV"/>
+</enum>
+
+<enum name="gen_mi_alu_operand" bare="yes" prefix="gen" variants="GEN75-">
+	<value value="0x00" name="MI_ALU_R0"/>
+	<value value="0x01" name="MI_ALU_R1"/>
+	<value value="0x02" name="MI_ALU_R2"/>
+	<value value="0x03" name="MI_ALU_R3"/>
+	<value value="0x04" name="MI_ALU_R4"/>
+	<value value="0x05" name="MI_ALU_R5"/>
+	<value value="0x06" name="MI_ALU_R6"/>
+	<value value="0x07" name="MI_ALU_R7"/>
+	<value value="0x08" name="MI_ALU_R8"/>
+	<value value="0x09" name="MI_ALU_R9"/>
+	<value value="0x0a" name="MI_ALU_R10"/>
+	<value value="0x0b" name="MI_ALU_R11"/>
+	<value value="0x0c" name="MI_ALU_R12"/>
+	<value value="0x0d" name="MI_ALU_R13"/>
+	<value value="0x0e" name="MI_ALU_R14"/>
+	<value value="0x0f" name="MI_ALU_R15"/>
+
+	<value value="0x20" name="MI_ALU_SRCA"/>
+	<value value="0x21" name="MI_ALU_SRCB"/>
+
+	<value value="0x31" name="MI_ALU_ACCU"/>
+	<value value="0x32" name="MI_ALU_ZF"/>
+	<value value="0x33" name="MI_ALU_CF"/>
+</enum>
+
 <bitset name="gen_mi_reg32" inline="yes" varset="gen">
 	<bitfield high="22" low="2" shr="2" name="REG"/>
+</bitset>
+
+<bitset name="gen_mi_urb" inline="yes" varset="gen">
+	<bitfield high="14" low="2" shr="2" name="ADDR"/>
 </bitset>
 
 <bitset name="gen_mi_addr_dw" inline="yes" varset="gen">
 	<bitfield high="31" low="2" shr="2" name="ADDR"/>
 </bitset>
 
+<bitset name="gen_mi_addr64" inline="yes" varset="gen">
+	<bitfield high="31" low="6" shr="6" name="ADDR"/>
+</bitset>
+
 <domain name="MI_NOOP" width="32" size="1" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
 </domain>
 
+<domain name="MI_SET_PREDICATE" width="32" size="1" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield high="1" low="0" name="PREDICATE">
+			<value value="0x0" name="ALWAYS"/>
+			<value value="0x1" name="ON_CLEAR"/>
+			<value value="0x2" name="ON_SET"/>
+			<value value="0x3" name="DISABLE"/>
+		</bitfield>
+	</reg32>
+</domain>
+
+<domain name="MI_RS_CONTROL" width="32" size="1" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="0" name="ENABLE"/>
+	</reg32>
+</domain>
+
+<domain name="MI_URB_ATOMIC_ALLOC" width="32" size="1" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield high="19" low="12" type="uint" name="OFFSET"/>
+		<bitfield high="8" low="0" type="uint" name="SIZE"/>
+	</reg32>
+</domain>
+
 <domain name="MI_BATCH_BUFFER_END" width="32" size="1" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+</domain>
+
+<domain name="MI_PREDICATE" width="32" size="1" prefix="gen" variants="GEN7-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield high="7" low="6" name="LOADOP">
+			<value value="0x0" name="KEEP"/>
+			<value value="0x2" name="LOAD"/>
+			<value value="0x3" name="LOADINV"/>
+		</bitfield>
+		<bitfield high="4" low="3" name="COMBINEOP">
+			<value value="0x0" name="SET"/>
+			<value value="0x1" name="AND"/>
+			<value value="0x2" name="OR"/>
+			<value value="0x3" name="XOR"/>
+		</bitfield>
+		<bitfield high="1" low="0" name="COMPAREOP">
+			<value value="0x0" name="TRUE"/>
+			<value value="0x1" name="FALSE"/>
+			<value value="0x2" name="SRCS_EQUAL"/>
+			<value value="0x3" name="DELTAS_EQUAL"/>
+		</bitfield>
+	</reg32>
+</domain>
+
+<domain name="MI_URB_CLEAR" width="32" size="2" prefix="gen" variants="GEN7-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW1" offset="1">
+		<bitfield high="29" low="16" type="uint" name="LENGTH"/>
+		<bitfield high="14" low="0" type="uint" name="OFFSET"/>
+	</reg32>
+</domain>
+
+<domain name="MI_MATH" width="32" size="65" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW" offset="1" length="63">
+		<bitfield high="31" low="20" type="gen_mi_alu_opcode" name="OP"/>
+		<bitfield high="19" low="10" type="gen_mi_alu_operand" name="SRC1"/>
+		<bitfield high="10" low="0" type="gen_mi_alu_operand" name="SRC2"/>
+	</reg32>
 </domain>
 
 <domain name="MI_STORE_DATA_IMM" width="32" size="5" prefix="gen">
@@ -90,6 +211,24 @@
 	</reg32>
 	<reg32 name="DW1" type="gen_mi_reg32" offset="1"/>
 	<reg32 name="DW2" type="gen_mi_addr_dw" offset="2"/>
+</domain>
+
+<domain name="MI_LOAD_REGISTER_REG" width="32" size="3" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW1_SRC" type="gen_mi_reg32" offset="1"/>
+	<reg32 name="DW2_DST" type="gen_mi_reg32" offset="2"/>
+</domain>
+
+<domain name="MI_LOAD_URB_MEM" width="32" size="3" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW1" type="gen_mi_urb" offset="1"/>
+	<reg32 name="DW2" type="gen_mi_addr64" offset="2"/>
+</domain>
+
+<domain name="MI_STORE_URB_MEM" width="32" size="3" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW1" type="gen_mi_urb" offset="1"/>
+	<reg32 name="DW2" type="gen_mi_addr64" offset="2"/>
 </domain>
 
 <domain name="MI_BATCH_BUFFER_START" width="32" size="2" prefix="gen">

@@ -25,19 +25,28 @@
 	<reg64 name="PS_DEPTH_COUNT" offset="0x2350"/>
 	<reg64 name="TIMESTAMP" offset="0x2358"/>
 
+	<reg32 name="OACONTROL" offset="0x2360">
+		<bitfield high="4" low="2" name="COUNTER_SELECT"/>
+		<bitfield pos="0" name="PERFORMANCE_COUNTER_ENABLE"/>
+	</reg32>
+
 	<stripe variants="GEN7-">
+		<reg64 name="MI_PREDICATE_SRC0" offset="0x2400"/>
+		<reg64 name="MI_PREDICATE_SRC1" offset="0x2408"/>
+		<reg64 name="MI_PREDICATE_DATA" offset="0x2410"/>
+		<reg32 name="MI_PREDICATE_RESULT" offset="0x2418"/>
+		<reg32 name="MI_PREDICATE_RESULT_1" offset="0x241c" variants="GEN75-"/>
+		<reg32 name="MI_PREDICATE_RESULT_2" offset="0x2214" variants="GEN75-"/>
+
 		<reg32 name="3DPRIM_END_OFFSET" offset="0x2420"/>
 		<reg32 name="3DPRIM_START_VERTEX" offset="0x2430"/>
 		<reg32 name="3DPRIM_VERTEX_COUNT" offset="0x2434"/>
 		<reg32 name="3DPRIM_INSTANCE_COUNT" offset="0x2438"/>
 		<reg32 name="3DPRIM_START_INSTANCE" offset="0x243c"/>
 		<reg32 name="3DPRIM_BASE_VERTEX" offset="0x2440"/>
-	</stripe>
 
-	<reg32 name="OACONTROL" offset="0x2360">
-		<bitfield high="4" low="2" name="COUNTER_SELECT"/>
-		<bitfield pos="0" name="PERFORMANCE_COUNTER_ENABLE"/>
-	</reg32>
+		<reg64 name="CS_GPR" offset="0x2600" length="16" variants="GEN75-"/>
+	</stripe>
 
 	<stripe variants="GEN6">
 		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x2280"/>

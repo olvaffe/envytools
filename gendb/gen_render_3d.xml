@@ -1268,7 +1268,7 @@
 		<reg32 name="3DPRIM_DW4_INSTANCE_START" type="uint" offset="4"/>
 		<reg32 name="3DPRIM_DW5_VERTEX_BASE" type="int" offset="5"/>
 	</stripe>
-	<stripe variants="GEN7">
+	<stripe variants="GEN7-">
 		<reg32 name="3DPRIM_DW0" offset="0" type="gen_render_header">
 			<bitfield pos="10" name="INDIRECT_PARAM_ENABLE"/>
 			<bitfield pos="9" name="UAV_COHERENCY_REQUIRED" variants="GEN75-"/>
