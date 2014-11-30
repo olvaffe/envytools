@@ -150,6 +150,25 @@
 	<value value="0xd" name="MSG_DP_DC1_TYPED_SURFACE_WRITE" variants="GEN75-" />
 </enum>
 
+<enum name="gen_eu_dp_aop" bare="yes" prefix="gen" variants="GEN7-">
+	<value value="0x0" name="MSG_DP_AOP_CMPWR8B"/>
+	<value value="0x1" name="MSG_DP_AOP_AND"/>
+	<value value="0x2" name="MSG_DP_AOP_OR"/>
+	<value value="0x3" name="MSG_DP_AOP_XOR"/>
+	<value value="0x4" name="MSG_DP_AOP_MOV"/>
+	<value value="0x5" name="MSG_DP_AOP_INC"/>
+	<value value="0x6" name="MSG_DP_AOP_DEC"/>
+	<value value="0x7" name="MSG_DP_AOP_ADD"/>
+	<value value="0x8" name="MSG_DP_AOP_SUB"/>
+	<value value="0x9" name="MSG_DP_AOP_REVSUB"/>
+	<value value="0xa" name="MSG_DP_AOP_IMAX"/>
+	<value value="0xb" name="MSG_DP_AOP_IMIN"/>
+	<value value="0xc" name="MSG_DP_AOP_UMAX"/>
+	<value value="0xd" name="MSG_DP_AOP_UMIN"/>
+	<value value="0xe" name="MSG_DP_AOP_CMPWR"/>
+	<value value="0xf" name="MSG_DP_AOP_PREDEC"/>
+</enum>
+
 <bitset name="gen_eu_message_descriptor" bare="yes" prefix="gen">
 	<bitfield pos="31" name="MSG_EOT"/>
 	<bitfield high="28" low="25" name="MSG_MLEN"/>
@@ -223,15 +242,26 @@
 		<value value="0x4" name="8"/>
 	</bitfield>
 	<!-- else if MSG_DP_OP == OWord Dual Block Read/Write -->
+	<bitfield pos="13" name="MSG_DP_OWORD_DUAL_BLOCK_READ_INVALIDATE" variants="GEN7-"/>
 	<bitfield high="9" low="8" name="MSG_DP_OWORD_DUAL_BLOCK_SIZE">
 		<value value="0x0" name="1"/>
 		<value value="0x2" name="4"/>
 	</bitfield>
 	<!-- else if MSG_DP_OP == DWord Scattered Read/Write -->
 	<bitfield pos="13" name="MSG_DP_DWORD_SCATTERED_READ_INVALIDATE" variants="GEN7-"/>
-	<bitfield high="9" low="8" name="MSG_DP_DWORD_SCATTERED_SIZE">
+	<bitfield high="9" low="8" name="MSG_DP_DWORD_SCATTERED_BLOCK_SIZE">
 		<value value="0x2" name="8"/>
 		<value value="0x3" name="16"/>
+	</bitfield>
+	<!-- else if MSG_DP_OP == Byte Scattered Read/Write -->
+	<bitfield high="10" low="9" name="MSG_DP_BYTE_SCATTERED_DATA_SIZE">
+		<value value="0x0" name="1"/>
+		<value value="0x1" name="2"/>
+		<value value="0x2" name="4"/>
+	</bitfield>
+	<bitfield pos="8" name="MSG_DP_BYTE_SCATTERED_MODE">
+		<value value="0x0" name="SIMD8"/>
+		<value value="0x1" name="SIMD16"/>
 	</bitfield>
 	<!-- else if MSG_DP_OP == Render Target Write -->
 	<bitfield pos="12" name="MSG_DP_RT_LAST"/>
@@ -244,18 +274,24 @@
 		<value value="0x4" name="SIMD8_LO"/>
 		<value value="0x5" name="SIMD8_IMAGE_WR" variants="GEN6"/>
 	</bitfield>
+	<!-- else if MSG_DP_OP == Typed Surface Read/Write -->
+	<bitfield pos="13" name="MSG_DP_TYPED_SLOTGRP_HI" variants="GEN7-"/>
+	<bitfield high="11" low="8" name="MSG_DP_TYPED_MASK" variants="GEN7-"/>
 	<!-- else if MSG_DP_OP == Untyped Surface Read/Write -->
 	<bitfield high="13" low="12" name="MSG_DP_UNTYPED_MODE" variants="GEN7-">
 		<value value="0x0" name="SIMD4X2"/>
 		<value value="0x1" name="SIMD16"/>
 		<value value="0x2" name="SIMD8"/>
 	</bitfield>
-	<bitfield high="11" low="8" name="MSG_DP_UNTYPED_MASK" variants="GEN7-">
-		<value value="0x0" name="R"/>
-		<value value="0x1" name="G"/>
-		<value value="0x2" name="B"/>
-		<value value="0x4" name="A"/>
+	<bitfield high="11" low="8" name="MSG_DP_UNTYPED_MASK" variants="GEN7-"/>
+	<!-- else if MSG_DP_OP == Typed/Untyped Atomic Operation -->
+	<bitfield pos="13" name="MSG_DP_ATOMIC_RETURN_DATA_ENABLE" variants="GEN7-"/>
+	<bitfield pos="12" name="MSG_DP_ATOMIC_TYPED_SLOTGRP_HI" variants="GEN7-"/>
+	<bitfield pos="12" name="MSG_DP_ATOMIC_UNTYPED_MODE" variants="GEN7-">
+		<value value="0x0" name="SIMD16"/>
+		<value value="0x1" name="SIMD8"/>
 	</bitfield>
+	<bitfield high="11" low="8" type="gen_eu_dp_aop" name="MSG_DP_ATOMIC_OP" variants="GEN7-"/>
 
 	<bitfield high="7" low="0" type="uint" name="MSG_DP_SURFACE"/>
 </bitset>
