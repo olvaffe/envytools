@@ -57,7 +57,7 @@
 	<value value="0x14" name="MSG_SAMPLER_SAMPLE_D_C" variants="GEN7-"/>
 	<value value="0x18" name="MSG_SAMPLER_SAMPLE_LZ" variants="GEN7-"/>
 	<value value="0x19" name="MSG_SAMPLER_SAMPLE_C_LC" variants="GEN7-"/>
-	<value value="0x1a" name="MSG_SAMPLER_SAMPLE_LD_LZ" variants="GEN7-"/>
+	<value value="0x1a" name="MSG_SAMPLER_LD_LZ" variants="GEN7-"/>
 	<value value="0x1d" name="MSG_SAMPLER_LD_MCS" variants="GEN7-"/>
 	<value value="0x1e" name="MSG_SAMPLER_LD2DMS" variants="GEN7-"/>
 	<value value="0x1f" name="MSG_SAMPLER_LD2DSS" variants="GEN7-"/>
@@ -80,7 +80,7 @@
 	<value value="0xe" name="MSG_DP_RT_UNORM_WRITE" variants="GEN6"/>
 
 	<!-- if SFID == DP_SAMPLER -->
-	<value value="0x1" name="MSG_DP_SAMPLER_OWORD_BLOCK_READ" variants="GEN7"/>
+	<value value="0x1" name="MSG_DP_SAMPLER_UNALIGNED_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x4" name="MSG_DP_SAMPLER_MEDIA_BLOCK_READ" variants="GEN7"/>
 	<!-- else if SFID == DP_RC -->
 	<value value="0x4" name="MSG_DP_RC_MEDIA_BLOCK_READ" variants="GEN7"/>
@@ -89,7 +89,7 @@
 	<value value="0x7" name="MSG_DP_RC_MEMORY_FENCE" variants="GEN7"/>
 	<value value="0xa" name="MSG_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN7"/>
 	<value value="0xc" name="MSG_DP_RC_RT_WRITE" variants="GEN7"/>
-	<value value="0xd" name="MSG_DP_RC_TYPED_SURFACE_WRITE" variants="GEN7" />
+	<value value="0xd" name="MSG_DP_RC_TYPED_SURFACE_WRITE" variants="GEN7"/>
 	<!-- else if SFID == DP_CC -->
 	<value value="0x0" name="MSG_DP_CC_OWORD_BLOCK_READ" variants="GEN7"/>
 	<value value="0x1" name="MSG_DP_CC_UNALIGNED_OWORD_BLOCK_READ" variants="GEN7"/>
@@ -235,7 +235,7 @@
 	</bitfield>
 	<!-- else if MSG_DP_OP == Render Target Write -->
 	<bitfield pos="12" name="MSG_DP_RT_LAST"/>
-	<bitfield pos="11" name="MSG_DP_SLOTGRP_HI"/>
+	<bitfield pos="11" name="MSG_DP_RT_SLOTGRP_HI"/>
 	<bitfield high="10" low="8" name="MSG_DP_RT_MODE">
 		<value value="0x0" name="SIMD16"/>
 		<value value="0x1" name="SIMD16_REPDATA"/>
