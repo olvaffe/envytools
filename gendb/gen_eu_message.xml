@@ -18,6 +18,18 @@
 	<value value="0x5" name="MSG_URB_ATOMIC_INC" variants="GEN7-"/>
 </enum>
 
+<enum name="gen_eu_pi_simd" bare="yes" prefix="gen" variants="GEN7-">
+	<value value="0x0" name="MSG_PI_SIMD8"/>
+	<value value="0x1" name="MSG_PI_SIMD16"/>
+</enum>
+
+<enum name="gen_eu_pi_op" bare="yes" prefix="gen" variants="GEN7-">
+	<value value="0x0" name="MSG_PI_EVAL_SNAPPED_IMM"/>
+	<value value="0x1" name="MSG_PI_EVAL_SINDEX"/>
+	<value value="0x2" name="MSG_PI_EVAL_CENTROID"/>
+	<value value="0x3" name="MSG_PI_EVAL_SNAPPED"/>
+</enum>
+
 <enum name="gen_eu_sampler_simd" bare="yes" prefix="gen">
 	<value value="0x0" name="MSG_SAMPLER_SIMD4X2"/>
 	<value value="0x1" name="MSG_SAMPLER_SIMD8"/>
@@ -159,6 +171,19 @@
 	<bitfield pos="14" name="MSG_URB_INTERLEAVED" variants="GEN7-"/>
 	<bitfield high="13" low="3" type="uint" name="MSG_URB_GLOBAL_OFFSET" variants="GEN7-"/>
 	<bitfield high="2" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN7-"/>
+</bitset>
+
+<bitset name="gen_eu_message_pi" bare="yes" prefix="gen" variants="GEN7-">
+	<bitfield pos="16" type="gen_eu_pi_simd" name="MSG_PI_SIMD"/>
+	<bitfield pos="14" name="MSG_PI_LINEAR_INTERP"/>
+	<bitfield high="13" low="12" type="gen_eu_pi_op" name="MSG_PI_OP"/>
+	<bitfield pos="11" name="MSG_PI_SLOTGRP_HI"/>
+
+	<!-- if MSG_PI_OP == Per Message Offset -->
+	<bitfield high="7" low="4" type="int" name="MSG_PI_OFFSET_Y"/>
+	<bitfield high="3" low="0" type="int" name="MSG_PI_OFFSET_X"/>
+	<!-- else if MSG_PI_OP == Sample Position Offset -->
+	<bitfield high="7" low="4" type="int" name="MSG_PI_SAMPLE_INDEX"/>
 </bitset>
 
 <bitset name="gen_eu_message_sampler" bare="yes" prefix="gen">
