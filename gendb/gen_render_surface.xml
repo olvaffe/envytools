@@ -318,9 +318,9 @@
 			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
 		</reg32>
 		<reg32 name="SURFACE_DW5" offset="5">
-			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
+			<bitfield high="31" low="25" type="uint" shr="2" name="X_OFFSET"/>
 			<bitfield high="24" low="24" type="gen_surface_valign" name="VALIGN"/>
-			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
+			<bitfield high="23" low="20" type="uint" shr="1" name="Y_OFFSET"/>
 			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>
@@ -375,8 +375,8 @@
 			<bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT_STRBUF"/>
 		</reg32>
 		<reg32 name="SURFACE_DW5" offset="5">
-			<bitfield high="31" low="25" type="uint" name="X_OFFSET"/>
-			<bitfield high="23" low="20" type="uint" name="Y_OFFSET"/>
+			<bitfield high="31" low="25" type="uint" shr="2" name="X_OFFSET"/>
+			<bitfield high="23" low="20" type="uint" shr="1" name="Y_OFFSET"/>
 			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
