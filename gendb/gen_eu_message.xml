@@ -16,6 +16,7 @@
 	<value value="0x3" name="MSG_URB_READ_OWORD" variants="GEN7-"/>
 	<value value="0x4" name="MSG_URB_ATOMIC_MOV" variants="GEN7-"/>
 	<value value="0x5" name="MSG_URB_ATOMIC_INC" variants="GEN7-"/>
+	<value value="0x7" name="MSG_URB_SIMD8_WRITE" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_eu_pi_simd" bare="yes" prefix="gen" variants="GEN7-">
@@ -31,7 +32,9 @@
 </enum>
 
 <enum name="gen_eu_sampler_simd" bare="yes" prefix="gen">
-	<value value="0x0" name="MSG_SAMPLER_SIMD4X2"/>
+	<value value="0x0" name="MSG_SAMPLER_SIMD4X2" variants="GEN6-GEN8"/>
+	<value value="0x0" name="MSG_SAMPLER_SIMD8D" variants="GEN9-"/>
+
 	<value value="0x1" name="MSG_SAMPLER_SIMD8"/>
 	<value value="0x2" name="MSG_SAMPLER_SIMD16"/>
 	<value value="0x3" name="MSG_SAMPLER_SIMD32_64"/>
