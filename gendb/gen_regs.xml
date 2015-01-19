@@ -59,6 +59,16 @@
 	</stripe>
 
 	<stripe variants="GEN7-">
+		<reg32 name="CACHE_MODE_0" offset="0x7000">
+			<bitfield pos="2" name="HIZ_RAW_STALL_OPT_DISABLE"/>
+		</reg32>
+		<reg32 name="CACHE_MODE_1" offset="0x7004">
+			<bitfield pos="13" name="HIZ_NP_EARLY_Z_FAILS_DISABLE" variants="GEN8-"/>
+			<bitfield pos="11" name="HIZ_NP_PMA_FIX_ENABLE" variants="GEN8-"/>
+		</reg32>
+	</stripe>
+
+	<stripe variants="GEN7-">
 		<reg32 name="L3SQCREG1" offset="0xb010">
 			<bitfield pos="24" name="CON4DCUNC"/>
 

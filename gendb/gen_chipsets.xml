@@ -9,6 +9,8 @@
 	<value name="GEN6"/>
 	<value name="GEN7"/>
 	<value name="GEN75"/>
+	<value name="GEN8"/>
+	<value name="GEN9"/>
 </enum>
 
 </database>
