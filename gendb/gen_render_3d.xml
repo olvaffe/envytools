@@ -6,6 +6,7 @@
 <import file="gen_copyright.xml"/>
 <import file="gen_chipsets.xml"/>
 <import file="gen_render.xml"/>
+<import file="gen_render_dynamic.xml"/>
 <import file="gen_render_surface.xml"/>
 
 <enum name="gen_prim_type" bare="yes" prefix="gen">
@@ -78,10 +79,12 @@
 	<value value="32" name="ALIGNMENT_CC_VIEWPORT"/>
 	<value value="32" name="ALIGNMENT_SCISSOR_RECT"/>
 	<value value="32" name="ALIGNMENT_BINDING_TABLE_STATE"/>
-	<value value="32" name="ALIGNMENT_SAMPLER_BORDER_COLOR"/>
+	<value value="32" name="ALIGNMENT_SAMPLER_BORDER_COLOR" variants="GEN6-GEN75"/>
+	<value value="64" name="ALIGNMENT_SAMPLER_BORDER_COLOR" variants="GEN8-"/>
 	<value value="32" name="ALIGNMENT_SAMPLER_STATE"/>
 
-	<value value="32" name="ALIGNMENT_SURFACE_STATE"/>
+	<value value="32" name="ALIGNMENT_SURFACE_STATE" variants="GEN6-GEN75"/>
+	<value value="64" name="ALIGNMENT_SURFACE_STATE" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_vf_component" bare="yes" prefix="gen">
@@ -303,52 +306,78 @@
 </domain>
 
 <domain name="3DSTATE_VERTEX_BUFFERS" width="32" size="133" bare="yes" prefix="gen">
-	<reg32 name="VB_DW0" offset="0" type="gen_render_header"/>
+	<stripe variants="GEN6-GEN75">
+		<reg32 name="VB_DW0" offset="0" type="gen_render_header"/>
 
-	<brief>up to 33 VERTEX_BUFFER_STATEs</brief>
-	<array name="VB_STATE" offset="1" stride="4" length="33">
-		<reg32 name="DW0" offset="0">
-			<bitfield high="31" low="26" type="uint" name="INDEX"/>
-			<bitfield pos="20" name="ACCESS">
-				<value value="0x0" name="VERTEXDATA"/>
-				<value value="0x1" name="INSTANCEDATA"/>
-			</bitfield>
-			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
-			<bitfield pos="14" name="ADDR_MODIFIED" variants="GEN7-"/>
-			<bitfield pos="13" name="IS_NULL"/>
-			<bitfield pos="12" name="CACHE_INVALIDATE"/>
-			<bitfield high="11" low="0" name="PITCH"/>
-		</reg32>
-		<reg32 name="DW1_START_ADDR" offset="1"/>
-		<reg32 name="DW2_END_ADDR" offset="2"/>
-		<reg32 name="DW3_STEP_RATE" type="uint" offset="3"/>
-	</array>
+		<brief>up to 33 VERTEX_BUFFER_STATEs</brief>
+		<array name="VB_STATE" offset="1" stride="4" length="33">
+			<reg32 name="DW0" offset="0">
+				<bitfield high="31" low="26" type="uint" name="INDEX"/>
+				<bitfield pos="20" name="ACCESS">
+					<value value="0x0" name="VERTEXDATA"/>
+					<value value="0x1" name="INSTANCEDATA"/>
+				</bitfield>
+				<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
+				<bitfield pos="14" name="ADDR_MODIFIED" variants="GEN7-"/>
+				<bitfield pos="13" name="IS_NULL"/>
+				<bitfield pos="12" name="CACHE_INVALIDATE"/>
+				<bitfield high="11" low="0" name="PITCH"/>
+			</reg32>
+			<reg32 name="DW1_START_ADDR" offset="1"/>
+			<reg32 name="DW2_END_ADDR" offset="2"/>
+			<reg32 name="DW3_STEP_RATE" type="uint" offset="3"/>
+		</array>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="VB_DW0" offset="0" type="gen_render_header"/>
+
+		<brief>up to 33 VERTEX_BUFFER_STATEs</brief>
+		<array name="VB_STATE" offset="1" stride="4" length="33">
+			<reg32 name="DW0" offset="0">
+				<bitfield high="31" low="26" type="uint" name="INDEX"/>
+				<bitfield pos="20" name="ACCESS">
+					<value value="0x0" name="VERTEXDATA"/>
+					<value value="0x1" name="INSTANCEDATA"/>
+				</bitfield>
+				<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS"/>
+				<bitfield pos="14" name="ADDR_MODIFIED"/>
+				<bitfield pos="13" name="IS_NULL"/>
+				<bitfield pos="12" name="CACHE_INVALIDATE"/>
+				<bitfield high="11" low="0" name="PITCH"/>
+			</reg32>
+			<reg32 name="DW1_ADDR" offset="1"/>
+			<reg32 name="DW2_ADDR_HI" offset="2"/>
+			<reg32 name="DW3_SIZE" type="uint" offset="3"/>
+		</array>
+	</stripe>
 </domain>
 
 <domain name="3DSTATE_VERTEX_ELEMENTS" width="32" size="69" bare="yes" prefix="gen">
-	<reg32 name="VE_DW0" offset="0" type="gen_render_header"/>
+	<stripe>
+		<reg32 name="VE_DW0" offset="0" type="gen_render_header"/>
 
-	<brief>up to 34 VERTEX_ELEMENT_STATEs</brief>
-	<array name="VE_STATE" offset="1" stride="2" length="34">
-		<reg32 name="DW0" offset="0">
-			<bitfield high="31" low="26" type="uint" name="VB_INDEX"/>
-			<bitfield pos="25" name="VALID"/>
-			<bitfield high="24" low="16" type="gen_surface_format" name="FORMAT"/>
-			<bitfield pos="15" name="EDGE_FLAG_ENABLE"/>
-			<bitfield high="10" low="0" name="VB_OFFSET" variants="GEN6"/>
-			<bitfield high="11" low="0" name="VB_OFFSET" variants="GEN75-"/>
-		</reg32>
-		<reg32 name="DW1" offset="1">
-			<bitfield high="30" low="28" type="gen_vf_component" name="COMP0"/>
-			<bitfield high="26" low="24" type="gen_vf_component" name="COMP1"/>
-			<bitfield high="22" low="20" type="gen_vf_component" name="COMP2"/>
-			<bitfield high="18" low="16" type="gen_vf_component" name="COMP3"/>
-		</reg32>
-	</array>
+		<brief>up to 34 VERTEX_ELEMENT_STATEs</brief>
+		<array name="VE_STATE" offset="1" stride="2" length="34">
+			<reg32 name="DW0" offset="0">
+				<bitfield high="31" low="26" type="uint" name="VB_INDEX"/>
+				<bitfield pos="25" name="VALID"/>
+				<bitfield high="24" low="16" type="gen_surface_format" name="FORMAT"/>
+				<bitfield pos="15" name="EDGE_FLAG_ENABLE"/>
+				<bitfield high="10" low="0" name="VB_OFFSET" variants="GEN6"/>
+				<bitfield high="11" low="0" name="VB_OFFSET" variants="GEN75-"/>
+			</reg32>
+			<reg32 name="DW1" offset="1">
+				<bitfield high="30" low="28" type="gen_vf_component" name="COMP0"/>
+				<bitfield high="26" low="24" type="gen_vf_component" name="COMP1"/>
+				<bitfield high="22" low="20" type="gen_vf_component" name="COMP2"/>
+				<bitfield high="18" low="16" type="gen_vf_component" name="COMP3"/>
+			</reg32>
+		</array>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_INDEX_BUFFER" width="32" size="3" bare="yes" prefix="gen">
-	<stripe>
+<domain name="3DSTATE_INDEX_BUFFER" width="32" size="5" bare="yes" prefix="gen">
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="IB_DW0" offset="0" type="gen_render_header">
 			<bitfield high="15" low="12" type="gen_render_mocs" name="MOCS"/>
 			<bitfield pos="10" name="CUT_INDEX_ENABLE" variants="GEN6-GEN7"/>
@@ -361,6 +390,20 @@
 		<reg32 name="IB_DW1_START_ADDR" offset="1"/>
 		<reg32 name="IB_DW2_END_ADDR" offset="2"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="IB_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="IB_DW1" offset="1">
+			<bitfield high="9" low="8" name="FORMAT">
+				<value value="0x0" name="BYTE"/>
+				<value value="0x1" name="WORD"/>
+				<value value="0x2" name="DWORD"/>
+			</bitfield>
+			<bitfield high="6" low="0" type="gen_render_mocs" name="MOCS"/>
+		</reg32>
+		<reg32 name="IB_DW2_ADDR" offset="2"/>
+		<reg32 name="IB_DW3_ADDR_HI" offset="3"/>
+		<reg32 name="IB_DW4_SIZE" offset="4"/>
+	</stripe>
 </domain>
 
 <domain name="3DSTATE_VF" width="32" size="2" bare="yes" prefix="gen" variants="GEN75-">
@@ -369,6 +412,40 @@
 			<bitfield pos="8" name="CUT_INDEX_ENABLE"/>
 		</reg32>
 		<reg32 name="VF_DW1_CUT_INDEX" offset="1"/>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_VF_INSTANCING" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="INSTANCING_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="INSTANCING_DW1" offset="1">
+			<bitfield pos="8" name="ENABLE"/>
+			<bitfield high="5" low="0" type="uint" name="INDEX"/>
+		</reg32>
+		<reg32 name="INSTANCING_DW2_STEP_RATE" type="uint" offset="3"/>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_VF_SGVS" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="SGVS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SGVS_DW1" offset="1">
+			<bitfield pos="31" name="IID_ENABLE"/>
+			<bitfield high="30" low="29" name="IID_COMPONENT"/>
+			<bitfield high="28" low="16" name="IID_ELEMENT_OFFSET"/>
+			<bitfield pos="15" name="VID_ENABLE"/>
+			<bitfield high="14" low="13" name="VID_COMPONENT"/>
+			<bitfield high="12" low="0" name="VID_ELEMENT_OFFSET"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_VF_TOPOLOGY" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="TOPOLOGY_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="TOPOLOGY_DW1" offset="1">
+			<bitfield high="5" low="0" type="gen_prim_type" name="TYPE"/>
+		</reg32>
 	</stripe>
 </domain>
 
@@ -434,8 +511,8 @@
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_VS" width="32" size="6" bare="yes" prefix="gen">
-	<stripe>
+<domain name="3DSTATE_VS" width="32" size="9" bare="yes" prefix="gen">
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="VS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="VS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
 		<reg32 name="VS_DW2_DISPATCH" offset="2" type="gen_thread_dispatch"/>
@@ -453,10 +530,36 @@
 			<bitfield pos="0" name="VS_ENABLE"/>
 		</reg32>
 	</stripe>
+
+	<stripe variants="GEN8-">
+		<reg32 name="VS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="VS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
+		<reg32 name="VS_DW2_KERNEL_HI" offset="2"/>
+		<reg32 name="VS_DW3_DISPATCH" offset="3" type="gen_thread_dispatch"/>
+		<reg32 name="VS_DW4_SCRATCH" offset="4" type="gen_thread_scratch"/>
+		<reg32 name="VS_DW5_SCRATCH_HI" offset="5"/>
+		<reg32 name="VS_DW6_URB" offset="6">
+			<bitfield high="24" low="20" type="uint" name="GRF_START"/>
+			<bitfield high="16" low="11" type="uint" name="READ_LEN"/>
+			<bitfield high="9" low="4" type="uint" name="READ_OFFSET"/>
+		</reg32>
+		<reg32 name="VS_DW7" offset="7">
+			<bitfield high="31" low="23" type="uint" name="MAX_THREADS"/>
+			<bitfield pos="10" name="STATISTICS"/>
+			<bitfield pos="2" name="SIMD8_ENABLE"/>
+			<bitfield pos="1" name="CACHE_DISABLE"/>
+			<bitfield pos="0" name="VS_ENABLE"/>
+		</reg32>
+		<reg32 name="VS_DW8" offset="8">
+			<bitfield high="25" low="21" type="uint" name="URB_WRITE_OFFSET"/>
+			<bitfield high="20" low="16" type="uint" name="URB_WRITE_LEN"/>
+			<bitfield high="15" low="8" name="UCP_CLIP_ENABLES"/>
+		</reg32>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_HS" width="32" size="7" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe>
+<domain name="3DSTATE_HS" width="32" size="9" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="HS_DW0" offset="0" type="gen_render_header"/>
 		<!-- not all fields of gen_thread_dispatch are applicable -->
 		<reg32 name="HS_DW1_DISPATCH" offset="1" type="gen_thread_dispatch">
@@ -480,6 +583,35 @@
 			<bitfield high="9" low="4" type="uint" name="URB_READ_OFFSET"/>
 		</reg32>
 		<reg32 name="HS_DW6" offset="6">
+			<bitfield high="11" low="0" shr="6" name="URB_SEMAPHORE_ADDR" variants="GEN7"/>
+			<bitfield high="12" low="0" shr="6" name="URB_SEMAPHORE_ADDR" variants="GEN75-"/>
+		</reg32>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="HS_DW0" offset="0" type="gen_render_header"/>
+		<!-- not all fields of gen_thread_dispatch are applicable -->
+		<reg32 name="HS_DW1_DISPATCH" offset="1" type="gen_thread_dispatch">
+			<bitfield high="7" low="0" type="uint" name="MAX_THREADS"/>
+		</reg32>
+		<reg32 name="HS_DW2" offset="2">
+			<bitfield pos="31" name="HS_ENABLE"/>
+			<bitfield pos="29" name="STATISTICS"/>
+			<bitfield high="3" low="0" type="uint" name="INSTANCE_COUNT"/>
+		</reg32>
+		<reg32 name="HS_DW3_KERNEL" type="gen_render_3d_addr_64byte" offset="3"/>
+		<reg32 name="HS_DW4_KERNEL_HI" offset="4"/>
+		<reg32 name="HS_DW5_SCRATCH" offset="5" type="gen_thread_scratch"/>
+		<reg32 name="HS_DW6_SCRATCH_HI" offset="6"/>
+		<reg32 name="HS_DW7" offset="7">
+			<bitfield pos="27" name="SPF"/>
+			<bitfield pos="26" name="VME"/>
+			<bitfield pos="25" name="ACCESS_UAV" variants="GEN75-"/>
+			<bitfield pos="24" name="INCLUDE_VERTEX_HANDLES"/>
+			<bitfield high="23" low="19" type="uint" name="URB_GRF_START"/>
+			<bitfield high="16" low="11" type="uint" name="URB_READ_LEN"/>
+			<bitfield high="9" low="4" type="uint" name="URB_READ_OFFSET"/>
+		</reg32>
+		<reg32 name="HS_DW8" offset="8">
 			<bitfield high="11" low="0" shr="6" name="URB_SEMAPHORE_ADDR" variants="GEN7"/>
 			<bitfield high="12" low="0" shr="6" name="URB_SEMAPHORE_ADDR" variants="GEN75-"/>
 		</reg32>
@@ -517,8 +649,8 @@
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_DS" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe>
+<domain name="3DSTATE_DS" width="32" size="11" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="DS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="DS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
 		<reg32 name="DS_DW2_DISPATCH" offset="2" type="gen_thread_dispatch"/>
@@ -537,9 +669,38 @@
 			<bitfield pos="0" name="DS_ENABLE"/>
 		</reg32>
 	</stripe>
+	<stripe variants="GEN8">
+		<reg32 name="DS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="DS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
+		<reg32 name="DS_DW2_KERNEL_HI" offset="2"/>
+		<reg32 name="DS_DW3_DISPATCH" offset="3" type="gen_thread_dispatch"/>
+		<reg32 name="DS_DW4_SCRATCH" offset="4" type="gen_thread_scratch"/>
+		<reg32 name="DS_DW5_SCRATCH_HI" offset="5"/>
+		<reg32 name="DS_DW6_URB" offset="4">
+			<bitfield high="24" low="20" type="uint" name="GRF_START"/>
+			<bitfield high="17" low="11" type="uint" name="READ_LEN"/>
+			<bitfield high="9" low="4" type="uint" name="READ_OFFSET"/>
+		</reg32>
+		<reg32 name="DS_DW7" offset="5">
+			<bitfield high="29" low="21" type="uint" name="MAX_THREADS"/>
+			<bitfield pos="10" name="STATISTICS"/>
+			<bitfield pos="2" name="COMPUTE_W"/>
+			<bitfield pos="1" name="CACHE_DISABLE"/>
+			<bitfield pos="0" name="DS_ENABLE"/>
+		</reg32>
+		<reg32 name="DS_DW8" offset="8">
+			<bitfield high="25" low="21" type="uint" name="URB_WRITE_OFFSET"/>
+			<bitfield high="20" low="16" type="uint" name="URB_WRITE_LEN"/>
+			<bitfield high="15" low="8" name="UCP_CLIP_ENABLES"/>
+		</reg32>
+	</stripe>
+	<stripe variants="GEN9-">
+		<reg32 name="DS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="DS_DW" offset="1" length="10"/>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_GS" width="32" size="7" bare="yes" prefix="gen">
+<domain name="3DSTATE_GS" width="32" size="10" bare="yes" prefix="gen">
 	<stripe variants="GEN6">
 		<reg32 name="GS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="GS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
@@ -565,7 +726,7 @@
 			<bitfield pos="15" name="GS_ENABLE"/>
 		</reg32>
 	</stripe>
-	<stripe variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="GS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="GS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
 		<reg32 name="GS_DW2_DISPATCH" offset="2" type="gen_thread_dispatch"/>
@@ -617,9 +778,64 @@
 			<bitfield high="12" low="0" shr="6" name="URB_SEMAPHORE_ADDR" variants="GEN75-"/>
 		</reg32>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="GS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="GS_DW1_KERNEL" type="gen_render_3d_addr_64byte" offset="1"/>
+		<reg32 name="GS_DW2_KERNEL_HI" offset="2"/>
+		<reg32 name="GS_DW3" offset="3" type="gen_thread_dispatch">
+			<bitfield high="16" low="0" type="uint" name="VERTICES_IN"/>
+		</reg32>
+		<reg32 name="GS_DW4_SCRATCH" offset="4" type="gen_thread_scratch"/>
+		<reg32 name="GS_DW5_SCRATCH_HI" offset="5"/>
+		<reg32 name="GS_DW6" offset="6">
+			<bitfield high="28" low="23" type="uint" name="OUTPUT_SIZE"/>
+			<bitfield high="22" low="17" type="gen_prim_type" name="OUTPUT_TOPO"/>
+			<bitfield high="16" low="11" type="uint" name="URB_READ_LEN"/>
+			<bitfield pos="10" name="INCLUDE_VERTEX_HANDLES"/>
+			<bitfield high="9" low="4" type="uint" name="URB_READ_OFFSET"/>
+			<bitfield high="3" low="0" type="uint" name="URB_GRF_START"/>
+		</reg32>
+		<reg32 name="GS_DW7" offset="7">
+			<bitfield high="31" low="24" type="uint" name="MAX_THREADS" variants="GEN8"/>
+
+			<bitfield high="23" low="20" type="uint" name="CONTROL_DATA_HEADER_SIZE"/>
+			<bitfield high="19" low="15" type="uint" name="INSTANCE_CONTROL"/>
+			<bitfield high="14" low="13" type="uint" name="DEFAULT_STREAM_ID"/>
+			<bitfield high="12" low="11" type="uint" name="DISPATCH_MODE">
+				<value value="0x0" name="SINGLE"/>
+				<value value="0x1" name="DUAL_INSTANCE"/>
+				<value value="0x2" name="DUAL_OBJECT"/>
+			</bitfield>
+			<bitfield pos="10" name="STATISTICS"/>
+			<bitfield high="9" low="5" type="uint" name="INVOCATION_INCR"/>
+			<bitfield pos="4" name="INCLUDE_PRIMITIVE_ID"/>
+			<bitfield pos="3" name="HINT"/>
+
+			<bitfield pos="2" name="REORDER">
+				<value value="0x0" name="LEADING"/>
+				<value value="0x1" name="TRAILING"/>
+			</bitfield>
+
+			<bitfield pos="1" name="DISCARD_ADJACENCY"/>
+			<bitfield pos="0" name="GS_ENABLE"/>
+		</reg32>
+		<reg32 name="GS_DW8" offset="8">
+			<bitfield pos="31" name="GSCTRL">
+				<value value="0x0" name="CUT"/>
+				<value value="0x1" name="SID"/>
+			</bitfield>
+			<bitfield high="12" low="0" shr="6" name="URB_SEMAPHORE_ADDR" variants="GEN8"/>
+			<bitfield high="12" low="0" name="MAX_THREADS" variants="GEN9-"/>
+		</reg32>
+		<reg32 name="GS_DW9" offset="9">
+			<bitfield high="25" low="21" type="uint" name="URB_WRITE_OFFSET"/>
+			<bitfield high="20" low="16" type="uint" name="URB_WRITE_LEN"/>
+			<bitfield high="15" low="8" name="UCP_CLIP_ENABLES"/>
+		</reg32>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_STREAMOUT" width="32" size="3" bare="yes" prefix="gen" variants="GEN7-">
+<domain name="3DSTATE_STREAMOUT" width="32" size="5" bare="yes" prefix="gen" variants="GEN7-">
 	<stripe>
 		<reg32 name="SO_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="SO_DW1" offset="1">
@@ -642,6 +858,14 @@
 			<bitfield high="12" low="8" type="uint" name="STREAM1_READ_LEN"/>
 			<bitfield high="5" low="5" type="uint" name="STREAM0_READ_OFFSET"/>
 			<bitfield high="4" low="0" type="uint" name="STREAM0_READ_LEN"/>
+		</reg32>
+		<reg32 name="SO_DW3" offset="3" variants="GEN8-">
+			<bitfield high="27" low="16" type="uint" name="BUFFER1_PITCH"/>
+			<bitfield high="11" low="0" type="uint" name="BUFFER0_PITCH"/>
+		</reg32>
+		<reg32 name="SO_DW4" offset="4" variants="GEN8-">
+			<bitfield high="27" low="16" type="uint" name="BUFFER3_PITCH"/>
+			<bitfield high="11" low="0" type="uint" name="BUFFER2_PITCH"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -675,20 +899,41 @@
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_SO_BUFFER" width="32" size="4" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe>
+<domain name="3DSTATE_SO_BUFFER" width="32" size="8" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="SO_BUF_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="SO_BUF_DW1" offset="1">
 			<bitfield high="30" low="29" type="uint" name="INDEX"/>
 			<bitfield high="28" low="25" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="11" low="0" type="uint" name="PITCH"/>
 		</reg32>
-		<reg32 name="SO_BUF_DW2_START" offset="1">
+		<reg32 name="SO_BUF_DW2_START" offset="2">
 			<bitfield high="31" low="2" shr="2" name="ADDR"/>
 		</reg32>
-		<reg32 name="SO_BUF_DW3_END" offset="2">
+		<reg32 name="SO_BUF_DW3_END" offset="3">
 			<bitfield high="31" low="2" shr="2" name="ADDR"/>
 		</reg32>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="SO_BUF_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SO_BUF_DW1" offset="1">
+			<bitfield pos="31" name="ENABLE"/>
+			<bitfield high="30" low="29" type="uint" name="INDEX"/>
+			<bitfield high="28" low="22" type="gen_render_mocs" name="MOCS"/>
+			<bitfield pos="21" name="WRITE_ENABLE"/>
+			<bitfield pos="20" name="ADDRESS_ENABLE"/>
+			<bitfield high="11" low="0" type="uint" name="PITCH"/>
+		</reg32>
+		<reg32 name="SO_BUF_DW2" offset="2">
+			<bitfield high="31" low="2" shr="2" name="ADDR"/>
+		</reg32>
+		<reg32 name="SO_BUF_DW3_ADDR_HI" offset="3"/>
+		<reg32 name="SO_BUF_DW4_SIZE" offset="4"/>
+		<reg32 name="SO_BUF_DW5_OFFSET" offset="5">
+			<bitfield high="31" low="2" shr="2" name="ADDR"/>
+		</reg32>
+		<reg32 name="SO_BUF_DW6_OFFSET_ADDR_HI" offset="6"/>
+		<reg32 name="SO_BUF_DW7_OFFSET_SIZE" offset="7"/>
 	</stripe>
 </domain>
 
@@ -696,10 +941,10 @@
 	<stripe>
 		<reg32 name="CLIP_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="CLIP_DW1" offset="1">
-			<bitfield pos="20" name="FRONTWINDING" type="gen_front_winding" variants="GEN7-"/>
-			<bitfield pos="19" name="SUBPIXEL" type="gen_subpixel_precision" variants="GEN7-"/>
+			<bitfield pos="20" name="FRONTWINDING" type="gen_front_winding" variants="GEN7-GEN75"/>
+			<bitfield pos="19" name="SUBPIXEL" type="gen_subpixel_precision" variants="GEN7-GEN75"/>
 			<bitfield pos="18" name="EARLY_CULL_ENABLE" variants="GEN7-"/>
-			<bitfield high="17" low="16" name="CULLMODE" type="gen_cull_mode" variants="GEN7-"/>
+			<bitfield high="17" low="16" name="CULLMODE" type="gen_cull_mode" variants="GEN7-GEN75"/>
 
 			<bitfield pos="10" name="STATISTICS"/>
 			<bitfield high="7" low="0" name="UCP_CULL_ENABLES"/>
@@ -711,7 +956,7 @@
 				<value value="0x1" name="D3D" variants="GEN6"/>
 			</bitfield>
 			<bitfield pos="28" name="XY_TEST_ENABLE"/>
-			<bitfield pos="27" name="Z_TEST_ENABLE"/>
+			<bitfield pos="27" name="Z_TEST_ENABLE" variants="GEN6-GEN75"/>
 			<bitfield pos="26" name="GB_TEST_ENABLE"/>
 			<bitfield high="23" low="16" name="UCP_CLIP_ENABLES"/>
 			<bitfield high="15" low="13" name="CLIPMODE">
@@ -735,8 +980,8 @@
 </domain>
 
 <!-- DW 1:6 of GEN7 3DSTATE_SF, which is also DW 2:7 of GEN6 3DSTATE_SF -->
-<domain name="3DSTATE_SFBODY" width="32" size="6" bare="yes" prefix="gen">
-	<stripe variants="GEN7-">
+<domain name="3DSTATE_SFBODY" width="32" size="6" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="SF_DW1" offset="0">
 			<bitfield high="14" low="12" type="gen_depth_format" name="DEPTH_FORMAT" variants="GEN7-"/>
 
@@ -761,7 +1006,7 @@
 		<reg32 name="SF_DW2" offset="1">
 			<bitfield pos="31" name="AA_LINE_ENABLE"/>
 			<bitfield high="30" low="29" type="gen_cull_mode" name="CULLMODE"/>
-			<bitfield high="27" low="18" type="ufixed" radix="7" name="LINE_WIDTH"/>
+			<bitfield high="27" low="18" type="ufixed" radix="7" name="LINE_WIDTH" variants="GEN7-"/>
 			<bitfield high="17" low="16" type="gen_wm_aa_line_width" name="AA_LINE_CAP"/>
 			<bitfield pos="14" name="LINE_STIPPLE_ENABLE" variants="GEN75-"/>
 			<bitfield pos="11" name="SCISSOR_ENABLE"/>
@@ -781,11 +1026,34 @@
 		<reg32 name="SF_DW5_DEPTH_OFFET_SCALE" type="float" offset="4"/>
 		<reg32 name="SF_DW6_DEPTH_OFFET_CLAMP" type="float" offset="5"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="SF_DW1" offset="0">
+			<bitfield high="29" low="12" type="ufixed" radix="7" name="LINE_WIDTH" variants="GEN9-"/>
+			<bitfield pos="11" name="LEGACY_DEPTH_OFFSET"/>
+			<bitfield pos="10" name="STATISTICS"/>
+			<bitfield pos="1" name="VIEWPORT_ENABLE"/>
+		</reg32>
+		<reg32 name="SF_DW2" offset="1">
+			<bitfield high="27" low="18" type="ufixed" radix="7" name="LINE_WIDTH" variants="GEN8"/>
+			<bitfield high="17" low="16" type="gen_wm_aa_line_width" name="AA_LINE_CAP"/>
+			<bitfield pos="14" name="LINE_STIPPLE_ENABLE"/>
+		</reg32>
+		<reg32 name="SF_DW3" offset="2">
+			<bitfield pos="31" name="LINE_LAST_PIXEL_ENABLE"/>
+			<bitfield high="30" low="29" type="uint" name="TRI_PROVOKE"/>
+			<bitfield high="28" low="27" type="uint" name="LINE_PROVOKE"/>
+			<bitfield high="26" low="25" type="uint" name="TRIFAN_PROVOKE"/>
+			<bitfield pos="14" name="TRUE_AA_LINE_DISTANCE"/>
+			<bitfield pos="12" type="gen_subpixel_precision" name="SUBPIXEL"/>
+			<bitfield pos="11" name="USE_POINT_WIDTH"/>
+			<bitfield high="10" low="0" type="ufixed" radix="3" name="POINT_WIDTH"/>
+		</reg32>
+	</stripe>
 </domain>
 
 <!-- DW 1:13 of GEN7 3DSTATE_SBE, which is also DW 1 and 8:19 of GEN6 3DSTATE_SF -->
-<domain name="3DSTATE_SBEBODY" width="32" size="13" bare="yes" prefix="gen">
-	<stripe variants="GEN7">
+<domain name="3DSTATE_SBEBODY" width="32" size="13" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="SBE_DW1" offset="0">
 			<bitfield pos="28" name="ATTR_SWIZZLE" variants="GEN7-">
 				<value value="0x0" name="0_15"/>
@@ -828,6 +1096,31 @@
 		<reg32 name="SBE_DW_CONST_INTERP_ENABLES" offset="10"/>
 		<reg32 name="SBE_DW_WRAP_SHORTEST_ENABLES" offset="11" length="2"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="SBE_DW1" offset="0">
+			<bitfield pos="29" name="FORCE_URB_READ_LEN"/>
+			<bitfield pos="28" name="FORCE_URB_READ_OFFSET"/>
+
+			<bitfield high="27" low="22" type="uint" name="ATTR_COUNT"/>
+			<bitfield pos="21" name="ATTR_SWIZZLE_ENABLE"/>
+			<bitfield pos="20" name="POINT_SPRITE_TEXCOORD">
+				<value value="0x0" name="UPPERLEFT"/>
+				<value value="0x1" name="LOWERLEFT"/>
+			</bitfield>
+			<bitfield high="15" low="11" type="uint" name="URB_READ_LEN"/>
+			<bitfield high="10" low="5" type="uint" name="URB_READ_OFFSET"/>
+		</reg32>
+		<reg32 name="SBE_DW2_POINT_SPRITE_ENABLES" offset="2"/>
+		<reg32 name="SBE_DW3_CONST_INTERP_ENABLES" offset="3"/>
+		<reg32 name="SBE_DW" offset="4" length="2" variants="GEN9-">
+			<bitfield high="1" low="0" name="ACTIVE_COMPONENT">
+				<value value="0x0" name="NONE"/>
+				<value value="0x1" name="XY"/>
+				<value value="0x2" name="XYZ"/>
+				<value value="0x3" name="XYZW"/>
+			</bitfield>
+		</reg32>
+	</stripe>
 </domain>
 
 <domain name="3DSTATE_SF" width="32" size="20" bare="yes" prefix="gen">
@@ -842,6 +1135,68 @@
 	<stripe>
 		<reg32 name="SBE_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="SBE_BODY" offset="1" length="13"/>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_SBE_SWIZ" width="32" size="11" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="SBE_SWIZ_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SBE_SWIZ_ATTR" offset="1" length="8">
+			<brief>an attribute takes up 16 bits</brief>
+			<bitfield high="31" low="16" name="HIGH"/>
+
+			<bitfield pos="15" name="OVERRIDE_W"/>
+			<bitfield pos="14" name="OVERRIDE_Z"/>
+			<bitfield pos="13" name="OVERRIDE_Y"/>
+			<bitfield pos="12" name="OVERRIDE_X"/>
+			<bitfield high="10" low="9" name="CONST">
+				<value value="0x0" name="0000"/>
+				<value value="0x1" name="0001_FLOAT"/>
+				<value value="0x2" name="1111_FLOAT"/>
+				<value value="0x3" name="PRIM_ID"/>
+			</bitfield>
+			<bitfield high="7" low="6" name="INPUTATTR">
+				<value value="0x0" name="NORMAL"/>
+				<value value="0x1" name="FACING"/>
+				<value value="0x2" name="W"/>
+				<value value="0x3" name="FACING_W"/>
+			</bitfield>
+			<bitfield high="4" low="0" type="uint" name="URB_ENTRY_OFFSET"/>
+		</reg32>
+		<reg32 name="SBE_DW_WRAP_SHORTEST_ENABLES" offset="9" length="2"/>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_RASTER" width="32" size="5" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="RASTER_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="RASTER_DW1" offset="1">
+			<bitfield pos="26" name="Z_TEST_FAR_ENABLE" variants="GEN9-"/>
+			<bitfield pos="21" type="gen_front_winding" name="FRONTWINDING"/>
+			<bitfield high="17" low="16" type="gen_cull_mode" name="CULLMODE"/>
+			<bitfield pos="13" name="SMOOTH_POINT_ENABLE"/>
+			<bitfield pos="12" name="API_MULTISAMPLE_ENABLE"/>
+			<bitfield pos="9" name="DEPTH_OFFSET_SOLID"/>
+			<bitfield pos="8" name="DEPTH_OFFSET_WIREFRAME"/>
+			<bitfield pos="7" name="DEPTH_OFFSET_POINT"/>
+			<bitfield high="6" low="5" name="FRONTFACE">
+				<value value="0x0" name="SOLID"/>
+				<value value="0x1" name="WIREFRAME"/>
+				<value value="0x2" name="POINT"/>
+			</bitfield>
+			<bitfield high="4" low="3" name="BACKFACE">
+				<value value="0x0" name="SOLID"/>
+				<value value="0x1" name="WIREFRAME"/>
+				<value value="0x2" name="POINT"/>
+			</bitfield>
+			<bitfield pos="2" name="AA_LINE_ENABLE"/>
+			<bitfield pos="1" name="SCISSOR_ENABLE"/>
+			<bitfield pos="0" name="Z_TEST_ENABLE" variants="GEN8"/>
+			<bitfield pos="0" name="Z_TEST_NEAR_ENABLE" variants="GEN9-"/>
+		</reg32>
+		<reg32 name="RASTER_DW2_DEPTH_OFFET_CONSTANT" type="float" offset="2"/>
+		<reg32 name="RASTER_DW3_DEPTH_OFFET_SCALE" type="float" offset="3"/>
+		<reg32 name="RASTER_DW4_DEPTH_OFFET_CLAMP" type="float" offset="4"/>
 	</stripe>
 </domain>
 
@@ -891,7 +1246,7 @@
 		<reg32 name="WM_DW7_KERNEL1" type="gen_render_3d_addr_64byte" offset="7"/>
 		<reg32 name="WM_DW8_KERNEL2" type="gen_render_3d_addr_64byte" offset="8"/>
 	</stripe>
-	<stripe variants="GEN7">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="WM_DW1" offset="1">
 			<bitfield pos="31" name="STATISTICS"/>
 			<bitfield pos="30" name="DEPTH_CLEAR"/>
@@ -920,10 +1275,89 @@
 			<bitfield pos="30" name="PS_UAV_ONLY" variants="GEN75-"/>
 		</reg32>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="WM_DW1" offset="1">
+			<bitfield pos="31" name="STATISTICS"/>
+			<bitfield high="22" low="21" type="gen_wm_early_ds_control" name="EDSC"/>
+			<bitfield high="16" low="11" type="gen_wm_barycentric_interp" name="BARYCENTRIC_INTERP"/>
+			<bitfield high="9" low="8" name="AA_LINE_CAP" type="gen_wm_aa_line_width"/>
+			<bitfield high="7" low="6" name="AA_LINE_WIDTH" type="gen_wm_aa_line_width"/>
+			<bitfield pos="5" name="RT_INDEPENDENT_RAST"/>
+			<bitfield pos="4" name="POLY_STIPPLE_ENABLE"/>
+			<bitfield pos="3" name="LINE_STIPPLE_ENABLE"/>
+			<bitfield pos="2" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
+		</reg32>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_PS" width="32" size="8" bare="yes" prefix="gen" variants="GEN7-">
+<domain name="3DSTATE_WM_CHROMAKEY" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
 	<stripe>
+		<reg32 name="CHROMAKEY_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="CHROMAKEY_DW1" offset="1"/>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_WM_DEPTH_STENCIL" width="32" size="4" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="WM_ZS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="WM_ZS_DW1" offset="0">
+			<bitfield high="31" low="29" type="gen_stencil_op" name="STENCIL0_FAIL_OP"/>
+			<bitfield high="28" low="26" type="gen_stencil_op" name="STENCIL0_ZFAIL_OP"/>
+			<bitfield high="25" low="23" type="gen_stencil_op" name="STENCIL0_ZPASS_OP"/>
+			<bitfield high="22" low="20" type="gen_compare_function" name="STENCIL1_FUNC"/>
+			<bitfield high="19" low="17" type="gen_stencil_op" name="STENCIL1_FAIL_OP"/>
+			<bitfield high="16" low="14" type="gen_stencil_op" name="STENCIL1_ZFAIL_OP"/>
+			<bitfield high="13" low="11" type="gen_stencil_op" name="STENCIL1_ZPASS_OP"/>
+			<bitfield high="10" low="8" type="gen_compare_function" name="STENCIL0_FUNC"/>
+			<bitfield high="7" low="5" type="gen_compare_function" name="DEPTH_FUNC"/>
+			<bitfield pos="4" name="STENCIL1_ENABLE"/>
+			<bitfield pos="3" name="STENCIL_TEST_ENABLE"/>
+			<bitfield pos="2" name="STENCIL_WRITE_ENABLE"/>
+			<bitfield pos="1" name="DEPTH_TEST_ENABLE"/>
+			<bitfield pos="0" name="DEPTH_WRITE_ENABLE"/>
+		</reg32>
+		<reg32 name="WM_ZS_DW2" offset="1">
+			<bitfield high="31" low="24" name="STENCIL0_VALUEMASK"/>
+			<bitfield high="23" low="16" name="STENCIL0_WRITEMASK"/>
+			<bitfield high="15" low="8" name="STENCIL1_VALUEMASK"/>
+			<bitfield high="7" low="0" name="STENCIL1_WRITEMASK"/>
+		</reg32>
+		<reg32 name="WM_ZS_DW3" offset="2" variants="GEN9-">
+			<bitfield high="15" low="8" type="uint" name="STENCIL0_REF"/>
+			<bitfield high="7" low="0" type="uint" name="STENCIL1_REF"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_WM_HZ_OP" width="32" size="5" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="WM_HZ_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="WM_HZ_DW1" offset="1">
+			<bitfield pos="31" name="STENCIL_CLEAR"/>
+			<bitfield pos="30" name="DEPTH_CLEAR"/>
+			<bitfield pos="28" name="DEPTH_RESOLVE"/>
+			<bitfield pos="27" name="HIZ_RESOLVE"/>
+			<bitfield pos="26" name="PIXEL_OFFSET_ENABLE"/>
+			<bitfield pos="25" name="FULL_SURFACE_DEPTH_CLEAR"/>
+			<bitfield high="23" low="16" name="STENCIL_CLEAR_VALUE"/>
+			<bitfield high="15" low="13" type="gen_surface_multisample_count" name="NUMSAMPLES"/>
+		</reg32>
+		<reg32 name="WM_HZ_DW2" offset="2">
+			<bitfield high="31" low="16" type="uint" name="Y_MIN"/>
+			<bitfield high="15" low="0" type="uint" name="X_MIN"/>
+		</reg32>
+		<reg32 name="WM_HZ_DW3" offset="3">
+			<bitfield high="31" low="16" type="uint" name="Y_MAX"/>
+			<bitfield high="15" low="0" type="uint" name="X_MAX"/>
+		</reg32>
+		<reg32 name="WM_HZ_DW4" offset="4">
+			<bitfield high="15" low="0" name="SAMPLE_MASK"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_PS" width="32" size="12" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="PS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="PS_DW1_KERNEL0" type="gen_render_3d_addr_64byte" offset="1"/>
 		<reg32 name="PS_DW2_DISPATCH" offset="2" type="gen_thread_dispatch"/>
@@ -954,9 +1388,83 @@
 		<reg32 name="PS_DW6_KERNEL1" type="gen_render_3d_addr_64byte" offset="6"/>
 		<reg32 name="PS_DW7_KERNEL2" type="gen_render_3d_addr_64byte" offset="7"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="PS_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PS_DW1_KERNEL0" type="gen_render_3d_addr_64byte" offset="1"/>
+		<reg32 name="PS_DW2_KERNEL0_HI" offset="2"/>
+		<reg32 name="PS_DW3_DISPATCH" offset="3" type="gen_thread_dispatch"/>
+		<reg32 name="PS_DW4_SCRATCH" offset="4" type="gen_thread_scratch"/>
+		<reg32 name="PS_DW5_SCRATCH_HI" offset="5"/>
+		<reg32 name="PS_DW6" offset="6">
+			<bitfield high="31" low="23" type="uint" name="MAX_THREADS"/>
+			<bitfield high="19" low="12" name="SAMPLE_MASK"/>
+
+			<bitfield pos="11" name="PUSH_CONSTANT_ENABLE"/>
+			<bitfield pos="10" name="ATTR_ENABLE"/>
+			<bitfield pos="9" name="PS_COMPUTE_OMASK"/>
+			<bitfield pos="8" name="RT_FAST_CLEAR"/>
+			<bitfield pos="7" name="DUAL_SOURCE_BLEND"/>
+			<bitfield pos="6" name="RT_RESOLVE"/>
+			<bitfield pos="5" name="PS_ACCESS_UAV"/>
+			<bitfield high="4" low="3" type="gen_wm_pos_xy_offset" name="POSOFFSET"/>
+			<bitfield pos="2" name="32_PIXEL_DISPATCH"/>
+			<bitfield pos="1" name="16_PIXEL_DISPATCH"/>
+			<bitfield pos="0" name="8_PIXEL_DISPATCH"/>
+		</reg32>
+		<reg32 name="PS_DW7_URB" offset="7">
+			<bitfield high="22" low="16" type="uint" name="GRF_START0"/>
+			<bitfield high="14" low="8" type="uint" name="GRF_START1"/>
+			<bitfield high="6" low="0" type="uint" name="GRF_START2"/>
+		</reg32>
+		<reg32 name="PS_DW8_KERNEL1" type="gen_render_3d_addr_64byte" offset="8"/>
+		<reg32 name="PS_DW9_KERNEL1_HI" offset="9"/>
+		<reg32 name="PS_DW10_KERNEL2" type="gen_render_3d_addr_64byte" offset="10"/>
+		<reg32 name="PS_DW11_KERNEL2_HI" offset="11"/>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_CONSTANT_ANY" width="32" size="7" bare="yes" prefix="gen">
+<domain name="3DSTATE_PS_BLEND" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="PS_BLEND_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PS_BLEND_DW1" offset="1">
+			<bitfield pos="31" name="ALPHA_TO_COVERAGE"/>
+			<bitfield pos="30" name="WRITABLE_RT"/>
+			<bitfield pos="29" name="BLEND_ENABLE"/>
+			<bitfield high="28" low="24" type="gen_blend_factor" name="SRC_ALPHA_FACTOR"/>
+			<bitfield high="23" low="19" type="gen_blend_factor" name="DST_ALPHA_FACTOR"/>
+			<bitfield high="18" low="14" type="gen_blend_factor" name="SRC_COLOR_FACTOR"/>
+			<bitfield high="13" low="9" type="gen_blend_factor" name="DST_COLOR_FACTOR"/>
+			<bitfield high="7" low="5" type="gen_blend_function" name="ALPHA_FUNC"/>
+			<bitfield high="20" low="18" type="gen_blend_function" name="COLOR_FUNC"/>
+			<bitfield pos="8" name="ALPHA_TEST_ENABLE"/>
+			<bitfield pos="7" name="INDEPENDENT_ALPHA_ENABLE"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_PS_EXTRA" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
+	<stripe>
+		<reg32 name="PSX_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PSX_DW1" offset="1">
+			<bitfield pos="31" name="SHADER_VALID"/>
+			<bitfield pos="30" name="NO_RT_WRITE"/>
+			<bitfield pos="29" name="OMASK_TO_RT"/>
+			<bitfield pos="28" name="KILL_ENABLE"/>
+			<bitfield high="27" low="26" type="gen_wm_ps_compute_depth" name="PSCDEPTH"/>
+			<bitfield pos="25" name="FORCE_COMPUTE_DEPTH"/>
+			<bitfield pos="24" name="USE_DEPTH"/>
+			<bitfield pos="23" name="USE_W"/>
+			<bitfield pos="8" name="ATTR_ENABLE"/>
+			<bitfield pos="7" name="DISABLE_ALPHA_TO_COVERAGE"/>
+			<bitfield pos="6" name="IS_PER_SAMPLE"/>
+			<bitfield pos="5" name="COMPUTE_STENCIL"/>
+			<bitfield pos="2" name="HAS_UAV"/>
+			<bitfield pos="1" name="USE_INPUT_COVERAGE_MASK"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_CONSTANT_ANY" width="32" size="11" bare="yes" prefix="gen">
 	<doc>Generic command for
 		3DSTATE_CONSTANT_VS,
 		3DSTATE_CONSTANT_HS (GEN7-),
@@ -977,7 +1485,7 @@
 			<bitfield high="4" low="0" type="uint" name="SIZE"/>
 		</reg32>
 	</stripe>
-	<stripe variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="PCB_ANY_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="PCB_ANY_DW1" offset="1">
 			<bitfield high="31" low="16" type="uint" name="PCB1_SIZE"/>
@@ -991,6 +1499,18 @@
 			<!-- only available for PCB0 -->
 			<bitfield high="4" low="0" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="PCB_ANY_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PCB_ANY_DW1" offset="1">
+			<bitfield high="31" low="16" type="uint" name="PCB1_SIZE"/>
+			<bitfield high="15" low="0" type="uint" name="PCB0_SIZE"/>
+		</reg32>
+		<reg32 name="PCB_ANY_DW2" offset="2">
+			<bitfield high="31" low="16" type="uint" name="PCB3_SIZE"/>
+			<bitfield high="15" low="0" type="uint" name="PCB2_SIZE"/>
+		</reg32>
+		<reg32 name="PCB_ANY" offset="3" type="gen_render_3d_addr_32byte" length="8"/>
 	</stripe>
 </domain>
 
@@ -1022,7 +1542,7 @@
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_DEPTH_BUFFER" width="32" size="7" bare="yes" prefix="gen">
+<domain name="3DSTATE_DEPTH_BUFFER" width="32" size="8" bare="yes" prefix="gen">
 	<stripe variants="GEN6">
 		<reg32 name="DEPTH_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="DEPTH_DW1" offset="1">
@@ -1057,7 +1577,7 @@
 			<bitfield high="31" low="27" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
 	</stripe>
-	<stripe variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="DEPTH_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="DEPTH_DW1" offset="1">
 			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
@@ -1084,6 +1604,37 @@
 		</reg32>
 		<reg32 name="DEPTH_DW6" offset="6">
 			<bitfield high="31" low="21" type="uint" name="RT_VIEW_EXTENT"/>
+		</reg32>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="DEPTH_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="DEPTH_DW1" offset="1">
+			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
+			<bitfield pos="28" name="DEPTH_WRITE_ENABLE"/>
+			<bitfield pos="27" name="STENCIL_WRITE_ENABLE"/>
+			<bitfield pos="22" name="HIZ_ENABLE"/>
+			<bitfield high="20" low="18" type="gen_depth_format" name="FORMAT"/>
+			<bitfield high="17" low="0" type="uint" name="PITCH"/>
+		</reg32>
+		<reg32 name="DEPTH_DW2_ADDR" offset="2"/>
+		<reg32 name="DEPTH_DW3_ADDR_HI" offset="3"/>
+		<reg32 name="DEPTH_DW4" offset="4">
+			<bitfield high="31" low="18" type="uint" name="HEIGHT"/>
+			<bitfield high="17" low="4" type="uint" name="WIDTH"/>
+			<bitfield high="3" low="0" type="uint" name="LOD"/>
+		</reg32>
+		<reg32 name="DEPTH_DW5" offset="5">
+			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
+			<bitfield high="20" low="10" type="uint" name="MIN_ARRAY_ELEMENT"/>
+			<bitfield high="6" low="0" type="gen_render_mocs" name="MOCS"/>
+		</reg32>
+		<reg32 name="DEPTH_DW6_OFFSET" offset="6">
+			<bitfield high="31" low="16" type="int" name="Y"/>
+			<bitfield high="15" low="0" type="int" name="X"/>
+		</reg32>
+		<reg32 name="DEPTH_DW7" offset="7">
+			<bitfield high="31" low="21" type="uint" name="RT_VIEW_EXTENT"/>
+			<bitfield high="14" low="0" type="uint" name="QPITCH"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -1146,7 +1697,7 @@
 </domain>
 
 <domain name="3DSTATE_MULTISAMPLE" width="32" size="4" bare="yes" prefix="gen">
-	<stripe>
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="MULTISAMPLE_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="MULTISAMPLE_DW1" offset="1">
 			<bitfield pos="5" name="DX9_MULTISAMPLE_ENABLE" variants="GEN75-"/>
@@ -1154,20 +1705,40 @@
 				<value value="0x0" name="CENTER"/>
 				<value value="0x1" name="UL_CORNER"/>
 			</bitfield>
-			<bitfield high="3" low="1" name="NUMSAMPLES">
-				<value value="0x0" name="1"/>
-				<value value="0x2" name="4"/>
-				<value value="0x3" name="8" variants="GEN7-"/>
-			</bitfield>
+			<bitfield high="3" low="1" type="gen_surface_multisample_count" name="NUMSAMPLES"/>
 		</reg32>
 
 		<reg32 name="MULTISAMPLE_SAMPLEPOS" offset="2" length="1" variants="GEN6"/>
 		<reg32 name="MULTISAMPLE_SAMPLEPOS" offset="2" length="2" variants="GEN7-"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="MULTISAMPLE_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="MULTISAMPLE_DW1" offset="1">
+			<bitfield pos="5" name="DX9_MULTISAMPLE_ENABLE"/>
+			<bitfield pos="4" name="PIXLOC">
+				<value value="0x0" name="CENTER"/>
+				<value value="0x1" name="UL_CORNER"/>
+			</bitfield>
+			<bitfield high="3" low="1" name="NUMSAMPLES">
+				<value value="0x0" name="1"/>
+				<value value="0x1" name="2"/>
+				<value value="0x2" name="4"/>
+				<value value="0x3" name="8"/>
+				<value value="0x4" name="16"/>
+			</bitfield>
+		</reg32>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_STENCIL_BUFFER" width="32" size="3" bare="yes" prefix="gen">
+<domain name="3DSTATE_SAMPLE_PATTERN" width="32" size="9" bare="yes" prefix="gen" variants="GEN8-">
 	<stripe>
+		<reg32 name="SAMPLE_PATTERN_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SAMPLE_PATTERN_SAMPLEPOS" offset="1" length="8"/>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_STENCIL_BUFFER" width="32" size="5" bare="yes" prefix="gen">
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="STENCIL_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="STENCIL_DW1" offset="1">
 			<bitfield pos="31" name="STENCIL_BUFFER_ENABLE" variants="GEN75-"/>
@@ -1176,16 +1747,41 @@
 		</reg32>
 		<reg32 name="STENCIL_DW2_ADDR" offset="2"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="STENCIL_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="STENCIL_DW1" offset="1">
+			<bitfield pos="31" name="STENCIL_BUFFER_ENABLE"/>
+			<bitfield high="28" low="22" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="16" low="0" type="uint" name="PITCH"/>
+		</reg32>
+		<reg32 name="STENCIL_DW2_ADDR" offset="2"/>
+		<reg32 name="STENCIL_DW3_ADDR_HI" offset="3"/>
+		<reg32 name="STENCIL_DW4" offset="4">
+			<bitfield high="14" low="0" type="uint" name="QPITCH"/>
+		</reg32>
+	</stripe>
 </domain>
 
-<domain name="3DSTATE_HIER_DEPTH_BUFFER" width="32" size="3" bare="yes" prefix="gen">
-	<stripe>
+<domain name="3DSTATE_HIER_DEPTH_BUFFER" width="32" size="5" bare="yes" prefix="gen">
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="HIZ_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="HIZ_DW1" offset="1">
 			<bitfield high="28" low="25" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="16" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="HIZ_DW2_ADDR" offset="2"/>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="HIZ_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="HIZ_DW1" offset="1">
+			<bitfield high="31" low="25" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="16" low="0" type="uint" name="PITCH"/>
+		</reg32>
+		<reg32 name="HIZ_DW2_ADDR" offset="2"/>
+		<reg32 name="HIZ_DW3_ADDR_HI" offset="3"/>
+		<reg32 name="HIZ_DW4" offset="4">
+			<bitfield high="14" low="0" type="uint" name="QPITCH"/>
+		</reg32>
 	</stripe>
 </domain>
 
@@ -1196,7 +1792,7 @@
 		</reg32>
 		<reg32 name="CLEAR_PARAMS_DW1_VALUE" offset="1"/>
 	</stripe>
-	<stripe variants="GEN7">
+	<stripe variants="GEN7-">
 		<reg32 name="CLEAR_PARAMS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="CLEAR_PARAMS_DW1_VALUE" offset="1"/>
 		<reg32 name="CLEAR_PARAMS_DW2" offset="2">

@@ -264,11 +264,17 @@
 <enum name="gen_surface_valign" inline="yes" varset="gen">
 	<value value="0x0" name="2"/>
 	<value value="0x1" name="4"/>
+	<value value="0x2" name="8" variants="GEN8-"/>
+	<value value="0x3" name="16" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_surface_halign" inline="yes" varset="gen" variants="GEN7-">
-	<value value="0x0" name="4"/>
-	<value value="0x1" name="8"/>
+	<value value="0x0" name="4" variants="GEN7-GEN75"/>
+	<value value="0x1" name="8" variants="GEN7-GEN75"/>
+
+	<value value="0x1" name="4" variants="GEN8-"/>
+	<value value="0x2" name="8" variants="GEN8-"/>
+	<value value="0x3" name="16" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_surface_rotate" inline="yes" varset="gen">
@@ -277,7 +283,15 @@
 	<value value="0x3" name="270DEG"/>
 </enum>
 
-<domain name="SURFACE_STATE" width="32" size="8" bare="yes" prefix="gen">
+<enum name="gen_surface_multisample_count" bare="yes" prefix="gen">
+	<value value="0x0" name="MULTISAMPLECOUNT_1"/>
+	<value value="0x1" name="MULTISAMPLECOUNT_2" variants="GEN8-"/>
+	<value value="0x2" name="MULTISAMPLECOUNT_4"/>
+	<value value="0x3" name="MULTISAMPLECOUNT_8" variants="GEN7-"/>
+	<value value="0x4" name="MULTISAMPLECOUNT_16" variants="GEN8-"/>
+</enum>
+
+<domain name="SURFACE_STATE" width="32" size="16" bare="yes" prefix="gen">
 	<stripe variants="GEN6">
 		<reg32 name="SURFACE_DW0" offset="0">
 			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
@@ -311,10 +325,7 @@
 			<bitfield high="31" low="28" type="uint" name="MIN_LOD"/>
 			<bitfield high="27" low="17" type="uint" name="MIN_ARRAY_ELEMENT"/>
 			<bitfield high="16" low="8" type="uint" name="RT_VIEW_EXTENT"/>
-			<bitfield high="6" low="4" name="MULTISAMPLECOUNT">
-				<value value="0x0" name="1"/>
-				<value value="0x2" name="4"/>
-			</bitfield>
+			<bitfield high="6" low="4" type="gen_surface_multisample_count" name="MULTISAMPLECOUNT"/>
 			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
 		</reg32>
 		<reg32 name="SURFACE_DW5" offset="5">
@@ -325,7 +336,7 @@
 		</reg32>
 	</stripe>
 
-	<stripe variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="SURFACE_DW0" offset="0">
 			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
 			<bitfield pos="28" name="IS_ARRAY"/>
@@ -365,11 +376,7 @@
 				<value value="0x0" name="MSS"/>
 				<value value="0x1" name="DEPTH_STENCIL"/>
 			</bitfield>
-			<bitfield high="5" low="3" name="MULTISAMPLECOUNT">
-				<value value="0x0" name="1"/>
-				<value value="0x2" name="4"/>
-				<value value="0x3" name="8"/>
-			</bitfield>
+			<bitfield high="5" low="3" type="gen_surface_multisample_count" name="MULTISAMPLECOUNT"/>
 			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
 			<!-- else -->
 			<bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT_STRBUF"/>
@@ -406,6 +413,97 @@
 			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A" variants="GEN75-"/>
 			<bitfield high="11" low="0" type="uint" name="RES_MIN_LOD"/>
 		</reg32>
+	</stripe>
+
+	<stripe variants="GEN8-">
+		<reg32 name="SURFACE_DW0" offset="0">
+			<bitfield high="31" low="29" type="gen_surface_type" name="TYPE"/>
+			<bitfield pos="28" name="IS_ARRAY"/>
+			<bitfield high="26" low="18" type="gen_surface_format" name="FORMAT"/>
+			<bitfield high="17" low="16" type="gen_surface_valign" name="VALIGN"/>
+			<bitfield high="15" low="14" type="gen_surface_halign" name="HALIGN"/>
+			<bitfield high="13" low="12" type="gen_surface_tiling" name="TILING"/>
+			<bitfield pos="11" name="VSTRIDE"/>
+			<bitfield pos="10" name="VSTRIDE_OFFSET"/>
+			<bitfield pos="9" name="SAMPLER_L2_BYPASS_MODE"/>
+			<bitfield pos="8" name="RENDER_CACHE_RW"/>
+			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
+			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
+		</reg32>
+
+		<reg32 name="SURFACE_DW1" offset="1">
+			<bitfield high="30" low="24" type="gen_render_mocs" name="MOCS"/>
+			<bitfield high="23" low="19" name="BASE_LOD"/>
+			<bitfield high="14" low="0" type="uint" name="QPITCH"/>
+		</reg32>
+
+		<reg32 name="SURFACE_DW2" offset="2">
+			<bitfield high="29" low="16" type="uint" name="HEIGHT"/>
+			<bitfield high="13" low="0" type="uint" name="WIDTH"/>
+		</reg32>
+		<reg32 name="SURFACE_DW3" offset="3">
+			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
+			<bitfield high="17" low="0" type="uint" name="PITCH"/>
+		</reg32>
+		<reg32 name="SURFACE_DW4" offset="4">
+			<!-- if SURFACE_DW0_TYPE != STRBUF -->
+			<bitfield high="30" low="29" type="gen_surface_rotate" name="RTROTATE"/>
+			<bitfield high="28" low="18" type="uint" name="MIN_ARRAY_ELEMENT"/>
+			<bitfield high="17" low="7" type="uint" name="RT_VIEW_EXTENT"/>
+			<bitfield high="6" low="6" name="MSFMT">
+				<value value="0x0" name="MSS"/>
+				<value value="0x1" name="DEPTH_STENCIL"/>
+			</bitfield>
+			<bitfield high="5" low="3" type="gen_surface_multisample_count" name="MULTISAMPLECOUNT"/>
+			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
+			<!-- else -->
+			<bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT_STRBUF"/>
+		</reg32>
+		<reg32 name="SURFACE_DW5" offset="5">
+			<bitfield high="31" low="25" type="uint" shr="2" name="X_OFFSET"/>
+			<bitfield high="23" low="21" type="uint" shr="1" name="Y_OFFSET"/>
+			<bitfield pos="20" name="CUBE_EWA"/>
+			<bitfield pos="14" name="COHERENCY_TYPE"/>
+			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
+			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
+		</reg32>
+		<reg32 name="SURFACE_DW6" offset="6">
+			<!-- if DW0_SURFACE_FORMAT == PLANAR -->
+			<bitfield pos="31" name="SEPARATE_UV_ENABLE"/>
+			<bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/>
+			<bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/>
+
+			<!-- else if AUX_MODE == MCS -->
+			<bitfield high="30" low="16" type="uint" name="AUX_QPITCH"/>
+			<bitfield high="11" low="3" type="uint" name="AUX_PITCH"/>
+
+			<bitfield high="2" low="0" name="AUX_MODE">
+				<value value="0x0" name="NONE"/>
+				<value value="0x1" name="MCS"/>
+				<value value="0x2" name="APPEND"/>
+				<value value="0x3" name="HIZ"/>
+			</bitfield>
+		</reg32>
+		<reg32 name="SURFACE_DW7" offset="7">
+			<bitfield pos="31" type="gen_surface_clear_color" name="CC_R"/>
+			<bitfield pos="30" type="gen_surface_clear_color" name="CC_G"/>
+			<bitfield pos="29" type="gen_surface_clear_color" name="CC_B"/>
+			<bitfield pos="28" type="gen_surface_clear_color" name="CC_A"/>
+			<bitfield high="27" low="25" type="gen_surface_scs" name="SCS_R"/>
+			<bitfield high="24" low="22" type="gen_surface_scs" name="SCS_G"/>
+			<bitfield high="21" low="19" type="gen_surface_scs" name="SCS_B"/>
+			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A"/>
+			<bitfield high="11" low="0" type="uint" name="RES_MIN_LOD"/>
+		</reg32>
+		<reg32 name="SURFACE_DW8_ADDR" offset="8"/>
+		<reg32 name="SURFACE_DW8_ADDR_HI" offset="9"/>
+		<reg32 name="SURFACE_DW10_AUX_ADDR" offset="10"/>
+		<reg32 name="SURFACE_DW11_AUX_ADDR_HI" offset="11"/>
+		<reg32 name="SURFACE_DW12" offset="12"/>
+
+		<reg32 name="SURFACE_DW13" offset="13" variants="GEN9-"/>
+		<reg32 name="SURFACE_DW14" offset="14" variants="GEN9-"/>
+		<reg32 name="SURFACE_DW15" offset="15" variants="GEN9-"/>
 	</stripe>
 </domain>
 

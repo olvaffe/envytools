@@ -109,6 +109,7 @@
 	<value value="0x3" name="TEXCOORDMODE_CUBE"/>
 	<value value="0x4" name="TEXCOORDMODE_CLAMP_BORDER"/>
 	<value value="0x5" name="TEXCOORDMODE_MIRROR_ONCE"/>
+	<value value="0x6" name="TEXCOORDMODE_HALF_BORDER" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_sampler_key_filter" bare="yes" prefix="gen">
@@ -119,8 +120,8 @@
 <domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="CC_DW0" offset="0">
-			<bitfield high="31" low="24" type="uint" name="STENCIL0_REF"/>
-			<bitfield high="23" low="16" type="uint" name="STENCIL1_REF"/>
+			<bitfield high="31" low="24" type="uint" name="STENCIL0_REF" variants="GEN6-GEN8"/>
+			<bitfield high="23" low="16" type="uint" name="STENCIL1_REF" variants="GEN6-GEN8"/>
 			<bitfield pos="15" name="ROUND_DISABLE_DISABLE"/>
 			<bitfield pos="0" name="ALPHATEST">
 				<value value="0x0" name="UNORM8"/>
@@ -135,7 +136,7 @@
 	</stripe>
 </domain>
 
-<domain name="DEPTH_STENCIL_STATE" width="32" size="3" bare="yes" prefix="gen">
+<domain name="DEPTH_STENCIL_STATE" width="32" size="3" bare="yes" prefix="gen" variants="GEN6-GEN75">
 	<stripe>
 		<reg32 name="ZS_DW0" offset="0">
 			<bitfield pos="31" name="STENCIL_TEST_ENABLE"/>
@@ -165,7 +166,7 @@
 </domain>
 
 <domain name="BLEND_STATE" width="32" size="2" bare="yes" prefix="gen">
-	<stripe>
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="BLEND_DW0" offset="0">
 			<bitfield pos="31" name="BLEND_ENABLE"/>
 			<bitfield pos="30" name="INDEPENDENT_ALPHA_ENABLE"/>
@@ -191,6 +192,43 @@
 			<bitfield pos="12" name="DITHER_ENABLE"/>
 			<bitfield high="11" low="10" type="uint" name="X_DITHER_OFFSET"/>
 			<bitfield high="9" low="8" type="uint" name="Y_DITHER_OFFSET"/>
+			<bitfield high="3" low="2" name="COLORCLAMP">
+				<value value="0x0" name="UNORM"/>
+				<value value="0x1" name="SNORM"/>
+				<value value="0x2" name="RTFORMAT"/>
+			</bitfield>
+			<bitfield pos="1" name="PRE_BLEND_CLAMP"/>
+			<bitfield pos="0" name="POST_BLEND_CLAMP"/>
+		</reg32>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="BLEND_DW" offset="0">
+			<bitfield pos="31" name="ALPHA_TO_COVERAGE"/>
+			<bitfield pos="30" name="INDEPENDENT_ALPHA_ENABLE"/>
+			<bitfield pos="29" name="ALPHA_TO_ONE"/>
+			<bitfield pos="28" name="ALPHA_TO_COVERAGE_DITHER"/>
+			<bitfield pos="27" name="ALPHA_TEST_ENABLE"/>
+			<bitfield high="26" low="24" type="gen_compare_function" name="ALPHA_TEST_FUNC"/>
+			<bitfield pos="23" name="DITHER_ENABLE"/>
+			<bitfield high="22" low="21" type="uint" name="X_DITHER_OFFSET"/>
+			<bitfield high="20" low="19" type="uint" name="Y_DITHER_OFFSET"/>
+		</reg32>
+		<reg32 name="BLEND_DW0" offset="0">
+			<bitfield pos="31" name="BLEND_ENABLE"/>
+			<bitfield high="30" low="26" type="gen_blend_factor" name="SRC_COLOR_FACTOR"/>
+			<bitfield high="25" low="21" type="gen_blend_factor" name="DST_COLOR_FACTOR"/>
+			<bitfield high="20" low="18" type="gen_blend_function" name="COLOR_FUNC"/>
+			<bitfield high="17" low="13" type="gen_blend_factor" name="SRC_ALPHA_FACTOR"/>
+			<bitfield high="12" low="8" type="gen_blend_factor" name="DST_ALPHA_FACTOR"/>
+			<bitfield high="7" low="5" type="gen_blend_function" name="ALPHA_FUNC"/>
+			<bitfield pos="3" name="WRITE_DISABLE_A"/>
+			<bitfield pos="2" name="WRITE_DISABLE_R"/>
+			<bitfield pos="1" name="WRITE_DISABLE_G"/>
+			<bitfield pos="0" name="WRITE_DISABLE_B"/>
+		</reg32>
+		<reg32 name="BLEND_DW1" offset="1">
+			<bitfield pos="31" name="LOGICOP_ENABLE"/>
+			<bitfield high="30" low="27" type="gen_logicop_function" name="LOGICOP_FUNC"/>
 			<bitfield high="3" low="2" name="COLORCLAMP">
 				<value value="0x0" name="UNORM"/>
 				<value value="0x1" name="SNORM"/>
@@ -306,7 +344,10 @@
 				<value value="0x0" name="DX10_OGL"/>
 				<value value="0x1" name="DX9"/>
 			</bitfield>
-			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE"/>
+
+			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE" variants="GEN7-GEN75"/>
+			<bitfield high="28" low="27" name="LOD_PRECLAMP_ENABLE" variants="GEN8-"/>
+
 			<bitfield high="26" low="22" type="uint" name="BASE_LOD"/>
 			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
 			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
@@ -320,19 +361,38 @@
 		<reg32 name="SAMPLER_DW1" offset="1">
 			<bitfield high="31" low="20" type="ufixed" radix="8" name="MIN_LOD"/>
 			<bitfield high="19" low="8" type="ufixed" radix="8" name="MAX_LOD"/>
+			<bitfield pos="7" name="CHROMAKEY_ENABLE" variants="GEN8-"/>
+			<bitfield high="6" low="5" name="CHROMAKEY_INDEX" variants="GEN8-"/>
+			<bitfield high="4" low="4" type="gen_sampler_key_filter" name="CHROMAKEY_MODE" variants="GEN8-"/>
 			<bitfield high="3" low="1" type="gen_compare_function" name="SHADOW_FUNC"/>
 			<bitfield high="0" low="0" name="CUBECTRLMODE">
 				<value value="0x0" name="PROGRAMMED"/>
 				<value value="0x1" name="OVERRIDE"/>
 			</bitfield>
 		</reg32>
-		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2">
-			<bitfield high="31" low="5" shr="5" name="ADDR"/>
+
+		<reg32 name="SAMPLER_DW2" offset="2" variants="GEN7-GEN75">
+			<bitfield high="31" low="5" shr="5" name="BORDER_COLOR_ADDR"/>
 		</reg32>
+		<reg32 name="SAMPLER_DW2" offset="2" variants="GEN8-">
+			<bitfield high="31" low="30" name="SEP_FILTER_COEFF_TABLE_SIZE"/>
+			<bitfield high="29" low="28" name="SEP_FILTER_WIDTH"/>
+			<bitfield high="27" low="26" name="SEP_FILTER_HEIGHT"/>
+			<bitfield high="23" low="6" shr="6" name="INDIRECT_STATE"/>
+			<bitfield pos="4" name="FLEXIBLE_FILTER_MODE"/>
+			<bitfield pos="3" name="FLEXIBLE_FILTER_COEFF_SIZE"/>
+			<bitfield pos="2" name="FLEXIBLE_FILTER_HALIGN"/>
+			<bitfield pos="1" name="FLEXIBLE_FILTER_VALIGN"/>
+			<bitfield pos="0" name="LOD_CLAMP_MAG_MODE"/>
+		</reg32>
+
 		<reg32 name="SAMPLER_DW3" offset="3">
-			<bitfield pos="25" name="CHROMAKEY_ENABLE"/>
-			<bitfield high="24" low="23" name="CHROMAKEY_INDEX"/>
-			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE"/>
+			<bitfield high="31" low="24" name="NON_SEP_FILTER_FOOTPRINT_MASK" variants="GEN8-"/>
+
+			<bitfield pos="25" name="CHROMAKEY_ENABLE" variants="GEN7-GEN75"/>
+			<bitfield high="24" low="23" name="CHROMAKEY_INDEX" variants="GEN7-GEN75"/>
+			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE" variants="GEN7-GEN75"/>
+
 			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
 			<bitfield pos="18" name="U_MAG_ROUND"/>
 			<bitfield pos="17" name="U_MIN_ROUND"/>

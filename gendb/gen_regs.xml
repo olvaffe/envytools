@@ -68,6 +68,10 @@
 		</reg32>
 	</stripe>
 
+	<stripe variants="GEN8-">
+		<reg32 name="L3CNTLREG" offset="0x7034"/>
+	</stripe>
+
 	<stripe variants="GEN7-">
 		<reg32 name="L3SQCREG1" offset="0xb010">
 			<bitfield pos="24" name="CON4DCUNC"/>

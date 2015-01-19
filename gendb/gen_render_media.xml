@@ -8,9 +8,9 @@
 <import file="gen_render.xml"/>
 
 <domain name="INTERFACE_DESCRIPTOR_DATA" width="32" size="8" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="IDRT_DW0" offset="0">
-			<bitfield high="31" low="6" shr="6" name="KERNEL_ADDR"/>
+	<stripe variants="GEN6-GEN75">
+		<reg32 name="IDRT_DW0_KERNEL" offset="0">
+			<bitfield high="31" low="6" shr="6" name="ADDR"/>
 		</reg32>
 		<reg32 name="IDRT_DW1" offset="1">
 			<bitfield pos="18" name="SPF"/>
@@ -54,15 +54,63 @@
 		</reg32>
 		<reg32 name="IDRT_DW7" offset="7"/>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="IDRT_DW0_KERNEL" offset="0">
+			<bitfield high="31" low="6" shr="6" name="ADDR"/>
+		</reg32>
+		<reg32 name="IDRT_DW1_KERNEL_HI" offset="1"/>
+		<reg32 name="IDRT_DW2" offset="2">
+			<bitfield pos="20" name="THREAD_PREEMPTION_DISABLE"/>
+			<bitfield pos="19" name="DENORM">
+				<value value="0x0" name="FTZ"/>
+				<value value="0x1" name="RET"/>
+			</bitfield>
+			<bitfield pos="18" name="SPF"/>
+			<bitfield pos="17" name="PRIORITY_HIGH"/>
+			<bitfield pos="16" name="FP_MODE_ALT"/>
+			<bitfield pos="13" name="ILLEGAL_CODE_EXCEPTION"/>
+			<bitfield pos="11" name="MASK_STACK_EXCEPTION"/>
+			<bitfield pos="7" name="SOFTWARE_EXCEPTION"/>
+		</reg32>
+		<reg32 name="IDRT_DW3" offset="3">
+			<bitfield high="31" low="5" shr="5" name="SAMPLER_ADDR"/>
+			<bitfield high="4" low="2" type="uint" name="SAMPLER_COUNT"/>
+		</reg32>
+		<reg32 name="IDRT_DW4" offset="4">
+			<bitfield high="15" low="5" shr="5" name="BINDING_TABLE_ADDR"/>
+			<bitfield high="4" low="0" type="uint" name="BINDING_TABLE_SIZE"/>
+		</reg32>
+		<reg32 name="IDRT_DW5" offset="5">
+			<bitfield high="31" low="16" type="uint" name="CURBE_READ_LEN"/>
+			<bitfield high="15" low="0" type="uint" name="CURBE_READ_OFFSET" variants="GEN6-GEN7"/>
+		</reg32>
+		<reg32 name="IDRT_DW6" offset="6" variants="GEN7-">
+			<bitfield high="31" low="24" type="uint" name="BARRIER_RETURN_GRF" variants="GEN7"/>
+			<bitfield high="23" low="22" name="ROUNDING_MODE">
+				<value value="0x0" name="RTNE"/>
+				<value value="0x1" name="RU"/>
+				<value value="0x2" name="RD"/>
+				<value value="0x3" name="RTZ"/>
+			</bitfield>
+			<bitfield pos="21" name="BARRIER_ENABLE"/>
+			<bitfield high="20" low="16" type="uint" name="SLM_SIZE"/>
+			<bitfield high="15" low="8" name="BARRIER_RETURN_BYTE" variants="GEN7"/>
+			<!-- appear to be available since Gen7, not Gen7.5 -->
+			<bitfield high="7" low="0" name="THREAD_GROUP_SIZE" type="uint" variants="GEN7-"/>
+		</reg32>
+		<reg32 name="IDRT_DW7" offset="7">
+			<bitfield high="7" low="0" name="CROSS_THREAD_CURBE_READ_LEN" type="uint" variants="GEN75-"/>
+		</reg32>
+	</stripe>
 </domain>
 
-<domain name="MEDIA_VFE_STATE" width="32" size="8" bare="yes" prefix="gen">
-	<stripe>
+<domain name="MEDIA_VFE_STATE" width="32" size="9" bare="yes" prefix="gen">
+	<stripe variants="GEN6-GEN75">
 		<reg32 name="VFE_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="VFE_DW1" offset="1">
-			<bitfield high="31" low="10" shr="10" name="SCRATCH_ADDR"/>
-			<bitfield high="7" low="4" type="uint" name="SCRATCH_STACK_SIZE" variants="GEN6 GEN75-"/>
-			<bitfield high="3" low="0" type="uint" name="SCRATCH_SPACE_PER_THREAD"/>
+		<reg32 name="VFE_DW1_SCRATCH" offset="1">
+			<bitfield high="31" low="10" shr="10" name="ADDR"/>
+			<bitfield high="7" low="4" type="uint" name="STACK_SIZE" variants="GEN6 GEN75-"/>
+			<bitfield high="3" low="0" type="uint" name="SPACE_PER_THREAD"/>
 		</reg32>
 		<reg32 name="VFE_DW2" offset="2">
 			<bitfield high="31" low="16" type="uint" name="MAX_THREADS"/>
@@ -117,6 +165,60 @@
 			<bitfield high="3" low="0" type="int" name="SCOREBOARD_4_DELTA_X"/>
 		</reg32>
 	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="VFE_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="VFE_DW1_SCRATCH" offset="1">
+			<bitfield high="31" low="10" shr="10" name="SCRATCH_ADDR"/>
+			<bitfield high="7" low="4" type="uint" name="SCRATCH_STACK_SIZE"/>
+			<bitfield high="3" low="0" type="uint" name="SCRATCH_SPACE_PER_THREAD"/>
+		</reg32>
+		<reg32 name="VFE_DW2_SCRATCH_HI" offset="2"/>
+		<reg32 name="VFE_DW3" offset="3">
+			<bitfield high="31" low="16" type="uint" name="MAX_THREADS"/>
+			<bitfield high="15" low="8" type="uint" name="URB_ENTRY_COUNT"/>
+			<bitfield pos="7" name="RESET_GATEWAY_TIMER"/>
+			<bitfield pos="6" name="BYPASS_GATEWAY_CONTROL"/>
+		</reg32>
+		<reg32 name="VFE_DW4" offset="4">
+			<bitfield high="1" low="0" name="HALF_SLICE_DISABLE">
+				<value value="0x0" name="NONE"/>
+				<value value="0x1" name="23"/>
+				<value value="0x3" name="123"/>
+			</bitfield>
+		</reg32>
+		<reg32 name="VFE_DW5" offset="5">
+			<bitfield high="31" low="16" type="uint" name="URB_ENTRY_SIZE"/>
+			<bitfield high="15" low="0" type="uint" name="CURBE_SIZE"/>
+		</reg32>
+		<reg32 name="VFE_DW6" offset="6">
+			<bitfield pos="31" name="SCOREBOARD_ENABLE"/>
+			<bitfield pos="30" name="SCOREBOARD_TYPE">
+				<value value="0x0" name="STALLING"/>
+				<value value="0x1" name="NON_STALLING"/>
+			</bitfield>
+			<bitfield high="7" low="0" name="SCOREBOARD_MASK"/>
+		</reg32>
+		<reg32 name="VFE_DW7" offset="7">
+			<bitfield high="31" low="28" type="int" name="SCOREBOARD_3_DELTA_Y"/>
+			<bitfield high="27" low="24" type="int" name="SCOREBOARD_3_DELTA_X"/>
+			<bitfield high="23" low="20" type="int" name="SCOREBOARD_2_DELTA_Y"/>
+			<bitfield high="19" low="16" type="int" name="SCOREBOARD_2_DELTA_X"/>
+			<bitfield high="15" low="12" type="int" name="SCOREBOARD_1_DELTA_Y"/>
+			<bitfield high="11" low="8" type="int" name="SCOREBOARD_1_DELTA_X"/>
+			<bitfield high="7" low="4" type="int" name="SCOREBOARD_0_DELTA_Y"/>
+			<bitfield high="3" low="0" type="int" name="SCOREBOARD_0_DELTA_X"/>
+		</reg32>
+		<reg32 name="VFE_DW8" offset="8">
+			<bitfield high="31" low="28" type="int" name="SCOREBOARD_7_DELTA_Y"/>
+			<bitfield high="27" low="24" type="int" name="SCOREBOARD_7_DELTA_X"/>
+			<bitfield high="23" low="20" type="int" name="SCOREBOARD_6_DELTA_Y"/>
+			<bitfield high="19" low="16" type="int" name="SCOREBOARD_6_DELTA_X"/>
+			<bitfield high="15" low="12" type="int" name="SCOREBOARD_5_DELTA_Y"/>
+			<bitfield high="11" low="8" type="int" name="SCOREBOARD_5_DELTA_X"/>
+			<bitfield high="7" low="4" type="int" name="SCOREBOARD_4_DELTA_Y"/>
+			<bitfield high="3" low="0" type="int" name="SCOREBOARD_4_DELTA_X"/>
+		</reg32>
+	</stripe>
 </domain>
 
 <domain name="MEDIA_CURBE_LOAD" width="32" size="4" bare="yes" prefix="gen">
@@ -157,8 +259,8 @@
 	</stripe>
 </domain>
 
-<domain name="GPGPU_WALKER" width="32" size="11" bare="yes" prefix="gen" variants="GEN7-">
-	<stripe>
+<domain name="GPGPU_WALKER" width="32" size="15" bare="yes" prefix="gen" variants="GEN7-">
+	<stripe variants="GEN7-GEN75">
 		<reg32 name="GPGPU_DW0" offset="0" type="gen_render_header">
 			<bitfield pos="10" name="INDIRECT_PARAM_ENABLE"/>
 			<bitfield pos="8" name="PREDICATE_ENABLE"/>
@@ -184,6 +286,37 @@
 		<reg32 name="GPGPU_DW8_THREAD_GROUP_DIM_Z" offset="8"/>
 		<reg32 name="GPGPU_DW9_RIGHT_EXEC_MASK" offset="9"/>
 		<reg32 name="GPGPU_DW10_BOTTOM_EXEC_MASK" offset="10"/>
+	</stripe>
+	<stripe variants="GEN8-">
+		<reg32 name="GPGPU_DW0" offset="0" type="gen_render_header">
+			<bitfield pos="10" name="INDIRECT_PARAM_ENABLE"/>
+			<bitfield pos="8" name="PREDICATE_ENABLE"/>
+		</reg32>
+		<reg32 name="GPGPU_DW1" offset="1">
+			<bitfield high="5" low="0" name="IDRT_OFFSET"/>
+		</reg32>
+		<reg32 name="GPGPU_DW2_INDIRECT_LEN" offset="2"/>
+		<reg32 name="GPGPU_DW3_INDIRECT_ADDR" offset="3"/>
+		<reg32 name="GPGPU_DW4" offset="4">
+			<bitfield high="31" low="30" name="SIMD_SIZE">
+				<value value="0x0" name="SIMD8"/>
+				<value value="0x1" name="SIMD16"/>
+				<value value="0x2" name="SIMD32"/>
+			</bitfield>
+			<bitfield high="21" low="16" type="uint" name="THREAD_MAX_Z"/>
+			<bitfield high="13" low="8" type="uint" name="THREAD_MAX_Y"/>
+			<bitfield high="5" low="0" type="uint" name="THREAD_MAX_X"/>
+		</reg32>
+		<reg32 name="GPGPU_DW5" offset="5"/>
+		<reg32 name="GPGPU_DW6_THREAD_GROUP_STARTING_X" offset="6"/>
+		<reg32 name="GPGPU_DW7_THREAD_GROUP_DIM_X" offset="7"/>
+		<reg32 name="GPGPU_DW8" offset="8"/>
+		<reg32 name="GPGPU_DW9_THREAD_GROUP_STARTING_Y" offset="9"/>
+		<reg32 name="GPGPU_DW10_THREAD_GROUP_DIM_Y" offset="10"/>
+		<reg32 name="GPGPU_DW11_THREAD_GROUP_STARTING_Z" offset="11"/>
+		<reg32 name="GPGPU_DW12_THREAD_GROUP_DIM_Z" offset="12"/>
+		<reg32 name="GPGPU_DW13_RIGHT_EXEC_MASK" offset="13"/>
+		<reg32 name="GPGPU_DW14_BOTTOM_EXEC_MASK" offset="14"/>
 	</stripe>
 </domain>
 
