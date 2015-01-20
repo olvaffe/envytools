@@ -245,4 +245,55 @@
 	</stripe>
 </domain>
 
+<domain name="PIPE_CONTROL" width="32" size="6" bare="yes" prefix="gen">
+	<stripe>
+		<reg32 name="PIPE_CONTROL_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="PIPE_CONTROL" offset="1">
+			<bitfield pos="24" name="USE_GGTT" variants="GEN7-"/>
+			<bitfield pos="23" name="LRI_WRITE" variants="GEN7-">
+				<value value="0x0" name="NONE"/>
+				<value value="0x1" name="IMM"/>
+			</bitfield>
+			<bitfield pos="22" name="PROTECTED_MEMORY_ENABLE" variants="GEN6"/>
+			<bitfield pos="21" name="STORE_DATA_INDEX"/>
+			<bitfield pos="20" name="CS_STALL"/>
+			<bitfield pos="19" name="GLOBAL_SNAPSHOT_COUNT_RESET"/>
+			<bitfield pos="18" name="TLB_INVALIDATE"/>
+			<bitfield pos="17" name="SYNC_GFDT_SURFACE" variants="GEN6"/>
+			<bitfield pos="16" name="GENERIC_MEDIA_STATE_CLEAR"/>
+			<bitfield high="15" low="14" name="WRITE">
+				<value value="0x0" name="NONE"/>
+				<value value="0x1" name="IMM"/>
+				<value value="0x2" name="PS_DEPTH_COUNT"/>
+				<value value="0x3" name="TIMESTAMP"/>
+			</bitfield>
+			<bitfield pos="13" name="DEPTH_STALL"/>
+			<bitfield pos="12" name="RENDER_CACHE_FLUSH"/>
+			<bitfield pos="11" name="INSTRUCTION_CACHE_INVALIDATE"/>
+			<bitfield pos="10" name="TEXTURE_CACHE_INVALIDATE"/>
+			<bitfield pos="9" name="INDIRECT_STATE_POINTERS_DISABLE"/>
+			<bitfield pos="8" name="NOTIFY_ENABLE"/>
+			<bitfield pos="7" name="WRITE_IMM_FLUSH" variants="GEN7-"/>
+			<bitfield pos="6" type="uint" name="PROTECTED_MEMORY_APP_ID" variants="GEN6"/>
+			<bitfield pos="5" name="DC_FLUSH" variants="GEN7-"/>
+			<bitfield pos="4" name="VF_CACHE_INVALIDATE"/>
+			<bitfield pos="3" name="CONSTANT_CACHE_INVALIDATE"/>
+			<bitfield pos="2" name="STATE_CACHE_INVALIDATE"/>
+			<bitfield pos="1" name="PIXEL_SCOREBOARD_STALL"/>
+			<bitfield pos="0" name="DEPTH_CACHE_FLUSH"/>
+		</reg32>
+
+		<reg32 name="PIPE_CONTROL_DW2" offset="2" variants="GEN6">
+			<bitfield high="31" low="3" shr="3" name="ADDR"/>
+			<bitfield pos="2" name="USE_GGTT"/>
+		</reg32>
+		<reg32 name="PIPE_CONTROL_DW2_ADDR" offset="2" variants="GEN7-GEN75"/>
+		<reg32 name="PIPE_CONTROL_DW2_ADDR" offset="2" variants="GEN8-"/>
+		<reg32 name="PIPE_CONTROL_DW3_ADDR_HI" offset="3" variants="GEN8-"/>
+
+		<reg32 name="PIPE_CONTROL_DW_IMM" offset="3" length="2" variants="GEN6-GEN75"/>
+		<reg32 name="PIPE_CONTROL_DW_IMM" offset="4" length="2" variants="GEN8-"/>
+	</stripe>
+</domain>
+
 </database>
