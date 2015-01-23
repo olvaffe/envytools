@@ -439,7 +439,7 @@
 	<bitfield high="6" low="0" type="gen_eu_opcode" name="COMPACT_OPCODE"/>
 </bitset>
 
-<bitset name="gen_eu_instruction_compact_3src" bare="yes" prefix="gen">
+<bitset name="gen_eu_instruction_compact_3src" bare="yes" prefix="gen" variants="GEN8-">
 	<bitfield high="63" low="57" shr="1" type="uint" name="COMPACT_3SRC_SRC2_REG"/>
 	<bitfield high="56" low="50" shr="1" type="uint" name="COMPACT_3SRC_SRC1_REG"/>
 	<bitfield high="49" low="43" shr="1" type="uint" name="COMPACT_3SRC_SRC0_REG"/>
@@ -485,7 +485,7 @@
 	</stripe>
 </domain>
 
-<domain name="gen_eu_compact_3src" bare="yes" prefix="gen">
+<domain name="gen_eu_compact_3src" bare="yes" prefix="gen" variants="GEN8-">
 	<stripe>
 		<reg64 name="COMPACT_3SRC_QWORD" offset="0" type="gen_eu_instruction_compact_3src"/>
 	</stripe>

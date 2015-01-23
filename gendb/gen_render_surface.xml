@@ -284,12 +284,12 @@
 	<value value="0x3" name="270DEG"/>
 </enum>
 
-<enum name="gen_surface_multisample_count" bare="yes" prefix="gen">
-	<value value="0x0" name="MULTISAMPLECOUNT_1"/>
-	<value value="0x1" name="MULTISAMPLECOUNT_2" variants="GEN8-"/>
-	<value value="0x2" name="MULTISAMPLECOUNT_4"/>
-	<value value="0x3" name="MULTISAMPLECOUNT_8" variants="GEN7-"/>
-	<value value="0x4" name="MULTISAMPLECOUNT_16" variants="GEN8-"/>
+<enum name="gen_surface_multisample_count" inline="yes" varset="gen">
+	<value value="0x0" name="1"/>
+	<value value="0x1" name="2" variants="GEN8-"/>
+	<value value="0x2" name="4"/>
+	<value value="0x3" name="8" variants="GEN7-"/>
+	<value value="0x4" name="16" variants="GEN8-"/>
 </enum>
 
 <domain name="SURFACE_STATE" width="32" size="16" bare="yes" prefix="gen">
