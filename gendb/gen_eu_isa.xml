@@ -407,7 +407,7 @@
 	<bitfield pos="7" name="3SRC_SRC1_ABSOLUTE" variants="GEN8-"/>
 	<bitfield pos="6" name="3SRC_SRC0_NEGATE" variants="GEN8-"/>
 	<bitfield pos="5" name="3SRC_SRC0_ABSOLUTE" variants="GEN8-"/>
-	<bitfield pos="2" type="gen_eu_mask_control" name="INST_MASKCTRL" variants="GEN8-"/>
+	<bitfield pos="2" type="gen_eu_mask_control" name="3SRC_MASKCTRL" variants="GEN8-"/>
 	<bitfield pos="1" type="uint" name="3SRC_FLAG_REG" variants="GEN8-"/>
 	<bitfield pos="0" type="uint" name="3SRC_FLAG_SUBREG" variants="GEN8-"/>
 </bitset>

@@ -189,7 +189,7 @@
 	<bitfield high="3" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN6"/>
 
 	<bitfield pos="16" name="MSG_URB_PER_SLOT_OFFSET" variants="GEN7-"/>
-	<bitfield pos="15" name="MSG_URB_COMPLETE" variants="GEN7-"/>
+	<bitfield pos="15" name="MSG_URB_COMPLETE" variants="GEN7-GEN75"/>
 	<bitfield pos="14" name="MSG_URB_INTERLEAVED" variants="GEN7-"/>
 	<bitfield high="13" low="3" type="uint" name="MSG_URB_GLOBAL_OFFSET" variants="GEN7-"/>
 	<bitfield high="2" low="0" type="gen_eu_urb_op" name="MSG_URB_OP" variants="GEN7-"/>
