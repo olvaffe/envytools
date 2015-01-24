@@ -214,18 +214,12 @@
 </domain>
 
 <domain name="STATE_SIP" width="32" size="3" bare="yes" prefix="gen">
-	<stripe variants="GEN6-GEN75">
+	<stripe>
 		<reg32 name="SIP_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="SIP_DW1_KERNEL" offset="1">
 			<bitfield high="31" low="4" shr="4" name="ADDR"/>
 		</reg32>
-	</stripe>
-	<stripe variants="GEN8-">
-		<reg32 name="SIP_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="SIP_DW1_KERNEL" offset="1">
-			<bitfield high="31" low="4" shr="4" name="ADDR"/>
-		</reg32>
-		<reg32 name="SIP_DW2_KERNEL_HI" offset="2"/>
+		<reg32 name="SIP_DW2_KERNEL_HI" offset="2" variants="GEN8-"/>
 	</stripe>
 </domain>
 
