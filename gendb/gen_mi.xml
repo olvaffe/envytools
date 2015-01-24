@@ -163,13 +163,16 @@
 	</reg32>
 </domain>
 
-<domain name="MI_STORE_DATA_IMM" width="32" size="5" prefix="gen">
+<domain name="MI_STORE_DATA_IMM" width="32" size="6" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="USE_GGTT"/>
 	</reg32>
-	<!-- gap -->
+	<reg32 name="DW1" offset="1"/> <!-- unused -->
 	<reg32 name="DW2" type="gen_mi_addr_dw" offset="2"/>
-	<reg32 name="VAL" offset="3" length="2"/>
+	<reg32 name="DW_VAL" offset="3" length="2" variants="GEN6-GEN75"/>
+
+	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
+	<reg32 name="DW_VAL" offset="4" length="2" variants="GEN8-"/>
 </domain>
 
 <domain name="MI_LOAD_REGISTER_IMM" width="32" size="3" prefix="gen">
@@ -180,13 +183,14 @@
 	<reg32 name="DW2_VAL" offset="2"/>
 </domain>
 
-<domain name="MI_STORE_REGISTER_MEM" width="32" size="3" prefix="gen">
+<domain name="MI_STORE_REGISTER_MEM" width="32" size="4" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="USE_GGTT"/>
 		<bitfield pos="21" name="PREDICATE_ENABLE" variants="GEN75-"/>
 	</reg32>
 	<reg32 name="DW1" type="gen_mi_reg32" offset="1"/>
 	<reg32 name="DW2" type="gen_mi_addr_dw" offset="2"/>
+	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 </domain>
 
 <domain name="MI_FLUSH_DW" width="32" size="4" prefix="gen">
@@ -204,13 +208,14 @@
 	<reg32 name="DW2_REPORT_ID" offset="2"/>
 </domain>
 
-<domain name="MI_LOAD_REGISTER_MEM" width="32" size="3" prefix="gen" variants="GEN7-">
+<domain name="MI_LOAD_REGISTER_MEM" width="32" size="4" prefix="gen" variants="GEN7-">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="USE_GGTT"/>
 		<bitfield pos="21" name="ASYNC_MODE_ENABLE" variants="GEN7-"/>
 	</reg32>
 	<reg32 name="DW1" type="gen_mi_reg32" offset="1"/>
 	<reg32 name="DW2" type="gen_mi_addr_dw" offset="2"/>
+	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 </domain>
 
 <domain name="MI_LOAD_REGISTER_REG" width="32" size="3" prefix="gen" variants="GEN75-">
@@ -219,19 +224,21 @@
 	<reg32 name="DW2_DST" type="gen_mi_reg32" offset="2"/>
 </domain>
 
-<domain name="MI_LOAD_URB_MEM" width="32" size="3" prefix="gen" variants="GEN75-">
+<domain name="MI_LOAD_URB_MEM" width="32" size="4" prefix="gen" variants="GEN75-">
 	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
 	<reg32 name="DW1" type="gen_mi_urb" offset="1"/>
 	<reg32 name="DW2" type="gen_mi_addr64" offset="2"/>
+	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 </domain>
 
-<domain name="MI_STORE_URB_MEM" width="32" size="3" prefix="gen" variants="GEN75-">
+<domain name="MI_STORE_URB_MEM" width="32" size="4" prefix="gen" variants="GEN75-">
 	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
 	<reg32 name="DW1" type="gen_mi_urb" offset="1"/>
 	<reg32 name="DW2" type="gen_mi_addr64" offset="2"/>
+	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 </domain>
 
-<domain name="MI_BATCH_BUFFER_START" width="32" size="2" prefix="gen">
+<domain name="MI_BATCH_BUFFER_START" width="32" size="3" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="SECOND_LEVEL" variants="GEN75-"/>
 
@@ -246,6 +253,7 @@
 	<reg32 name="DW1" offset="1">
 		<bitfield high="31" low="2" shr="2" name="ADDR"/>
 	</reg32>
+	<reg32 name="DW2_ADDR_HI" offset="2" variants="GEN8-"/>
 </domain>
 
 </database>

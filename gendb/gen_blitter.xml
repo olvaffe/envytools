@@ -78,17 +78,23 @@
 	<reg32 name="DW1" offset="1" type="gen_blitter_br13"/>
 	<reg32 name="DW2" offset="2" type="gen_blitter_br14"/>
 	<reg32 name="DW3_DST_ADDR" offset="3"/>
+	<reg32 name="DW4_DST_ADDR_HI" offset="4" variants="GEN8-"/>
 </group>
 
-<domain name="COLOR_BLT" width="32" size="5" prefix="gen">
+<domain name="COLOR_BLT" width="32" size="6" prefix="gen">
 	<use-group name="blt-1d-common"/>
-	<reg32 name="DW4_COLOR" offset="4"/>
+	<reg32 name="DW4_COLOR" offset="4" variants="GEN6-GEN75"/>
+	<reg32 name="DW5_COLOR" offset="5" variants="GEN8-"/>
 </domain>
 
-<domain name="SRC_COPY_BLT" width="32" size="6" prefix="gen">
+<domain name="SRC_COPY_BLT" width="32" size="8" prefix="gen">
 	<use-group name="blt-1d-common"/>
-	<reg32 name="DW4" offset="4" type="gen_blitter_br11"/>
-	<reg32 name="DW5_SRC_ADDR" offset="5"/>
+	<reg32 name="DW4" offset="4" type="gen_blitter_br11" variants="GEN6-GEN75"/>
+	<reg32 name="DW5_SRC_ADDR" offset="5" variants="GEN6-GEN75"/>
+
+	<reg32 name="DW5" offset="5" type="gen_blitter_br11" variants="GEN8-"/>
+	<reg32 name="DW6_SRC_ADDR" offset="6" variants="GEN8-"/>
+	<reg32 name="DW7_SRC_ADDR_HI" offset="7" variants="GEN8-"/>
 </domain>
 
 <group name="blt-2d-common">
@@ -97,18 +103,25 @@
 	<reg32 name="DW2" offset="2" type="gen_blitter_br22"/>
 	<reg32 name="DW3" offset="3" type="gen_blitter_br23"/>
 	<reg32 name="DW4_DST_ADDR" offset="4"/>
+	<reg32 name="DW5_DST_ADDR_HI" offset="5" variants="GEN8-"/>
 </group>
 
-<domain name="XY_COLOR_BLT" width="32" size="6" prefix="gen">
+<domain name="XY_COLOR_BLT" width="32" size="7" prefix="gen">
 	<use-group name="blt-2d-common"/>
-	<reg32 name="DW5_COLOR" offset="5"/>
+	<reg32 name="DW5_COLOR" offset="5" variants="GEN6-GEN75"/>
+	<reg32 name="DW6_COLOR" offset="6" variants="GEN8-"/>
 </domain>
 
-<domain name="XY_SRC_COPY_BLT" width="32" size="8" prefix="gen">
+<domain name="XY_SRC_COPY_BLT" width="32" size="10" prefix="gen">
 	<use-group name="blt-2d-common"/>
-	<reg32 name="DW5" offset="5" type="gen_blitter_br26"/>
-	<reg32 name="DW6" offset="6" type="gen_blitter_br11"/>
-	<reg32 name="DW7_SRC_ADDR" offset="7"/>
+	<reg32 name="DW5" offset="5" type="gen_blitter_br26" variants="GEN6-GEN75"/>
+	<reg32 name="DW6" offset="6" type="gen_blitter_br11" variants="GEN6-GEN75"/>
+	<reg32 name="DW7_SRC_ADDR" offset="7" variants="GEN6-GEN75"/>
+
+	<reg32 name="DW6" offset="6" type="gen_blitter_br26" variants="GEN8-"/>
+	<reg32 name="DW7" offset="7" type="gen_blitter_br11" variants="GEN8-"/>
+	<reg32 name="DW8_SRC_ADDR" offset="8" variants="GEN8-"/>
+	<reg32 name="DW8_SRC_ADDR_HI" offset="9" variants="GEN8-"/>
 </domain>
 
 </database>
