@@ -109,8 +109,14 @@ void printdef (char *name, char *suf, int type, uint64_t val, char *file) {
 			break;
 		case 3:
 			{
-				int shift = val >> 32;
-				fprintf (dst, "(0x%"PRIx64" << %d)\n", val & 0xffffffff, shift);
+				const int shift = val >> 32;
+				val &= 0xffffffff;
+
+				if ((val << shift) > 0xffffffffull) {
+					fprintf (dst, "(0x%"PRIx64"ULL << %d)\n", val, shift);
+				} else {
+					fprintf (dst, "(0x%"PRIx64" << %d)\n", val, shift);
+				}
 			}
 			break;
 	}

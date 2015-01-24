@@ -20,6 +20,7 @@
 #include "../gendb/gen_render_surface.xml.h"
 #include "../gendb/gen_render_dynamic.xml.h"
 #include "../gendb/gen_render_3d.xml.h"
+#include "../gendb/gen_render.xml.h"
 #include "../gendb/gen_aub.xml.h"
 
 #define GEN(gen) ((int) ((gen) * 100))
@@ -354,7 +355,7 @@ static void decode_render_state(struct context *ctx, int type, int subtype)
 		GEN6_ENTRY(GENERAL, SF_VP_STATE, SF_VIEWPORT, 1),
 		GEN6_ENTRY(GENERAL, CC_VP_STATE, CC_VIEWPORT, 1),
 		GEN6_ENTRY(GENERAL, SAMPLER_STATE, SAMPLER_STATE, 1),
-		GEN6_ENTRY(GENERAL, SAMPLER_DEFAULT_COLOR, SAMPLER_BORDER_COLOR, 1),
+		GEN6_ENTRY(GENERAL, SAMPLER_DEFAULT_COLOR, SAMPLER_BORDER_COLOR_STATE, 1),
 		GEN6_ENTRY(GENERAL, SCISSOR_STATE, SCISSOR_RECT, 1),
 		GEN6_ENTRY(GENERAL, BLEND_STATE, BLEND_STATE, 1),
 		GEN6_ENTRY(GENERAL, DEPTH_STENCIL_STATE, DEPTH_STENCIL_STATE, 1),
