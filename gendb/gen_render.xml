@@ -163,62 +163,83 @@
 	</bitfield>
 </bitset>
 
-<bitset name="gen_base_address" bare="yes" prefix="gen">
-	<bitfield high="31" low="12" shr="12" name="BASE_ADDR"/>
-	<bitfield high="11" low="8" type="gen_render_mocs" name="BASE_ADDR_MOCS" variants="GEN6-GEN75"/>
-	<bitfield high="10" low="4" type="gen_render_mocs" name="BASE_ADDR_MOCS" variants="GEN8-"/>
-	<bitfield pos="0" name="BASE_ADDR_MODIFIED"/>
+<bitset name="gen_state_base_addr" bare="yes" prefix="gen">
+	<bitfield high="31" low="12" shr="12" name="SBA_ADDR"/>
+	<bitfield high="11" low="8" type="gen_render_mocs" name="SBA_MOCS" variants="GEN6-GEN75"/>
+	<bitfield high="10" low="4" type="gen_render_mocs" name="SBA_MOCS" variants="GEN8-"/>
+	<bitfield pos="0" name="SBA_ADDR_MODIFIED"/>
+</bitset>
+
+<bitset name="gen_4b_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="2" shr="2" name="ADDR"/>
+</bitset>
+
+<bitset name="gen_8b_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="3" shr="3" name="ADDR"/>
+</bitset>
+
+<bitset name="gen_16b_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="4" shr="4" name="ADDR"/>
+</bitset>
+
+<bitset name="gen_32b_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="5" shr="5" name="ADDR"/>
+</bitset>
+
+<bitset name="gen_64b_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="6" shr="6" name="ADDR"/>
+</bitset>
+
+<bitset name="gen_1kb_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="10" shr="10" name="ADDR"/>
 </bitset>
 
 <domain name="STATE_BASE_ADDRESS" width="32" size="19" bare="yes" prefix="gen">
 	<stripe variants="GEN6-GEN75">
-		<reg32 name="BASE_ADDR_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="BASE_ADDR_DW1_GENERAL" offset="1" type="gen_base_address">
+		<reg32 name="SBA_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SBA_DW1_GENERAL" offset="1" type="gen_state_base_addr">
 			<bitfield high="7" type="gen_render_mocs" low="4" name="STATELESS_MOCS"/>
 			<bitfield pos="3" name="STATELESS_FORCE_WRITE_THRU" variants="GEN6"/>
 		</reg32>
-		<reg32 name="BASE_ADDR_DW2_SURFACE" offset="2" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW3_DYNAMIC" offset="3" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW4_INDIRECT" offset="4" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW5_INSTRUCTION" offset="5" type="gen_base_address"/>
+		<reg32 name="SBA_DW2_SURFACE" offset="2" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW3_DYNAMIC" offset="3" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW4_INDIRECT" offset="4" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW5_INSTRUCTION" offset="5" type="gen_state_base_addr"/>
 
-		<reg32 name="BASE_ADDR_DW6_GENERAL_BOUND" offset="6" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW7_DYNAMIC_BOUND" offset="7" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW8_INDIRECT_BOUND" offset="8" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW9_INSTRUCTION_BOUND" offset="9" type="gen_base_address"/>
+		<reg32 name="SBA_DW6_GENERAL_BOUND" offset="6" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW7_DYNAMIC_BOUND" offset="7" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW8_INDIRECT_BOUND" offset="8" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW9_INSTRUCTION_BOUND" offset="9" type="gen_state_base_addr"/>
 	</stripe>
-
 	<stripe variants="GEN8-">
-		<reg32 name="BASE_ADDR_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="BASE_ADDR_DW1_GENERAL" offset="1" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW2_GENERAL_HI" offset="2"/>
-		<reg32 name="BASE_ADDR_DW3_STATELESS" offset="3">
+		<reg32 name="SBA_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="SBA_DW1_GENERAL" offset="1" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW2_GENERAL_HI" offset="2"/>
+		<reg32 name="SBA_DW3_STATELESS" offset="3">
 			<bitfield high="22" low="16" type="gen_render_mocs" name="MOCS"/>
 		</reg32>
-		<reg32 name="BASE_ADDR_DW4_SURFACE" offset="4" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW5_SURFACE_HI" offset="5"/>
-		<reg32 name="BASE_ADDR_DW6_DYNAMIC" offset="6" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW7_DYNAMIC_HI" offset="7"/>
-		<reg32 name="BASE_ADDR_DW8_INDIRECT" offset="8" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW9_INDIRECT_HI" offset="9"/>
-		<reg32 name="BASE_ADDR_DW10_INSTRUCTION" offset="10" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW11_INSTRUCTION_HI" offset="11"/>
-		<reg32 name="BASE_ADDR_DW12_GENERAL_SIZE" offset="12" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW13_DYNAMIC_SIZE" offset="13" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW14_INDIRECT_SIZE" offset="14" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW15_INSTRUCTION_SIZE" offset="15" type="gen_base_address"/>
-		<reg32 name="BASE_ADDR_DW16" offset="16" variants="GEN9-"/>
-		<reg32 name="BASE_ADDR_DW17" offset="17" variants="GEN9-"/>
-		<reg32 name="BASE_ADDR_DW18" offset="18" variants="GEN9-"/>
+		<reg32 name="SBA_DW4_SURFACE" offset="4" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW5_SURFACE_HI" offset="5"/>
+		<reg32 name="SBA_DW6_DYNAMIC" offset="6" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW7_DYNAMIC_HI" offset="7"/>
+		<reg32 name="SBA_DW8_INDIRECT" offset="8" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW9_INDIRECT_HI" offset="9"/>
+		<reg32 name="SBA_DW10_INSTRUCTION" offset="10" type="gen_state_base_addr"/>
+		<reg32 name="SBA_DW11_INSTRUCTION_HI" offset="11"/>
+		<reg32 name="SBA_DW12_GENERAL_SIZE" offset="12"/>
+		<reg32 name="SBA_DW13_DYNAMIC_SIZE" offset="13"/>
+		<reg32 name="SBA_DW14_INDIRECT_SIZE" offset="14"/>
+		<reg32 name="SBA_DW15_INSTRUCTION_SIZE" offset="15"/>
+		<reg32 name="SBA_DW16" offset="16" variants="GEN9-"/>
+		<reg32 name="SBA_DW17" offset="17" variants="GEN9-"/>
+		<reg32 name="SBA_DW18" offset="18" variants="GEN9-"/>
 	</stripe>
 </domain>
 
 <domain name="STATE_SIP" width="32" size="3" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="SIP_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="SIP_DW1_KERNEL" offset="1">
-			<bitfield high="31" low="4" shr="4" name="ADDR"/>
-		</reg32>
+		<reg32 name="SIP_DW1_KERNEL" type="gen_16b_aligned_addr" offset="1"/>
 		<reg32 name="SIP_DW2_KERNEL_HI" offset="2" variants="GEN8-"/>
 	</stripe>
 </domain>
@@ -277,12 +298,11 @@
 			<bitfield pos="0" name="DEPTH_CACHE_FLUSH"/>
 		</reg32>
 
-		<reg32 name="PIPE_CONTROL_DW2" offset="2" variants="GEN6">
-			<bitfield high="31" low="3" shr="3" name="ADDR"/>
+		<reg32 name="PIPE_CONTROL_DW2" offset="2" type="gen_8b_aligned_addr" variants="GEN6">
 			<bitfield pos="2" name="USE_GGTT"/>
 		</reg32>
-		<reg32 name="PIPE_CONTROL_DW2_ADDR" offset="2" variants="GEN7-GEN75"/>
-		<reg32 name="PIPE_CONTROL_DW2_ADDR" offset="2" variants="GEN8-"/>
+		<reg32 name="PIPE_CONTROL_DW2" offset="2" type="gen_4b_aligned_addr" variants="GEN7-GEN75"/>
+		<reg32 name="PIPE_CONTROL_DW2" offset="2" type="gen_4b_aligned_addr" variants="GEN8-"/>
 		<reg32 name="PIPE_CONTROL_DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 
 		<reg32 name="PIPE_CONTROL_DW_IMM" offset="3" length="2" variants="GEN6-GEN75"/>

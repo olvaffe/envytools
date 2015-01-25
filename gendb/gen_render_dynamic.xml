@@ -390,14 +390,12 @@
 			</bitfield>
 		</reg32>
 
-		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2" variants="GEN6-GEN75">
-			<bitfield high="31" low="5" shr="5" name="ADDR"/>
-		</reg32>
+		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2" type="gen_32b_aligned_addr" variants="GEN6-GEN75"/>
 		<reg32 name="SAMPLER_DW2" offset="2" variants="GEN8-">
 			<bitfield high="31" low="30" name="SEP_FILTER_COEFF_TABLE_SIZE"/>
 			<bitfield high="29" low="28" name="SEP_FILTER_WIDTH"/>
 			<bitfield high="27" low="26" name="SEP_FILTER_HEIGHT"/>
-			<bitfield high="23" low="6" shr="6" name="INDIRECT_STATE"/>
+			<bitfield high="23" low="6" shr="6" name="INDIRECT_STATE_ADDR"/>
 			<bitfield pos="4" name="FLEXIBLE_FILTER_MODE"/>
 			<bitfield pos="3" name="FLEXIBLE_FILTER_COEFF_SIZE"/>
 			<bitfield pos="2" name="FLEXIBLE_FILTER_HALIGN"/>

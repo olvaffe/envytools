@@ -382,7 +382,7 @@
 			<bitfield high="17" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="SURFACE_DW4" offset="4">
-			<!-- if SURFACE_DW0_TYPE != STRBUF -->
+			<!-- if TYPE != STRBUF -->
 			<bitfield high="30" low="29" type="gen_surface_rotate" name="RTROTATE"/>
 			<bitfield high="28" low="18" type="uint" name="MIN_ARRAY_ELEMENT"/>
 			<bitfield high="17" low="7" type="uint" name="RT_VIEW_EXTENT"/>
@@ -409,7 +409,7 @@
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
 		</reg32>
 		<reg32 name="SURFACE_DW6" offset="6">
-			<!-- if DW0_SURFACE_FORMAT == PLANAR -->
+			<!-- if FORMAT == PLANAR -->
 			<bitfield pos="31" name="SEPARATE_UV_ENABLE" variants="GEN8-"/>
 			<bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/>
 			<bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/>
@@ -453,9 +453,8 @@
 
 <domain name="BINDING_TABLE_STATE" width="32" size="256" bare="yes" prefix="gen">
 	<stripe>
-		<reg32 name="BINDING_TABLE_SURFACE" offset="0" length="256">
-			<bitfield high="31" low="5" shr="5" name="ADDR"/>
-		</reg32>
+		<reg32 name="BINDING_TABLE_DW" offset="0" length="256" type="gen_32b_aligned_addr" variants="GEN6-GEN75"/>
+		<reg32 name="BINDING_TABLE_DW" offset="0" length="256" type="gen_64b_aligned_addr" variants="GEN8-"/>
 	</stripe>
 </domain>
 
