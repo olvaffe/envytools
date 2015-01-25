@@ -121,7 +121,7 @@
 	<reg32 name="DW6" offset="6" type="gen_blitter_br26" variants="GEN8-"/>
 	<reg32 name="DW7" offset="7" type="gen_blitter_br11" variants="GEN8-"/>
 	<reg32 name="DW8_SRC_ADDR" offset="8" variants="GEN8-"/>
-	<reg32 name="DW8_SRC_ADDR_HI" offset="9" variants="GEN8-"/>
+	<reg32 name="DW9_SRC_ADDR_HI" offset="9" variants="GEN8-"/>
 </domain>
 
 </database>
