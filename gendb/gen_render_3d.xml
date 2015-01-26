@@ -986,7 +986,7 @@
 
 			<bitfield high="27" low="18" type="ufixed" radix="7" name="LINE_WIDTH" variants="GEN6-GEN8"/>
 			<bitfield high="17" low="16" type="gen_wm_aa_line_width" name="AA_LINE_CAP"/>
-			<bitfield pos="14" name="LINE_STIPPLE_ENABLE" variants="GEN75-"/>
+			<bitfield pos="14" name="LINE_STIPPLE_ENABLE" variants="GEN75"/>
 
 			<bitfield pos="11" name="SCISSOR_ENABLE" variants="GEN6-GEN75"/>
 			<bitfield high="9" low="8" type="gen_wm_ms_rast_mode" name="MSRASTMODE" variants="GEN6-GEN75"/>
