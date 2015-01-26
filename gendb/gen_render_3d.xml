@@ -409,14 +409,14 @@
 	</stripe>
 </domain>
 
-<domain name="3DSTATE_VF_INSTANCING" width="32" size="2" bare="yes" prefix="gen" variants="GEN8-">
+<domain name="3DSTATE_VF_INSTANCING" width="32" size="3" bare="yes" prefix="gen" variants="GEN8-">
 	<stripe>
 		<reg32 name="INSTANCING_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="INSTANCING_DW1" offset="1">
 			<bitfield pos="8" name="ENABLE"/>
 			<bitfield high="5" low="0" type="uint" name="VB_INDEX"/>
 		</reg32>
-		<reg32 name="INSTANCING_DW2_STEP_RATE" type="uint" offset="3"/>
+		<reg32 name="INSTANCING_DW2_STEP_RATE" offset="2" type="uint"/>
 	</stripe>
 </domain>
 
@@ -425,11 +425,11 @@
 		<reg32 name="SGVS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="SGVS_DW1" offset="1">
 			<bitfield pos="31" name="IID_ENABLE"/>
-			<bitfield high="30" low="29" type="uint" name="IID_COMPONENT"/>
-			<bitfield high="28" low="16" type="uint" name="IID_ELEMENT_OFFSET"/>
+			<bitfield high="30" low="29" type="uint" name="IID_VE_COMP"/>
+			<bitfield high="21" low="16" type="uint" name="IID_VE_INDEX"/>
 			<bitfield pos="15" name="VID_ENABLE"/>
-			<bitfield high="14" low="13" type="uint" name="VID_COMPONENT"/>
-			<bitfield high="12" low="0" type="uint" name="VID_ELEMENT_OFFSET"/>
+			<bitfield high="14" low="13" type="uint" name="VID_VE_COMP"/>
+			<bitfield high="5" low="0" type="uint" name="VID_VE_INDEX"/>
 		</reg32>
 	</stripe>
 </domain>
