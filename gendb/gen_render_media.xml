@@ -36,10 +36,7 @@
 		<reg32 name="IDRT_DW2_SAMPLER" type="gen_32b_aligned_addr" offset="2">
 			<bitfield high="4" low="2" type="uint" name="COUNT"/>
 		</reg32>
-		<reg32 name="IDRT_DW3_BINDING_TABLE" offset="3">
-			<bitfield high="31" low="5" shr="5" name="ADDR" variants="GEN6"/>
-			<!-- 11 bits only -->
-			<bitfield high="15" low="5" shr="5" name="ADDR" variants="GEN7-"/>
+		<reg32 name="IDRT_DW3_BINDING_TABLE" type="gen_binding_table_addr" offset="3">
 			<bitfield high="4" low="0" type="uint" name="SIZE"/>
 		</reg32>
 		<reg32 name="IDRT_DW4_CURBE" offset="4">
@@ -72,8 +69,7 @@
 		<reg32 name="IDRT_DW3_SAMPLER" type="gen_32b_aligned_addr" offset="3">
 			<bitfield high="4" low="2" type="uint" name="COUNT"/>
 		</reg32>
-		<reg32 name="IDRT_DW4_BINDING_TABLE" offset="4">
-			<bitfield high="15" low="5" shr="5" name="ADDR"/>
+		<reg32 name="IDRT_DW4_BINDING_TABLE" type="gen_binding_table_addr" offset="4">
 			<bitfield high="4" low="0" type="uint" name="SIZE"/>
 		</reg32>
 		<reg32 name="IDRT_DW5_CURBE" offset="5">

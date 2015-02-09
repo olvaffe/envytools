@@ -170,6 +170,10 @@
 	<bitfield pos="0" name="SBA_ADDR_MODIFIED"/>
 </bitset>
 
+<bitset name="gen_binding_table_addr" bare="yes" prefix="gen">
+	<bitfield high="15" low="5" shr="5" name="BINDING_TABLE_ADDR"/>
+</bitset>
+
 <bitset name="gen_4b_aligned_addr" inline="yes" varset="gen">
 	<bitfield high="31" low="2" shr="2" name="ADDR"/>
 </bitset>
