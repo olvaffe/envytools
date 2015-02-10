@@ -1008,8 +1008,8 @@
 <domain name="3DSTATE_SBE_DW1" width="32" size="13" bare="yes" prefix="gen" variants="GEN7-">
 	<stripe variants="GEN7-">
 		<reg32 name="SBE_DW1" offset="0">
-			<bitfield pos="29" name="FORCE_URB_READ_LEN" variants="GEN8-"/>
-			<bitfield pos="28" name="FORCE_URB_READ_OFFSET" variants="GEN8-"/>
+			<bitfield pos="29" name="USE_URB_READ_LEN" variants="GEN8-"/>
+			<bitfield pos="28" name="USE_URB_READ_OFFSET" variants="GEN8-"/>
 			<bitfield pos="28" name="ATTR_SWIZZLE" variants="GEN7-GEN75">
 				<value value="0x0" name="0_15"/>
 				<value value="0x1" name="16_31"/>
