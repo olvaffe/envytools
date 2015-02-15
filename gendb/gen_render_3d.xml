@@ -501,6 +501,7 @@
 	<stripe>
 		<reg32 name="PTR_DW0" offset="0" type="gen_render_header"/>
 		<!-- the type may be gen_32b_aligned_addr, gen_64b_aligned_addr, or gen_binding_table_addr -->
+		<!-- bit 0 needs to be set for 3DSTATE_CC_STATE_POINTERS and 3DSTATE_BLEND_STATE_POINTERS on Gen8+? -->
 		<reg32 name="PTR_DW1" offset="1"/>
 	</stripe>
 </domain>
