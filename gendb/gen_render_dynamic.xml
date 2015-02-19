@@ -330,10 +330,59 @@
 	</stripe>
 </domain>
 
-<domain name="SAMPLER_BORDER_COLOR_STATE" width="32" size="12" bare="yes" prefix="gen">
-	<stripe>
-		<reg32 name="BORDER_COLOR_DW" offset="0" length="12" variants="GEN6"/>
-		<reg32 name="BORDER_COLOR_DW" offset="0" length="4" variants="GEN7-"/>
+<domain name="SAMPLER_BORDER_COLOR_STATE" width="32" size="20" bare="yes" prefix="gen">
+	<!-- these are documented in IVB PRMs -->
+	<stripe variants="GEN6">
+		<reg32 name="BORDER_COLOR_DW0" offset="0">
+			<bitfield high="31" low="24" type="uint" name="A"/>
+			<bitfield high="23" low="16" type="uint" name="B"/>
+			<bitfield high="15" low="8" type="uint" name="G"/>
+			<bitfield high="7" low="0" type="uint" name="R"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW1_R" type="float" offset="1"/>
+		<reg32 name="BORDER_COLOR_DW2_G" type="float" offset="2"/>
+		<reg32 name="BORDER_COLOR_DW3_B" type="float" offset="3"/>
+		<reg32 name="BORDER_COLOR_DW4_A" type="float" offset="4"/>
+		<reg32 name="BORDER_COLOR_DW5" offset="5">
+			<bitfield high="31" low="16" type="float" name="G"/>
+			<bitfield high="15" low="0" type="float" name="R"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW6" offset="6">
+			<bitfield high="31" low="16" type="float" name="A"/>
+			<bitfield high="15" low="0" type="float" name="B"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW7" offset="7">
+			<bitfield high="31" low="16" type="uint" name="G"/>
+			<bitfield high="15" low="0" type="uint" name="R"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW8" offset="8">
+			<bitfield high="31" low="16" type="uint" name="A"/>
+			<bitfield high="15" low="0" type="uint" name="B"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW9" offset="9">
+			<bitfield high="31" low="16" type="int" name="G"/>
+			<bitfield high="15" low="0" type="int" name="R"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW10" offset="10">
+			<bitfield high="31" low="16" type="int" name="A"/>
+			<bitfield high="15" low="0" type="int" name="B"/>
+		</reg32>
+		<reg32 name="BORDER_COLOR_DW11" offset="11">
+			<bitfield high="31" low="24" type="int" name="A"/>
+			<bitfield high="23" low="16" type="int" name="B"/>
+			<bitfield high="15" low="8" type="int" name="G"/>
+			<bitfield high="7" low="0" type="int" name="R"/>
+		</reg32>
+	</stripe>
+	<stripe variants="GEN7-">
+		<reg32 name="BORDER_COLOR_DW0_R" type="float" offset="0"/>
+		<reg32 name="BORDER_COLOR_DW0_G" type="float" offset="1"/>
+		<reg32 name="BORDER_COLOR_DW0_B" type="float" offset="2"/>
+		<reg32 name="BORDER_COLOR_DW0_A" type="float" offset="3"/>
+
+		<!-- if INTEGER_SURFACE_FORMAT in SURFACE_STATE == 1 -->
+		<reg32 name="BORDER_COLOR_DW_MBZ" offset="4" length="12" variants="GEN75"/>
+		<reg32 name="BORDER_COLOR_DW_INT" offset="16" length="4" variants="GEN75"/>
 	</stripe>
 </domain>
 

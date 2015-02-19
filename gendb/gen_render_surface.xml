@@ -377,8 +377,7 @@
 		</reg32>
 		<reg32 name="SURFACE_DW3" offset="3">
 			<bitfield high="31" low="21" type="uint" name="DEPTH"/>
-			<!-- need to extend SAMPLER_BORDER_COLOR_STATE if this field is ever set -->
-			<bitfield high="20" low="18" name="INTEGER_SURFACE_FORMAT" variants="GEN75-"/>
+			<bitfield high="20" low="18" type="uint" name="INTEGER_SURFACE_FORMAT" variants="GEN75"/>
 			<bitfield high="17" low="0" type="uint" name="PITCH"/>
 		</reg32>
 		<reg32 name="SURFACE_DW4" offset="4">
