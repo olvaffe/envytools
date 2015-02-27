@@ -126,40 +126,40 @@
 	<bitfield high="1" low="0" name="MOCS_LLC" variants="GEN6">
 		<value value="0x0" name="PTE"/>
 		<value value="0x1" name="UC"/>
-		<value value="0x2" name="ON"/>
+		<value value="0x2" name="WB"/>
 	</bitfield>
 
 	<bitfield pos="1" name="MOCS_LLC" variants="GEN7">
 		<value value="0x0" name="PTE"/>
-		<value value="0x1" name="ON"/>
+		<value value="0x1" name="WB"/>
 	</bitfield>
 	<bitfield high="2" low="1" name="MOCS_LLC" variants="GEN75">
 		<value value="0x0" name="PTE"/>
 		<value value="0x1" name="UC"/>
-		<value value="0x2" name="ON"/>
+		<value value="0x2" name="WB"/>
 		<value value="0x3" name="ELLC"/>
 	</bitfield>
 	<bitfield pos="0" name="MOCS_L3" variants="GEN7-GEN75">
 		<value value="0x0" name="UC"/>
-		<value value="0x1" name="ON"/>
+		<value value="0x1" name="WB"/>
 	</bitfield>
 
-	<bitfield high="6" low="5" name="MOCS_LLC" variants="GEN8">
+	<bitfield high="6" low="5" name="MOCS_MT" variants="GEN8">
 		<value value="0x0" name="PTE"/>
 		<value value="0x1" name="UC"/>
 		<value value="0x2" name="WT"/>
 		<value value="0x3" name="WB"/>
 	</bitfield>
-	<bitfield high="4" low="3" name="MOCS_L3" variants="GEN8">
-		<value value="0x0" name="ELLC_ONLY"/>
+	<bitfield high="4" low="3" name="MOCS_CT" variants="GEN8">
+		<value value="0x0" name="ELLC"/>
 		<value value="0x1" name="LLC_ONLY"/>
 		<value value="0x2" name="LLC"/>
-		<value value="0x3" name="ON"/>
+		<value value="0x3" name="L3"/>
 	</bitfield>
 
 	<bitfield high="6" low="0" name="MOCS" variants="GEN9-">
-		<value value="0x5" name="WT"/>
-		<value value="0x9" name="WB"/>
+		<value value="0x5" name="MT_WT_CT_L3"/>
+		<value value="0x9" name="MT_WB_CT_L3"/>
 	</bitfield>
 </bitset>
 
