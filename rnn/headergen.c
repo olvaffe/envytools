@@ -133,6 +133,19 @@ void printvalue (struct rnnvalue *val, int shift) {
 	}
 }
 
+void printenumvalue (struct rnnvalue *val) {
+	FILE *dst = findfout(val->file);
+	int len;
+
+	if (val->varinfo.dead)
+		return;
+	if (val->valvalid) {
+		fprintf (dst, "    %s%n", val->fullname, &len);
+		seekcol (dst, len, startcol - 2);
+		fprintf (dst, "= 0x%"PRIx64",\n", val->value);
+	}
+};
+
 void printbitfield (struct rnnbitfield *bf, int shift);
 
 void printtypeinfo (struct rnntypeinfo *ti, char *prefix, int shift, char *file) {
@@ -325,10 +338,17 @@ int main(int argc, char **argv) {
 	for (i = 0; i < db->enumsnum; i++) {
 		if (db->enums[i]->isinline)
 			continue;
+
+		FILE *dst = findfout(db->enums[i]->file);
+		fprintf (dst, "enum %s {\n", db->enums[i]->name);
+
 		int j;
 		for (j = 0; j < db->enums[i]->valsnum; j++)
-			printvalue (db->enums[i]->vals[j], 0);
+			printenumvalue (db->enums[i]->vals[j]);
+
+		fprintf (dst, "};\n\n");
 	}
+
 	for (i = 0; i < db->bitsetsnum; i++) {
 		if (db->bitsets[i]->isinline)
 			continue;
