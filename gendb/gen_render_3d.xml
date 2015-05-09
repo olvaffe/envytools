@@ -111,15 +111,28 @@
 	<value value="0x5" name="ZFORMAT_D16_UNORM"/>
 </enum>
 
-<enum name="gen_front_winding" inline="yes" varset="gen">
-	<value value="0x0" name="CW"/>
-	<value value="0x1" name="CCW"/>
+<enum name="gen_clip_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="CLIPMODE_NORMAL"/>
+	<value value="0x3" name="CLIPMODE_REJECT_ALL"/>
+	<value value="0x4" name="CLIPMODE_ACCEPT_ALL"/>
 </enum>
 
-<enum name="gen_fill_mode" inline="yes" varset="gen">
-	<value value="0x0" name="SOLID"/>
-	<value value="0x1" name="WIREFRAME"/>
-	<value value="0x2" name="POINT"/>
+<enum name="gen_front_winding" bare="yes" prefix="gen">
+	<value value="0x0" name="FRONTWINDING_CW"/>
+	<value value="0x1" name="FRONTWINDING_CCW"/>
+</enum>
+
+<enum name="gen_fill_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="FILLMODE_SOLID"/>
+	<value value="0x1" name="FILLMODE_WIREFRAME"/>
+	<value value="0x2" name="FILLMODE_POINT"/>
+</enum>
+
+<enum name="gen_cull_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="CULLMODE_BOTH"/>
+	<value value="0x1" name="CULLMODE_NONE"/>
+	<value value="0x2" name="CULLMODE_FRONT"/>
+	<value value="0x3" name="CULLMODE_BACK"/>
 </enum>
 
 <enum name="gen_subpixel_precision" inline="yes" varset="gen">
@@ -127,11 +140,17 @@
 	<value value="0x1" name="4BITS"/>
 </enum>
 
-<enum name="gen_cull_mode" inline="yes" varset="gen">
-	<value value="0x0" name="BOTH"/>
-	<value value="0x1" name="NONE"/>
-	<value value="0x2" name="FRONT"/>
-	<value value="0x3" name="BACK"/>
+<enum name="gen_pixel_location" bare="yes" prefix="gen">
+	<value value="0x0" name="PIXLOC_CENTER"/>
+	<value value="0x1" name="PIXLOC_UL_CORNER"/>
+</enum>
+
+<enum name="gen_sample_count" bare="yes" prefix="gen">
+	<value value="0x0" name="NUMSAMPLES_1"/>
+	<value value="0x1" name="NUMSAMPLES_2" variants="GEN8-"/>
+	<value value="0x2" name="NUMSAMPLES_4"/>
+	<value value="0x3" name="NUMSAMPLES_8" variants="GEN7-"/>
+	<value value="0x4" name="NUMSAMPLES_16" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_wm_pos_xy_offset" inline="yes" varset="gen">
@@ -183,14 +202,6 @@
 	<value value="0x0" name="NORMAL"/>
 	<value value="0x1" name="PSEXEC"/>
 	<value value="0x2" name="PREPS"/>
-</enum>
-
-<enum name="gen_wm_sample_count" inline="yes" varset="gen">
-	<value value="0x0" name="1"/>
-	<value value="0x1" name="2" variants="GEN8-"/>
-	<value value="0x2" name="4"/>
-	<value value="0x3" name="8" variants="GEN7-"/>
-	<value value="0x4" name="16" variants="GEN8-"/>
 </enum>
 
 <bitset name="gen_ps_dispatch_mode" bare="yes" prefix="gen">
@@ -923,10 +934,10 @@
 	<stripe>
 		<reg32 name="CLIP_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="CLIP_DW1" offset="1">
-			<bitfield pos="20" type="gen_front_winding" name="FRONTWINDING" variants="GEN7-GEN75"/>
+			<bitfield pos="20" type="gen_front_winding" name="FRONT_WINDING" variants="GEN7-GEN75"/>
 			<bitfield pos="19" type="gen_subpixel_precision" name="SUBPIXEL" variants="GEN7-GEN75"/>
 			<bitfield pos="18" name="EARLY_CULL_ENABLE" variants="GEN7-"/>
-			<bitfield high="17" low="16" type="gen_cull_mode" name="CULLMODE" variants="GEN7-GEN75"/>
+			<bitfield high="17" low="16" type="gen_cull_mode" name="CULL_MODE" variants="GEN7-GEN75"/>
 
 			<bitfield pos="10" name="STATISTICS"/>
 			<bitfield high="7" low="0" name="UCP_CULL_ENABLES"/>
@@ -941,11 +952,7 @@
 			<bitfield pos="27" name="Z_TEST_ENABLE" variants="GEN6-GEN75"/>
 			<bitfield pos="26" name="GB_TEST_ENABLE"/>
 			<bitfield high="23" low="16" name="UCP_CLIP_ENABLES"/>
-			<bitfield high="15" low="13" name="CLIPMODE">
-				<value value="0x0" name="NORMAL"/>
-				<value value="0x3" name="REJECT_ALL"/>
-				<value value="0x4" name="ACCEPT_ALL"/>
-			</bitfield>
+			<bitfield high="15" low="13" type="gen_clip_mode" name="CLIP_MODE"/>
 			<bitfield pos="9" name="PERSPECTIVE_DIVIDE_DISABLE"/>
 			<bitfield pos="8" name="NONPERSPECTIVE_BARYCENTRIC_ENABLE"/>
 			<bitfield high="5" low="4" type="uint" name="TRI_PROVOKE"/>
@@ -955,7 +962,7 @@
 		<reg32 name="CLIP_DW3" offset="3">
 			<bitfield high="27" low="17" type="ufixed" radix="3" name="MIN_POINT_WIDTH"/>
 			<bitfield high="16" low="6" type="ufixed" radix="3" name="MAX_POINT_WIDTH"/>
-			<bitfield pos="5" name="RTAINDEX_FORCED_ZERO"/>
+			<bitfield pos="5" name="FORCE_RTAINDEX_ZERO"/>
 			<bitfield high="3" low="0" type="uint" name="MAX_VPINDEX"/>
 		</reg32>
 	</stripe>
@@ -974,16 +981,16 @@
 			<bitfield pos="9" name="DEPTH_OFFSET_SOLID" variants="GEN6-GEN75"/>
 			<bitfield pos="8" name="DEPTH_OFFSET_WIREFRAME" variants="GEN6-GEN75"/>
 			<bitfield pos="7" name="DEPTH_OFFSET_POINT" variants="GEN6-GEN75"/>
-			<bitfield high="6" low="5" type="gen_fill_mode" name="FRONTFACE" variants="GEN6-GEN75"/>
-			<bitfield high="4" low="3" type="gen_fill_mode" name="BACKFACE" variants="GEN6-GEN75"/>
+			<bitfield high="6" low="5" type="gen_fill_mode" name="FILL_MODE_FRONT" variants="GEN6-GEN75"/>
+			<bitfield high="4" low="3" type="gen_fill_mode" name="FILL_MODE_BACK" variants="GEN6-GEN75"/>
 
 			<bitfield pos="1" name="VIEWPORT_ENABLE"/>
 
-			<bitfield pos="0" type="gen_front_winding" name="FRONTWINDING" variants="GEN6-GEN75"/>
+			<bitfield pos="0" type="gen_front_winding" name="FRONT_WINDING" variants="GEN6-GEN75"/>
 		</reg32>
 		<reg32 name="SF_DW2" offset="1">
 			<bitfield pos="31" name="AA_LINE_ENABLE" variants="GEN6-GEN75"/>
-			<bitfield high="30" low="29" type="gen_cull_mode" name="CULLMODE" variants="GEN6-GEN75"/>
+			<bitfield high="30" low="29" type="gen_cull_mode" name="CULL_MODE" variants="GEN6-GEN75"/>
 
 			<bitfield high="27" low="18" type="ufixed" radix="7" name="LINE_WIDTH" variants="GEN6-GEN8"/>
 			<bitfield high="17" low="16" type="gen_wm_aa_line_width" name="AA_LINE_CAP"/>
@@ -1132,15 +1139,15 @@
 		<reg32 name="RASTER_DW1" offset="1">
 			<bitfield pos="26" name="Z_TEST_FAR_ENABLE" variants="GEN9-"/>
 
-			<bitfield pos="21" type="gen_front_winding" name="FRONTWINDING"/>
-			<bitfield high="17" low="16" type="gen_cull_mode" name="CULLMODE"/>
+			<bitfield pos="21" type="gen_front_winding" name="FRONT_WINDING"/>
+			<bitfield high="17" low="16" type="gen_cull_mode" name="CULL_MODE"/>
 			<bitfield pos="13" name="SMOOTH_POINT_ENABLE"/>
 			<bitfield pos="12" name="API_MULTISAMPLE_ENABLE"/>
 			<bitfield pos="9" name="DEPTH_OFFSET_SOLID"/>
 			<bitfield pos="8" name="DEPTH_OFFSET_WIREFRAME"/>
 			<bitfield pos="7" name="DEPTH_OFFSET_POINT"/>
-			<bitfield high="6" low="5" type="gen_fill_mode" name="FRONTFACE"/>
-			<bitfield high="4" low="3" type="gen_fill_mode" name="BACKFACE"/>
+			<bitfield high="6" low="5" type="gen_fill_mode" name="FILL_MODE_FRONT"/>
+			<bitfield high="4" low="3" type="gen_fill_mode" name="FILL_MODE_BACK"/>
 			<bitfield pos="2" name="AA_LINE_ENABLE"/>
 			<bitfield pos="1" name="SCISSOR_ENABLE"/>
 
@@ -1282,7 +1289,7 @@
 			<bitfield pos="26" name="PIXEL_OFFSET_ENABLE"/>
 			<bitfield pos="25" name="FULL_SURFACE_DEPTH_CLEAR"/>
 			<bitfield high="23" low="16" type="uint" name="STENCIL_CLEAR_VALUE"/>
-			<bitfield high="15" low="13" type="gen_wm_sample_count" name="NUMSAMPLES"/>
+			<bitfield high="15" low="13" type="gen_sample_count" name="NUM_SAMPLES"/>
 		</reg32>
 		<reg32 name="WM_HZ_DW2_RECT_MIN" offset="2">
 			<bitfield high="31" low="16" type="uint" name="Y"/>
@@ -1618,11 +1625,8 @@
 		<reg32 name="MULTISAMPLE_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="MULTISAMPLE_DW1" offset="1">
 			<bitfield pos="5" name="DX9_MULTISAMPLE_ENABLE" variants="GEN75-"/>
-			<bitfield pos="4" name="PIXLOC">
-				<value value="0x0" name="CENTER"/>
-				<value value="0x1" name="UL_CORNER"/>
-			</bitfield>
-			<bitfield high="3" low="1" type="gen_wm_sample_count" name="NUMSAMPLES"/>
+			<bitfield pos="4" type="gen_pixel_location" name="PIXEL_LOCATION"/>
+			<bitfield high="3" low="1" type="gen_sample_count" name="NUM_SAMPLES"/>
 		</reg32>
 
 		<reg32 name="MULTISAMPLE_DW_PATTERN" offset="2" length="1" variants="GEN6"/>
