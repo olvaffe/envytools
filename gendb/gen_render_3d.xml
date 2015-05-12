@@ -1250,14 +1250,14 @@
 	<stripe>
 		<reg32 name="ZS_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="ZS_DW1" offset="1">
-			<bitfield high="31" low="29" type="gen_stencil_op" name="STENCIL0_FAIL_OP"/>
-			<bitfield high="28" low="26" type="gen_stencil_op" name="STENCIL0_ZFAIL_OP"/>
-			<bitfield high="25" low="23" type="gen_stencil_op" name="STENCIL0_ZPASS_OP"/>
+			<bitfield high="31" low="29" type="gen_stencil_op" name="STENCIL_FAIL_OP"/>
+			<bitfield high="28" low="26" type="gen_stencil_op" name="STENCIL_ZFAIL_OP"/>
+			<bitfield high="25" low="23" type="gen_stencil_op" name="STENCIL_ZPASS_OP"/>
 			<bitfield high="22" low="20" type="gen_compare_function" name="STENCIL1_FUNC"/>
 			<bitfield high="19" low="17" type="gen_stencil_op" name="STENCIL1_FAIL_OP"/>
 			<bitfield high="16" low="14" type="gen_stencil_op" name="STENCIL1_ZFAIL_OP"/>
 			<bitfield high="13" low="11" type="gen_stencil_op" name="STENCIL1_ZPASS_OP"/>
-			<bitfield high="10" low="8" type="gen_compare_function" name="STENCIL0_FUNC"/>
+			<bitfield high="10" low="8" type="gen_compare_function" name="STENCIL_FUNC"/>
 			<bitfield high="7" low="5" type="gen_compare_function" name="DEPTH_FUNC"/>
 			<bitfield pos="4" name="STENCIL1_ENABLE"/>
 			<bitfield pos="3" name="STENCIL_TEST_ENABLE"/>
@@ -1266,13 +1266,13 @@
 			<bitfield pos="0" name="DEPTH_WRITE_ENABLE"/>
 		</reg32>
 		<reg32 name="ZS_DW2" offset="2">
-			<bitfield high="31" low="24" name="STENCIL0_VALUEMASK"/>
-			<bitfield high="23" low="16" name="STENCIL0_WRITEMASK"/>
-			<bitfield high="15" low="8" name="STENCIL1_VALUEMASK"/>
-			<bitfield high="7" low="0" name="STENCIL1_WRITEMASK"/>
+			<bitfield high="31" low="24" name="STENCIL_TEST_MASK"/>
+			<bitfield high="23" low="16" name="STENCIL_WRITE_MASK"/>
+			<bitfield high="15" low="8" name="STENCIL1_TEST_MASK"/>
+			<bitfield high="7" low="0" name="STENCIL1_WRITE_MASK"/>
 		</reg32>
 		<reg32 name="ZS_DW3" offset="3" variants="GEN9-">
-			<bitfield high="15" low="8" type="uint" name="STENCIL0_REF"/>
+			<bitfield high="15" low="8" type="uint" name="STENCIL_REF"/>
 			<bitfield high="7" low="0" type="uint" name="STENCIL1_REF"/>
 		</reg32>
 	</stripe>

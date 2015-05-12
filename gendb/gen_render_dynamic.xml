@@ -59,7 +59,7 @@
 	<value value="0x4" name="BLENDFUNCTION_MAX"/>
 </enum>
 
-<enum name="gen_logicop_function" bare="yes" prefix="gen">
+<enum name="gen_logic_op" bare="yes" prefix="gen">
 	<value value="0x0" name="LOGICOP_CLEAR"/>
 	<value value="0x1" name="LOGICOP_NOR"/>
 	<value value="0x2" name="LOGICOP_AND_INVERTED"/>
@@ -78,20 +78,31 @@
 	<value value="0xf" name="LOGICOP_SET"/>
 </enum>
 
-<enum name="gen_sampler_mip_filter" bare="yes" prefix="gen">
+<enum name="gen_mip_filter" bare="yes" prefix="gen">
 	<value value="0x0" name="MIPFILTER_NONE"/>
 	<value value="0x1" name="MIPFILTER_NEAREST"/>
 	<value value="0x3" name="MIPFILTER_LINEAR"/>
 </enum>
 
-<enum name="gen_sampler_map_filter" bare="yes" prefix="gen">
+<enum name="gen_map_filter" bare="yes" prefix="gen">
 	<value value="0x0" name="MAPFILTER_NEAREST"/>
 	<value value="0x1" name="MAPFILTER_LINEAR"/>
 	<value value="0x2" name="MAPFILTER_ANISOTROPIC"/>
 	<value value="0x6" name="MAPFILTER_MONO"/>
 </enum>
 
-<enum name="gen_sampler_aniso_ratio" bare="yes" prefix="gen">
+<enum name="gen_prefilter_op" bare="yes" prefix="gen">
+	<value value="0x0" name="PREFILTEOP_ALWAYS"/>
+	<value value="0x1" name="PREFILTEOP_NEVER"/>
+	<value value="0x2" name="PREFILTEOP_LESS"/>
+	<value value="0x3" name="PREFILTEOP_EQUAL"/>
+	<value value="0x4" name="PREFILTEOP_LEQUAL"/>
+	<value value="0x5" name="PREFILTEOP_GREATER"/>
+	<value value="0x6" name="PREFILTEOP_NOTEQUAL"/>
+	<value value="0x7" name="PREFILTEOP_GEQUAL"/>
+</enum>
+
+<enum name="gen_aniso_ratio" bare="yes" prefix="gen">
 	<value value="0x0" name="ANISORATIO_2"/>
 	<value value="0x1" name="ANISORATIO_4"/>
 	<value value="0x2" name="ANISORATIO_6"/>
@@ -102,7 +113,7 @@
 	<value value="0x7" name="ANISORATIO_16"/>
 </enum>
 
-<enum name="gen_sampler_texcoord_mode" bare="yes" prefix="gen">
+<enum name="gen_texcoord_mode" bare="yes" prefix="gen">
 	<value value="0x0" name="TEXCOORDMODE_WRAP"/>
 	<value value="0x1" name="TEXCOORDMODE_MIRROR"/>
 	<value value="0x2" name="TEXCOORDMODE_CLAMP"/>
@@ -112,7 +123,7 @@
 	<value value="0x6" name="TEXCOORDMODE_HALF_BORDER" variants="GEN8-"/>
 </enum>
 
-<enum name="gen_sampler_key_filter" bare="yes" prefix="gen">
+<enum name="gen_key_filter" bare="yes" prefix="gen">
 	<value value="0x0" name="KEYFILTER_KILL_ON_ANY_MATCH"/>
 	<value value="0x1" name="KEYFILTER_REPLACE_BLACK"/>
 </enum>
@@ -120,7 +131,7 @@
 <domain name="COLOR_CALC_STATE" width="32" size="6" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="CC_DW0" offset="0">
-			<bitfield high="31" low="24" type="uint" name="STENCIL0_REF" variants="GEN6-GEN8"/>
+			<bitfield high="31" low="24" type="uint" name="STENCIL_REF" variants="GEN6-GEN8"/>
 			<bitfield high="23" low="16" type="uint" name="STENCIL1_REF" variants="GEN6-GEN8"/>
 			<bitfield pos="15" name="ROUND_DISABLE_DISABLE"/>
 			<bitfield pos="0" name="ALPHATEST">
@@ -140,10 +151,10 @@
 	<stripe>
 		<reg32 name="ZS_DW0" offset="0">
 			<bitfield pos="31" name="STENCIL_TEST_ENABLE"/>
-			<bitfield high="30" low="28" type="gen_compare_function" name="STENCIL0_FUNC"/>
-			<bitfield high="27" low="25" type="gen_stencil_op" name="STENCIL0_FAIL_OP"/>
-			<bitfield high="24" low="22" type="gen_stencil_op" name="STENCIL0_ZFAIL_OP"/>
-			<bitfield high="21" low="19" type="gen_stencil_op" name="STENCIL0_ZPASS_OP"/>
+			<bitfield high="30" low="28" type="gen_compare_function" name="STENCIL_FUNC"/>
+			<bitfield high="27" low="25" type="gen_stencil_op" name="STENCIL_FAIL_OP"/>
+			<bitfield high="24" low="22" type="gen_stencil_op" name="STENCIL_ZFAIL_OP"/>
+			<bitfield high="21" low="19" type="gen_stencil_op" name="STENCIL_ZPASS_OP"/>
 			<bitfield pos="18" name="STENCIL_WRITE_ENABLE"/>
 			<bitfield pos="15" name="STENCIL1_ENABLE"/>
 			<bitfield high="14" low="12" type="gen_compare_function" name="STENCIL1_FUNC"/>
@@ -152,10 +163,10 @@
 			<bitfield high="5" low="3" type="gen_stencil_op" name="STENCIL1_ZPASS_OP"/>
 		</reg32>
 		<reg32 name="ZS_DW1" offset="1">
-			<bitfield high="31" low="24" name="STENCIL0_VALUEMASK"/>
-			<bitfield high="23" low="16" name="STENCIL0_WRITEMASK"/>
-			<bitfield high="15" low="8" name="STENCIL1_VALUEMASK"/>
-			<bitfield high="7" low="0" name="STENCIL1_WRITEMASK"/>
+			<bitfield high="31" low="24" name="STENCIL_TEST_MASK"/>
+			<bitfield high="23" low="16" name="STENCIL_WRITE_MASK"/>
+			<bitfield high="15" low="8" name="STENCIL1_TEST_MASK"/>
+			<bitfield high="7" low="0" name="STENCIL1_WRITE_MASK"/>
 		</reg32>
 		<reg32 name="ZS_DW2" offset="2">
 			<bitfield pos="31" name="DEPTH_TEST_ENABLE"/>
@@ -182,12 +193,14 @@
 				<bitfield pos="31" name="ALPHA_TO_COVERAGE"/>
 				<bitfield pos="30" name="ALPHA_TO_ONE"/>
 				<bitfield pos="29" name="ALPHA_TO_COVERAGE_DITHER"/>
-				<bitfield pos="27" name="WRITE_DISABLE_A"/>
-				<bitfield pos="26" name="WRITE_DISABLE_R"/>
-				<bitfield pos="25" name="WRITE_DISABLE_G"/>
-				<bitfield pos="24" name="WRITE_DISABLE_B"/>
+				<bitfield high="27" low="24" name="WRITE_DISABLES">
+					<bitfield pos="3" name="A"/>
+					<bitfield pos="2" name="R"/>
+					<bitfield pos="1" name="G"/>
+					<bitfield pos="0" name="B"/>
+				</bitfield>
 				<bitfield pos="22" name="LOGICOP_ENABLE"/>
-				<bitfield high="21" low="18" type="gen_logicop_function" name="LOGICOP_FUNC"/>
+				<bitfield high="21" low="18" type="gen_logic_op" name="LOGICOP_FUNC"/>
 				<bitfield pos="16" name="ALPHA_TEST_ENABLE"/>
 				<bitfield high="15" low="13" type="gen_compare_function" name="ALPHA_TEST_FUNC"/>
 				<bitfield pos="12" name="DITHER_ENABLE"/>
@@ -224,14 +237,16 @@
 				<bitfield high="17" low="13" type="gen_blend_factor" name="SRC_ALPHA_FACTOR"/>
 				<bitfield high="12" low="8" type="gen_blend_factor" name="DST_ALPHA_FACTOR"/>
 				<bitfield high="7" low="5" type="gen_blend_function" name="ALPHA_FUNC"/>
-				<bitfield pos="3" name="WRITE_DISABLE_A"/>
-				<bitfield pos="2" name="WRITE_DISABLE_R"/>
-				<bitfield pos="1" name="WRITE_DISABLE_G"/>
-				<bitfield pos="0" name="WRITE_DISABLE_B"/>
+				<bitfield high="3" low="0" name="WRITE_DISABLES">
+					<bitfield pos="3" name="A"/>
+					<bitfield pos="2" name="R"/>
+					<bitfield pos="1" name="G"/>
+					<bitfield pos="0" name="B"/>
+				</bitfield>
 			</reg32>
 			<reg32 name="DW1" offset="1">
 				<bitfield pos="31" name="LOGICOP_ENABLE"/>
-				<bitfield high="30" low="27" type="gen_logicop_function" name="LOGICOP_FUNC"/>
+				<bitfield high="30" low="27" type="gen_logic_op" name="LOGICOP_FUNC"/>
 				<bitfield pos="4" name="PRE_BLEND_CLAMP_SRC_ONLY"/>
 				<bitfield high="3" low="2" name="COLORCLAMP">
 					<value value="0x0" name="UNORM"/>
@@ -399,13 +414,13 @@
 			<bitfield pos="27" name="MIN_MAG_NOT_EQUAL" variants="GEN6"/>
 			<bitfield high="28" low="27" name="LOD_PRECLAMP_ENABLE" variants="GEN8-"/>
 
-			<bitfield high="26" low="22" type="uint" name="BASE_LOD"/>
-			<bitfield high="21" low="20" type="gen_sampler_mip_filter" name="MIP_FILTER"/>
-			<bitfield high="19" low="17" type="gen_sampler_map_filter" name="MAG_FILTER"/>
-			<bitfield high="16" low="14" type="gen_sampler_map_filter" name="MIN_FILTER"/>
+			<bitfield high="26" low="22" type="fixed" radix="1" name="BASE_LOD"/>
+			<bitfield high="21" low="20" type="gen_mip_filter" name="MIP_FILTER"/>
+			<bitfield high="19" low="17" type="gen_map_filter" name="MAG_FILTER"/>
+			<bitfield high="16" low="14" type="gen_map_filter" name="MIN_FILTER"/>
 
 			<bitfield high="13" low="3" type="fixed" radix="6" name="LOD_BIAS" variants="GEN6"/>
-			<bitfield high="2" low="0" type="gen_compare_function" name="SHADOW_FUNC" variants="GEN6"/>
+			<bitfield high="2" low="0" type="gen_prefilter_op" name="SHADOW_FUNC" variants="GEN6"/>
 			<bitfield high="13" low="1" type="fixed" radix="8" name="LOD_BIAS" variants="GEN7-"/>
 			<bitfield high="0" low="0" name="ANISO_ALGO" variants="GEN7-">
 				<value value="0x0" name="LEGACY"/>
@@ -420,9 +435,9 @@
 				<value value="0x0" name="PROGRAMMED"/>
 				<value value="0x1" name="OVERRIDE"/>
 			</bitfield>
-			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP"/>
-			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP"/>
-			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP"/>
+			<bitfield high="8" low="6" type="gen_texcoord_mode" name="U_WRAP"/>
+			<bitfield high="5" low="3" type="gen_texcoord_mode" name="V_WRAP"/>
+			<bitfield high="2" low="0" type="gen_texcoord_mode" name="R_WRAP"/>
 		</reg32>
 		<reg32 name="SAMPLER_DW1" offset="1" variants="GEN7-">
 			<bitfield high="31" low="20" type="ufixed" radix="8" name="MIN_LOD"/>
@@ -430,9 +445,9 @@
 
 			<bitfield pos="7" name="CHROMAKEY_ENABLE" variants="GEN8-"/>
 			<bitfield high="6" low="5" name="CHROMAKEY_INDEX" variants="GEN8-"/>
-			<bitfield high="4" low="4" type="gen_sampler_key_filter" name="CHROMAKEY_MODE" variants="GEN8-"/>
+			<bitfield high="4" low="4" type="gen_key_filter" name="CHROMAKEY_MODE" variants="GEN8-"/>
 
-			<bitfield high="3" low="1" type="gen_compare_function" name="SHADOW_FUNC"/>
+			<bitfield high="3" low="1" type="gen_prefilter_op" name="SHADOW_FUNC"/>
 			<bitfield high="0" low="0" name="CUBECTRLMODE">
 				<value value="0x0" name="PROGRAMMED"/>
 				<value value="0x1" name="OVERRIDE"/>
@@ -456,9 +471,9 @@
 			<bitfield high="31" low="24" name="NON_SEP_FILTER_FOOTPRINT_MASK" variants="GEN8-"/>
 			<bitfield pos="25" name="CHROMAKEY_ENABLE" variants="GEN6-GEN75"/>
 			<bitfield high="24" low="23" name="CHROMAKEY_INDEX" variants="GEN6-GEN75"/>
-			<bitfield high="22" low="22" type="gen_sampler_key_filter" name="CHROMAKEY_MODE" variants="GEN6-GEN75"/>
+			<bitfield high="22" low="22" type="gen_key_filter" name="CHROMAKEY_MODE" variants="GEN6-GEN75"/>
 
-			<bitfield high="21" low="19" type="gen_sampler_aniso_ratio" name="MAX_ANISO"/>
+			<bitfield high="21" low="19" type="gen_aniso_ratio" name="MAX_ANISO"/>
 			<bitfield pos="18" name="U_MAG_ROUND"/>
 			<bitfield pos="17" name="U_MIN_ROUND"/>
 			<bitfield pos="16" name="V_MAG_ROUND"/>
@@ -473,9 +488,9 @@
 				<value value="0x3" name="LOW"/>
 			</bitfield>
 			<bitfield pos="10" name="NON_NORMALIZED_COORD" variants="GEN7-"/>
-			<bitfield high="8" low="6" type="gen_sampler_texcoord_mode" name="U_WRAP" variants="GEN7-"/>
-			<bitfield high="5" low="3" type="gen_sampler_texcoord_mode" name="V_WRAP" variants="GEN7-"/>
-			<bitfield high="2" low="0" type="gen_sampler_texcoord_mode" name="R_WRAP" variants="GEN7-"/>
+			<bitfield high="8" low="6" type="gen_texcoord_mode" name="U_WRAP" variants="GEN7-"/>
+			<bitfield high="5" low="3" type="gen_texcoord_mode" name="V_WRAP" variants="GEN7-"/>
+			<bitfield high="2" low="0" type="gen_texcoord_mode" name="R_WRAP" variants="GEN7-"/>
 
 			<bitfield pos="0" name="NON_NORMALIZED_COORD" variants="GEN6"/>
 		</reg32>

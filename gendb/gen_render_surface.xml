@@ -303,7 +303,10 @@
 				<value value="0x0" name="BELOW"/>
 				<value value="0x1" name="RIGHT"/>
 			</bitfield>
-			<bitfield pos="9" name="CUBE_MAP_CORNER_MODE"/>
+			<bitfield pos="9" name="CUBE_MAP_CORNER_MODE" variants="GEN6">
+				<value value="0x0" name="REPLICATE"/>
+				<value value="0x1" name="AVERAGE"/>
+			</bitfield>
 			<bitfield pos="8" name="RENDER_CACHE_RW"/>
 			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
 			<bitfield high="5" low="0" name="CUBE_FACE_ENABLES"/>
@@ -431,10 +434,12 @@
 			<bitfield pos="30" type="gen_surface_clear_color" name="CC_G"/>
 			<bitfield pos="29" type="gen_surface_clear_color" name="CC_B"/>
 			<bitfield pos="28" type="gen_surface_clear_color" name="CC_A"/>
-			<bitfield high="27" low="25" type="gen_surface_scs" name="SCS_R" variants="GEN75-"/>
-			<bitfield high="24" low="22" type="gen_surface_scs" name="SCS_G" variants="GEN75-"/>
-			<bitfield high="21" low="19" type="gen_surface_scs" name="SCS_B" variants="GEN75-"/>
-			<bitfield high="18" low="16" type="gen_surface_scs" name="SCS_A" variants="GEN75-"/>
+			<bitfield high="27" low="16" name="SCS" variants="GEN75-">
+				<bitfield high="11" low="9" type="gen_surface_scs" name="R" variants="GEN75-"/>
+				<bitfield high="8" low="6" type="gen_surface_scs" name="G" variants="GEN75-"/>
+				<bitfield high="5" low="3" type="gen_surface_scs" name="B" variants="GEN75-"/>
+				<bitfield high="2" low="0" type="gen_surface_scs" name="A" variants="GEN75-"/>
+			</bitfield>
 			<bitfield high="11" low="0" type="uint" name="RES_MIN_LOD"/>
 		</reg32>
 
