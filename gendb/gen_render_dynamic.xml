@@ -92,14 +92,14 @@
 </enum>
 
 <enum name="gen_prefilter_op" bare="yes" prefix="gen">
-	<value value="0x0" name="PREFILTEOP_ALWAYS"/>
-	<value value="0x1" name="PREFILTEOP_NEVER"/>
-	<value value="0x2" name="PREFILTEOP_LESS"/>
-	<value value="0x3" name="PREFILTEOP_EQUAL"/>
-	<value value="0x4" name="PREFILTEOP_LEQUAL"/>
-	<value value="0x5" name="PREFILTEOP_GREATER"/>
-	<value value="0x6" name="PREFILTEOP_NOTEQUAL"/>
-	<value value="0x7" name="PREFILTEOP_GEQUAL"/>
+	<value value="0x0" name="PREFILTEROP_ALWAYS"/>
+	<value value="0x1" name="PREFILTEROP_NEVER"/>
+	<value value="0x2" name="PREFILTEROP_LESS"/>
+	<value value="0x3" name="PREFILTEROP_EQUAL"/>
+	<value value="0x4" name="PREFILTEROP_LEQUAL"/>
+	<value value="0x5" name="PREFILTEROP_GREATER"/>
+	<value value="0x6" name="PREFILTEROP_NOTEQUAL"/>
+	<value value="0x7" name="PREFILTEROP_GEQUAL"/>
 </enum>
 
 <enum name="gen_aniso_ratio" bare="yes" prefix="gen">
