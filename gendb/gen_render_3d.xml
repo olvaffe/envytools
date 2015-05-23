@@ -984,7 +984,7 @@
 			<bitfield high="6" low="5" type="gen_fill_mode" name="FILL_MODE_FRONT" variants="GEN6-GEN75"/>
 			<bitfield high="4" low="3" type="gen_fill_mode" name="FILL_MODE_BACK" variants="GEN6-GEN75"/>
 
-			<bitfield pos="1" name="VIEWPORT_ENABLE"/>
+			<bitfield pos="1" name="VIEWPORT_TRANSFORM"/>
 
 			<bitfield pos="0" type="gen_front_winding" name="FRONT_WINDING" variants="GEN6-GEN75"/>
 		</reg32>
