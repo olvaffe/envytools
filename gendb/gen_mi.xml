@@ -93,7 +93,10 @@
 </bitset>
 
 <domain name="MI_NOOP" width="32" size="1" prefix="gen">
-	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="WRITE_NOPID"/>
+		<bitfield high="21" low="0" name="VALUE"/>
+	</reg32>
 </domain>
 
 <domain name="MI_SET_PREDICATE" width="32" size="1" prefix="gen" variants="GEN75-">

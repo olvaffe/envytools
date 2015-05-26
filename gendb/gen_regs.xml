@@ -12,6 +12,8 @@
 </bitset>
 
 <domain name="REG" size="0x400000" prefix="gen">
+	<reg32 name="NOPID" offset="0x2094"/>
+
 	<reg64 name="HS_INVOCATION_COUNT" offset="0x2300" variants="GEN7-"/>
 	<reg64 name="DS_INVOCATION_COUNT" offset="0x2308" variants="GEN7-"/>
 	<reg64 name="IA_VERTICES_COUNT" offset="0x2310"/>
