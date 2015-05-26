@@ -153,6 +153,18 @@
 	<value value="0x4" name="NUMSAMPLES_16" variants="GEN8-"/>
 </enum>
 
+<enum name="gen_msrast_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="MSRASTMODE_OFF_PIXEL"/>
+	<value value="0x1" name="MSRASTMODE_OFF_PATTERN"/>
+	<value value="0x2" name="MSRASTMODE_ON_PIXEL"/>
+	<value value="0x3" name="MSRASTMODE_ON_PATTERN"/>
+</enum>
+
+<enum name="gen_wm_msdisp_mode" inline="yes" varset="gen">
+	<value value="0x0" name="PERSAMPLE"/>
+	<value value="0x1" name="PERPIXEL"/>
+</enum>
+
 <enum name="gen_wm_pos_xy_offset" inline="yes" varset="gen">
 	<value value="0x0" name="NONE"/>
 	<value value="0x2" name="CENTROID"/>
@@ -177,18 +189,6 @@
 <enum name="gen_wm_point_rast_rule" inline="yes" varset="gen">
 	<value value="0x0" name="UPPER_LEFT"/>
 	<value value="0x1" name="UPPER_RIGHT"/>
-</enum>
-
-<enum name="gen_wm_ms_dispatch_mode" inline="yes" varset="gen">
-	<value value="0x0" name="PERSAMPLE"/>
-	<value value="0x1" name="PERPIXEL"/>
-</enum>
-
-<enum name="gen_wm_ms_rast_mode" inline="yes" varset="gen">
-	<value value="0x0" name="OFF_PIXEL"/>
-	<value value="0x1" name="OFF_PATTERN"/>
-	<value value="0x2" name="ON_PIXEL"/>
-	<value value="0x3" name="ON_PATTERN"/>
 </enum>
 
 <enum name="gen_wm_aa_line_width" inline="yes" varset="gen">
@@ -997,7 +997,7 @@
 			<bitfield pos="14" name="LINE_STIPPLE_ENABLE" variants="GEN75"/>
 
 			<bitfield pos="11" name="SCISSOR_ENABLE" variants="GEN6-GEN75"/>
-			<bitfield high="9" low="8" type="gen_wm_ms_rast_mode" name="MSRASTMODE" variants="GEN6-GEN75"/>
+			<bitfield high="9" low="8" type="gen_msrast_mode" name="MSRASTMODE" variants="GEN6-GEN75"/>
 		</reg32>
 		<reg32 name="SF_DW3" offset="2">
 			<bitfield pos="31" name="LINE_LAST_PIXEL_ENABLE"/>
@@ -1198,8 +1198,8 @@
 			<bitfield high="17" low="16" type="gen_wm_zw_interp" name="ZW_INTERP"/>
 			<bitfield high="15" low="10" type="gen_wm_barycentric_interp" name="BARYCENTRIC_INTERP"/>
 			<bitfield pos="9" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
-			<bitfield high="2" low="1" type="gen_wm_ms_rast_mode" name="MSRASTMODE"/>
-			<bitfield pos="0" type="gen_wm_ms_dispatch_mode" name="MSDISPMODE"/>
+			<bitfield high="2" low="1" type="gen_msrast_mode" name="MSRASTMODE"/>
+			<bitfield pos="0" type="gen_wm_msdisp_mode" name="MSDISPMODE"/>
 		</reg32>
 		<reg32 name="WM_DW7_KERNEL1" type="gen_64b_aligned_addr" offset="7"/>
 		<reg32 name="WM_DW8_KERNEL2" type="gen_64b_aligned_addr" offset="8"/>
@@ -1230,10 +1230,10 @@
 			<bitfield pos="3" name="LINE_STIPPLE_ENABLE"/>
 			<bitfield pos="2" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
 
-			<bitfield high="1" low="0" type="gen_wm_ms_rast_mode" name="MSRASTMODE" variants="GEN7-GEN75"/>
+			<bitfield high="1" low="0" type="gen_msrast_mode" name="MSRASTMODE" variants="GEN7-GEN75"/>
 		</reg32>
 		<reg32 name="WM_DW2" offset="2" variants="GEN7-GEN75">
-			<bitfield pos="31" type="gen_wm_ms_dispatch_mode" name="MSDISPMODE"/>
+			<bitfield pos="31" type="gen_wm_msdisp_mode" name="MSDISPMODE"/>
 			<bitfield pos="30" name="PS_UAV_ONLY" variants="GEN75-"/>
 		</reg32>
 	</stripe>
