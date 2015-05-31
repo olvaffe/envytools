@@ -111,6 +111,11 @@
 	<value value="0x5" name="ZFORMAT_D16_UNORM"/>
 </enum>
 
+<enum name="gen_reorder_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="REORDER_LEADING" variants="GEN7-"/>
+	<value value="0x1" name="REORDER_TRAILING" variants="GEN7-"/>
+</enum>
+
 <enum name="gen_clip_mode" bare="yes" prefix="gen">
 	<value value="0x0" name="CLIPMODE_NORMAL"/>
 	<value value="0x3" name="CLIPMODE_REJECT_ALL"/>
@@ -151,6 +156,13 @@
 	<value value="0x2" name="NUMSAMPLES_4"/>
 	<value value="0x3" name="NUMSAMPLES_8" variants="GEN7-"/>
 	<value value="0x4" name="NUMSAMPLES_16" variants="GEN8-"/>
+</enum>
+
+<enum name="gen_input_attr" bare="yes" prefix="gen">
+	<value value="0x0" name="INPUTATTR_NORMAL"/>
+	<value value="0x1" name="INPUTATTR_FACING"/>
+	<value value="0x2" name="INPUTATTR_W"/>
+	<value value="0x3" name="INPUTATTR_FACING_W"/>
 </enum>
 
 <enum name="gen_msrast_mode" bare="yes" prefix="gen">
@@ -721,7 +733,7 @@
 			<bitfield pos="8" name="RENDER_ENABLE"/>
 		</reg32>
 		<reg32 name="GS_DW6" offset="6">
-			<bitfield pos="30" name="REORDER_ENABLE"/>
+			<bitfield pos="30" name="REORDER_LEADING_ENABLE"/>
 			<bitfield pos="29" name="DISCARD_ADJACENCY"/>
 			<bitfield pos="28" name="SVBI_PAYLOAD_ENABLE"/>
 			<bitfield pos="27" name="SVBI_POST_INC_ENABLE"/>
@@ -763,11 +775,8 @@
 			<bitfield pos="4" name="INCLUDE_PRIMITIVE_ID"/>
 			<bitfield pos="3" name="HINT"/>
 
-			<bitfield pos="2" name="REORDER_ENABLE" variants="GEN7"/>
-			<bitfield pos="2" name="REORDER" variants="GEN75-">
-				<value value="0x0" name="LEADING"/>
-				<value value="0x1" name="TRAILING"/>
-			</bitfield>
+			<bitfield pos="2" name="REORDER_LEADING_ENABLE" variants="GEN7"/>
+			<bitfield pos="2" name="REORDER_MODE" type="gen_reorder_mode" variants="GEN75-"/>
 
 			<bitfield pos="1" name="DISCARD_ADJACENCY"/>
 			<bitfield pos="0" name="GS_ENABLE"/>
@@ -813,12 +822,7 @@
 			<bitfield high="9" low="5" type="uint" name="INVOCATION_INCR"/>
 			<bitfield pos="4" name="INCLUDE_PRIMITIVE_ID"/>
 			<bitfield pos="3" name="HINT"/>
-
-			<bitfield pos="2" name="REORDER">
-				<value value="0x0" name="LEADING"/>
-				<value value="0x1" name="TRAILING"/>
-			</bitfield>
-
+			<bitfield pos="2" name="REORDER_MODE" type="gen_reorder_mode"/>
 			<bitfield pos="1" name="DISCARD_ADJACENCY"/>
 			<bitfield pos="0" name="GS_ENABLE"/>
 		</reg32>
@@ -845,10 +849,7 @@
 			<bitfield pos="31" name="SO_ENABLE"/>
 			<bitfield pos="30" name="RENDER_DISABLE"/>
 			<bitfield high="28" low="27" type="uint" name="RENDER_STREAM_SELECT"/>
-			<bitfield pos="26" name="REORDER">
-				<value value="0x0" name="LEADING"/>
-				<value value="0x1" name="TRAILING"/>
-			</bitfield>
+			<bitfield pos="26" type="gen_reorder_mode" name="REORDER_MODE"/>
 			<bitfield pos="25" name="STATISTICS"/>
 			<bitfield high="11" low="8" name="BUFFER_ENABLES" variants="GEN7-GEN75"/>
 		</reg32>
@@ -1054,13 +1055,8 @@
 				<value value="0x2" name="1111_FLOAT"/>
 				<value value="0x3" name="PRIM_ID"/>
 			</bitfield>
-			<bitfield high="7" low="6" name="INPUTATTR">
-				<value value="0x0" name="NORMAL"/>
-				<value value="0x1" name="FACING"/>
-				<value value="0x2" name="W"/>
-				<value value="0x3" name="FACING_W"/>
-			</bitfield>
-			<bitfield high="4" low="0" type="uint" name="URB_ENTRY_OFFSET"/>
+			<bitfield high="7" low="6" type="gen_input_attr" name="SWIZZLE_SELECT"/>
+			<bitfield high="4" low="0" type="uint" name="SRC_ATTR"/>
 		</reg32>
 	</stripe>
 </domain>
