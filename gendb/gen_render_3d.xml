@@ -158,11 +158,39 @@
 	<value value="0x4" name="NUMSAMPLES_16" variants="GEN8-"/>
 </enum>
 
-<enum name="gen_input_attr" bare="yes" prefix="gen">
+<enum name="gen_inputattr_select" bare="yes" prefix="gen">
 	<value value="0x0" name="INPUTATTR_NORMAL"/>
 	<value value="0x1" name="INPUTATTR_FACING"/>
 	<value value="0x2" name="INPUTATTR_W"/>
 	<value value="0x3" name="INPUTATTR_FACING_W"/>
+</enum>
+
+<enum name="gen_zw_interp" bare="yes" prefix="gen">
+	<value value="0x0" name="ZW_INTERP_PIXEL"/>
+	<value value="0x2" name="ZW_INTERP_CENTROID"/>
+	<value value="0x3" name="ZW_INTERP_SAMPLE"/>
+</enum>
+
+<bitset name="gen_barycentric_interp" bare="yes" prefix="gen">
+	<bitfield pos="5" name="INTERP_NONPERSPECTIVE_SAMPLE"/>
+	<bitfield pos="4" name="INTERP_NONPERSPECTIVE_CENTROID"/>
+	<bitfield pos="3" name="INTERP_NONPERSPECTIVE_PIXEL"/>
+	<bitfield pos="2" name="INTERP_PERSPECTIVE_SAMPLE"/>
+	<bitfield pos="1" name="INTERP_PERSPECTIVE_CENTROID"/>
+	<bitfield pos="0" name="INTERP_PERSPECTIVE_PIXEL"/>
+</bitset>
+
+<enum name="gen_edsc_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="EDSC_NORMAL" variants="GEN7-"/>
+	<value value="0x1" name="EDSC_PSEXEC" variants="GEN7-"/>
+	<value value="0x2" name="EDSC_PREPS" variants="GEN7-"/>
+</enum>
+
+<enum name="gen_pscdepth_mode" bare="yes" prefix="gen">
+	<value value="0x0" name="PSCDEPTH_OFF" variants="GEN7-"/>
+	<value value="0x1" name="PSCDEPTH_ON" variants="GEN7-"/>
+	<value value="0x2" name="PSCDEPTH_ON_GE" variants="GEN7-"/>
+	<value value="0x3" name="PSCDEPTH_ON_LE" variants="GEN7-"/>
 </enum>
 
 <enum name="gen_msrast_mode" bare="yes" prefix="gen">
@@ -183,21 +211,6 @@
 	<value value="0x3" name="SAMPLE"/>
 </enum>
 
-<enum name="gen_wm_zw_interp" inline="yes" varset="gen">
-	<value value="0x0" name="PIXEL"/>
-	<value value="0x2" name="CENTROID"/>
-	<value value="0x3" name="SAMPLE"/>
-</enum>
-
-<bitset name="gen_wm_barycentric_interp" bare="yes" prefix="gen">
-	<bitfield pos="5" name="INTERP_NONPERSPECTIVE_SAMPLE"/>
-	<bitfield pos="4" name="INTERP_NONPERSPECTIVE_CENTROID"/>
-	<bitfield pos="3" name="INTERP_NONPERSPECTIVE_PIXEL"/>
-	<bitfield pos="2" name="INTERP_PERSPECTIVE_SAMPLE"/>
-	<bitfield pos="1" name="INTERP_PERSPECTIVE_CENTROID"/>
-	<bitfield pos="0" name="INTERP_PERSPECTIVE_PIXEL"/>
-</bitset>
-
 <enum name="gen_wm_point_rast_rule" inline="yes" varset="gen">
 	<value value="0x0" name="UPPER_LEFT"/>
 	<value value="0x1" name="UPPER_RIGHT"/>
@@ -210,24 +223,11 @@
 	<value value="0x3" name="4_0"/>
 </enum>
 
-<enum name="gen_wm_early_ds_control" inline="yes" varset="gen">
-	<value value="0x0" name="NORMAL"/>
-	<value value="0x1" name="PSEXEC"/>
-	<value value="0x2" name="PREPS"/>
-</enum>
-
 <bitset name="gen_ps_dispatch_mode" bare="yes" prefix="gen">
 	<bitfield pos="2" name="PS_DISPATCH_32"/>
 	<bitfield pos="1" name="PS_DISPATCH_16"/>
 	<bitfield pos="0" name="PS_DISPATCH_8"/>
 </bitset>
-
-<enum name="gen_ps_compute_depth" inline="yes" varset="gen">
-	<value value="0x0" name="OFF"/>
-	<value value="0x1" name="ON"/>
-	<value value="0x2" name="ON_GE"/>
-	<value value="0x3" name="ON_LE"/>
-</enum>
 
 <bitset name="gen_thread_dispatch" bare="yes" prefix="gen">
 	<bitfield pos="31" name="THREADDISP_SPF"/>
@@ -1055,7 +1055,7 @@
 				<value value="0x2" name="1111_FLOAT"/>
 				<value value="0x3" name="PRIM_ID"/>
 			</bitfield>
-			<bitfield high="7" low="6" type="gen_input_attr" name="SWIZZLE_SELECT"/>
+			<bitfield high="7" low="6" type="gen_inputattr_select" name="SWIZZLE_SELECT"/>
 			<bitfield high="4" low="0" type="uint" name="SRC_ATTR"/>
 		</reg32>
 	</stripe>
@@ -1191,8 +1191,8 @@
 		<reg32 name="WM_DW6" offset="6">
 			<bitfield high="25" low="20" type="uint" name="SF_ATTR_COUNT"/>
 			<bitfield high="19" low="18" type="gen_wm_pos_xy_offset" name="PS_POSOFFSET"/>
-			<bitfield high="17" low="16" type="gen_wm_zw_interp" name="ZW_INTERP"/>
-			<bitfield high="15" low="10" type="gen_wm_barycentric_interp" name="BARYCENTRIC_INTERP"/>
+			<bitfield high="17" low="16" type="gen_zw_interp" name="ZW_INTERP"/>
+			<bitfield high="15" low="10" type="gen_barycentric_interp" name="BARYCENTRIC_INTERP"/>
 			<bitfield pos="9" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
 			<bitfield high="2" low="1" type="gen_msrast_mode" name="MSRASTMODE"/>
 			<bitfield pos="0" type="gen_wm_msdisp_mode" name="MSDISPMODE"/>
@@ -1211,12 +1211,12 @@
 
 			<bitfield pos="26" name="LEGACY_LINE_RAST"/>
 			<bitfield pos="25" name="PS_KILL_PIXEL" variants="GEN7-GEN75"/>
-			<bitfield high="24" low="23" type="gen_ps_compute_depth" name="PSCDEPTH" variants="GEN7-GEN75"/>
-			<bitfield high="22" low="21" type="gen_wm_early_ds_control" name="EDSC"/>
+			<bitfield high="24" low="23" type="gen_pscdepth_mode" name="PSCDEPTH" variants="GEN7-GEN75"/>
+			<bitfield high="22" low="21" type="gen_edsc_mode" name="EDSC"/>
 			<bitfield pos="20" name="PS_USE_DEPTH" variants="GEN7-GEN75"/>
 			<bitfield pos="19" name="PS_USE_W" variants="GEN7-GEN75"/>
-			<bitfield high="18" low="17" type="gen_wm_zw_interp" name="ZW_INTERP"/>
-			<bitfield high="16" low="11" type="gen_wm_barycentric_interp" name="BARYCENTRIC_INTERP"/>
+			<bitfield high="18" low="17" type="gen_zw_interp" name="ZW_INTERP"/>
+			<bitfield high="16" low="11" type="gen_barycentric_interp" name="BARYCENTRIC_INTERP"/>
 			<bitfield pos="10" name="PS_USE_COVERAGE_MASK" variants="GEN7-GEN75"/>
 
 			<bitfield high="9" low="8" type="gen_wm_aa_line_width" name="AA_LINE_CAP"/>
@@ -1366,7 +1366,7 @@
 			<bitfield pos="30" name="UAV_ONLY"/>
 			<bitfield pos="29" name="COMPUTE_OMASK"/>
 			<bitfield pos="28" name="KILL_PIXEL"/>
-			<bitfield high="27" low="26" type="gen_ps_compute_depth" name="PSCDEPTH"/>
+			<bitfield high="27" low="26" type="gen_pscdepth_mode" name="PSCDEPTH"/>
 			<bitfield pos="25" name="FORCE_COMPUTE_DEPTH"/>
 			<bitfield pos="24" name="USE_DEPTH"/>
 			<bitfield pos="23" name="USE_W"/>
