@@ -180,6 +180,12 @@
 	<bitfield pos="0" name="INTERP_PERSPECTIVE_PIXEL"/>
 </bitset>
 
+<enum name="gen_position_offset" bare="yes" prefix="gen">
+	<value value="0x0" name="POSOFFSET_NONE"/>
+	<value value="0x2" name="POSOFFSET_CENTROID"/>
+	<value value="0x3" name="POSOFFSET_SAMPLE"/>
+</enum>
+
 <enum name="gen_edsc_mode" bare="yes" prefix="gen">
 	<value value="0x0" name="EDSC_NORMAL" variants="GEN7-"/>
 	<value value="0x1" name="EDSC_PSEXEC" variants="GEN7-"/>
@@ -203,12 +209,6 @@
 <enum name="gen_wm_msdisp_mode" inline="yes" varset="gen">
 	<value value="0x0" name="PERSAMPLE"/>
 	<value value="0x1" name="PERPIXEL"/>
-</enum>
-
-<enum name="gen_wm_pos_xy_offset" inline="yes" varset="gen">
-	<value value="0x0" name="NONE"/>
-	<value value="0x2" name="CENTROID"/>
-	<value value="0x3" name="SAMPLE"/>
 </enum>
 
 <enum name="gen_wm_point_rast_rule" inline="yes" varset="gen">
@@ -1190,7 +1190,7 @@
 		</reg32>
 		<reg32 name="WM_DW6" offset="6">
 			<bitfield high="25" low="20" type="uint" name="SF_ATTR_COUNT"/>
-			<bitfield high="19" low="18" type="gen_wm_pos_xy_offset" name="PS_POSOFFSET"/>
+			<bitfield high="19" low="18" type="gen_position_offset" name="PS_POSOFFSET"/>
 			<bitfield high="17" low="16" type="gen_zw_interp" name="ZW_INTERP"/>
 			<bitfield high="15" low="10" type="gen_barycentric_interp" name="BARYCENTRIC_INTERP"/>
 			<bitfield pos="9" type="gen_wm_point_rast_rule" name="POINT_RASTRULE"/>
@@ -1320,7 +1320,7 @@
 			<bitfield pos="7" name="DUAL_SOURCE_BLEND"/>
 			<bitfield pos="6" name="RT_RESOLVE"/>
 			<bitfield pos="5" name="ACCESS_UAV" variants="GEN75-"/>
-			<bitfield high="4" low="3" type="gen_wm_pos_xy_offset" name="POSOFFSET"/>
+			<bitfield high="4" low="3" type="gen_position_offset" name="POSOFFSET"/>
 			<bitfield high="2" low="0" type="gen_ps_dispatch_mode" name="DISPATCH_MODE"/>
 		</reg32>
 		<reg32 name="PS_DW5_URB" offset="5">
@@ -1343,7 +1343,7 @@
 			<bitfield pos="11" name="PUSH_CONSTANT_ENABLE"/>
 			<bitfield pos="8" name="RT_FAST_CLEAR"/>
 			<bitfield pos="6" name="RT_RESOLVE"/>
-			<bitfield high="4" low="3" type="gen_wm_pos_xy_offset" name="POSOFFSET"/>
+			<bitfield high="4" low="3" type="gen_position_offset" name="POSOFFSET"/>
 			<bitfield high="2" low="0" type="gen_ps_dispatch_mode" name="DISPATCH_MODE"/>
 		</reg32>
 		<reg32 name="PS_DW7_URB" offset="7">
