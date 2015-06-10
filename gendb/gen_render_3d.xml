@@ -1362,7 +1362,7 @@
 	<stripe>
 		<reg32 name="PSX_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="PSX_DW1" offset="1">
-			<bitfield pos="31" name="DISPATCH_ENABLE"/>
+			<bitfield pos="31" name="VALID"/>
 			<bitfield pos="30" name="UAV_ONLY"/>
 			<bitfield pos="29" name="COMPUTE_OMASK"/>
 			<bitfield pos="28" name="KILL_PIXEL"/>
