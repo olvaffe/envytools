@@ -9,7 +9,7 @@
 <import file="gen_render_dynamic.xml"/>
 <import file="gen_render_surface.xml"/>
 
-<enum name="gen_prim_type" bare="yes" prefix="gen">
+<enum name="gen_3dprim_type" bare="yes" prefix="gen">
 	<value value="0x01" name="3DPRIM_POINTLIST"/>
 	<value value="0x02" name="3DPRIM_LINELIST"/>
 	<value value="0x03" name="3DPRIM_LINESTRIP"/>
@@ -461,7 +461,7 @@
 	<stripe>
 		<reg32 name="TOPOLOGY_DW0" offset="0" type="gen_render_header"/>
 		<reg32 name="TOPOLOGY_DW1" offset="1">
-			<bitfield high="5" low="0" type="gen_prim_type" name="TYPE"/>
+			<bitfield high="5" low="0" type="gen_3dprim_type" name="TYPE"/>
 		</reg32>
 	</stripe>
 </domain>
@@ -748,7 +748,7 @@
 		<reg32 name="GS_DW3_SCRATCH" offset="3" type="gen_thread_scratch"/>
 		<reg32 name="GS_DW4" offset="4">
 			<bitfield high="28" low="23" type="uint" name="OUTPUT_SIZE"/>
-			<bitfield high="22" low="17" type="gen_prim_type" name="OUTPUT_TOPO"/>
+			<bitfield high="22" low="17" type="gen_3dprim_type" name="OUTPUT_TOPO"/>
 			<bitfield high="16" low="11" type="uint" name="URB_READ_LEN"/>
 			<bitfield pos="10" name="INCLUDE_VERTEX_HANDLES"/>
 			<bitfield high="9" low="4" type="uint" name="URB_READ_OFFSET"/>
@@ -801,7 +801,7 @@
 		<reg32 name="GS_DW5_SCRATCH_HI" offset="5"/>
 		<reg32 name="GS_DW6" offset="6">
 			<bitfield high="28" low="23" type="uint" name="OUTPUT_SIZE"/>
-			<bitfield high="22" low="17" type="gen_prim_type" name="OUTPUT_TOPO"/>
+			<bitfield high="22" low="17" type="gen_3dprim_type" name="OUTPUT_TOPO"/>
 			<bitfield high="16" low="11" type="uint" name="URB_READ_LEN"/>
 			<bitfield pos="10" name="INCLUDE_VERTEX_HANDLES"/>
 			<bitfield high="9" low="4" type="uint" name="URB_READ_OFFSET"/>
@@ -1698,7 +1698,7 @@
 				<value value="0x0" name="SEQUENTIAL"/>
 				<value value="0x1" name="RANDOM"/>
 			</bitfield>
-			<bitfield high="14" low="10" type="gen_prim_type" name="TYPE"/>
+			<bitfield high="14" low="10" type="gen_3dprim_type" name="TYPE"/>
 			<bitfield pos="9" name="USE_INTERNAL_VERTEX_COUNT"/>
 		</reg32>
 		<reg32 name="3DPRIM_DW1_VERTEX_COUNT" type="uint" offset="1"/>
@@ -1719,7 +1719,7 @@
 				<value value="0x0" name="SEQUENTIAL"/>
 				<value value="0x1" name="RANDOM"/>
 			</bitfield>
-			<bitfield high="5" low="0" type="gen_prim_type" name="TYPE"/>
+			<bitfield high="5" low="0" type="gen_3dprim_type" name="TYPE"/>
 		</reg32>
 		<reg32 name="3DPRIM_DW2_VERTEX_COUNT" type="uint" offset="2"/>
 		<reg32 name="3DPRIM_DW3_VERTEX_START" type="uint" offset="3"/>
