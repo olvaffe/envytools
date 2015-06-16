@@ -87,10 +87,10 @@
 	<value value="64" name="ALIGNMENT_SURFACE_STATE" variants="GEN8-"/>
 </enum>
 
-<enum name="gen_index_format" inline="yes" varset="gen">
-	<value value="0x0" name="BYTE"/>
-	<value value="0x1" name="WORD"/>
-	<value value="0x2" name="DWORD"/>
+<enum name="gen_index_format" bare="yes" prefix="gen">
+	<value value="0x0" name="INDEX_BYTE"/>
+	<value value="0x1" name="INDEX_WORD"/>
+	<value value="0x2" name="INDEX_DWORD"/>
 </enum>
 
 <enum name="gen_vf_component" bare="yes" prefix="gen">
