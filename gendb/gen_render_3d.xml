@@ -323,6 +323,47 @@
 	</stripe>
 </domain>
 
+<domain name="3DSTATE_GATHER_CONSTANT_ANY" width="32" size="130" bare="yes" prefix="gen" variants="GEN75-">
+	<stripe>
+		<reg32 name="GATHER_CONST_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="GATHER_CONST_DW1" offset="1">
+			<bitfield high="31" low="16" name="BT_VALID"/>
+			<bitfield high="15" low="12" type="uint" name="BT_BLOCK"/>
+		</reg32>
+		<reg32 name="GATHER_CONST_DW2" offset="2">
+			<bitfield high="22" low="6" shr="6" name="GATHER_BUFFER_OFFSET"/>
+			<bitfield pos="5" name="DX9_STALL" variants="GEN8-"/>
+			<bitfield pos="4" name="DX9_ENABLE"/>
+		</reg32>
+		<reg32 name="GATHER_CONST_DW_ENTRY" offset="3" length="127">
+			<bitfield high="31" low="16" name="HIGH"/>
+
+			<bitfield high="15" low="8" name="OFFSET"/>
+			<bitfield high="7" low="4" name="CHANNEL_MASK"/>
+			<bitfield high="4" low="0" type="uint" name="BT_INDEX"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_BINDING_TABLE_EDIT_ANY" width="32" size="258" bare="yes" prefix="gen" variants="GEN75-">
+	<stripe>
+		<reg32 name="BT_EDIT_DW0" offset="0" type="gen_render_header"/>
+		<reg32 name="BT_EDIT_DW1" offset="1">
+			<bitfield high="31" low="16" name="BT_BLOCK_CLEAR"/>
+			<bitfield high="1" low="0" name="TARGET">
+				<value value="0x1" name="CORE0"/>
+				<value value="0x2" name="CORE1"/>
+				<value value="0x3" name="ALL"/>
+			</bitfield>
+		</reg32>
+		<reg32 name="BT_EDIT_DW_ENTRY" offset="2" length="256">
+			<bitfield high="23" low="16" type="uint" name="BT_INDEX"/>
+			<bitfield high="15" low="0" shr="5" name="SURFACE_STATE_ADDR" variants="GEN75"/>
+			<bitfield high="15" low="0" shr="6" name="SURFACE_STATE_ADDR" variants="GEN8-"/>
+		</reg32>
+	</stripe>
+</domain>
+
 <domain name="3DSTATE_PUSH_CONSTANT_ALLOC_ANY" width="32" size="2" bare="yes" prefix="gen" variants="GEN7-">
 	<doc>Generic command for
 		3DSTATE_PUSH_CONSTANT_ALLOC_VS,
@@ -342,6 +383,50 @@
 		<reg32 name="PCB_ALLOC_DW1" offset="1" variants="GEN75-">
 			<bitfield high="20" low="16" type="uint" name="OFFSET"/>
 			<bitfield high="5" low="0" type="uint" name="SIZE"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_BINDING_TABLE_POOL_ALLOC" width="32" size="3" bare="yes" prefix="gen" variants="GEN75-">
+	<stripe>
+		<reg32 name="BT_POOL_ALLOC_DW0" offset="0" type="gen_render_header"/>
+
+		<reg32 name="BT_POOL_ALLOC_DW1" offset="1">
+			<bitfield high="31" low="12" shr="12" name="ADDR"/>
+			<bitfield pos="11" name="ENABLE"/>
+			<bitfield high="10" low="7" type="gen_render_mocs" name="MOCS" variants="GEN75"/>
+			<bitfield high="6" low="0" type="gen_render_mocs" name="MOCS" variants="GEN8-"/>
+		</reg32>
+
+		<reg32 name="BT_POOL_ALLOC_DW2" offset="2" variants="GEN75">
+			<bitfield high="31" low="12" shr="12" name="END_ADDR"/>
+		</reg32>
+		<reg32 name="BT_POOL_ALLOC_DW2_ADDR_HI" offset="2" variants="GEN8-"/>
+
+		<reg32 name="BT_POOL_ALLOC_DW3" offset="3" variants="GEN8-">
+			<bitfield high="31" low="12" shr="12" name="SIZE"/>
+		</reg32>
+	</stripe>
+</domain>
+
+<domain name="3DSTATE_GATHER_POOL_ALLOC" width="32" size="3" bare="yes" prefix="gen" variants="GEN75-">
+	<stripe>
+		<reg32 name="GATHER_POOL_ALLOC_DW0" offset="0" type="gen_render_header"/>
+
+		<reg32 name="GATHER_POOL_ALLOC_DW1" offset="1">
+			<bitfield high="31" low="12" shr="12" name="ADDR"/>
+			<bitfield pos="11" name="ENABLE"/>
+			<bitfield high="3" low="0" type="gen_render_mocs" name="MOCS" variants="GEN75"/>
+			<bitfield high="6" low="0" type="gen_render_mocs" name="MOCS" variants="GEN8-"/>
+		</reg32>
+
+		<reg32 name="GATHER_POOL_ALLOC_DW2" offset="2" variants="GEN75">
+			<bitfield high="31" low="12" shr="12" name="END_ADDR"/>
+		</reg32>
+		<reg32 name="GATHER_POOL_ALLOC_DW2_ADDR_HI" offset="2" variants="GEN8-"/>
+
+		<reg32 name="GATHER_POOL_ALLOC_DW3" offset="3" variants="GEN8-">
+			<bitfield high="31" low="12" shr="12" name="SIZE"/>
 		</reg32>
 	</stripe>
 </domain>

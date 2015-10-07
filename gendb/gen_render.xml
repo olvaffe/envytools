@@ -86,6 +86,16 @@
 		<value value="0x031" name="3DSTATE_URB_HS" variants="GEN7-"/>
 		<value value="0x032" name="3DSTATE_URB_DS" variants="GEN7-"/>
 		<value value="0x033" name="3DSTATE_URB_GS" variants="GEN7-"/>
+		<value value="0x034" name="3DSTATE_GATHER_CONSTANT_VS" variants="GEN75-"/>
+		<value value="0x035" name="3DSTATE_GATHER_CONSTANT_GS" variants="GEN75-"/>
+		<value value="0x036" name="3DSTATE_GATHER_CONSTANT_HS" variants="GEN75-"/>
+		<value value="0x037" name="3DSTATE_GATHER_CONSTANT_DS" variants="GEN75-"/>
+		<value value="0x038" name="3DSTATE_GATHER_CONSTANT_PS" variants="GEN75-"/>
+		<value value="0x043" name="3DSTATE_BINDING_TABLE_EDIT_VS" variants="GEN75-"/>
+		<value value="0x044" name="3DSTATE_BINDING_TABLE_EDIT_GS" variants="GEN75-"/>
+		<value value="0x045" name="3DSTATE_BINDING_TABLE_EDIT_HS" variants="GEN75-"/>
+		<value value="0x045" name="3DSTATE_BINDING_TABLE_EDIT_DS" variants="GEN75-"/>
+		<value value="0x046" name="3DSTATE_BINDING_TABLE_EDIT_PS" variants="GEN75-"/>
 		<value value="0x049" name="3DSTATE_VF_INSTANCING" variants="GEN8-"/>
 		<value value="0x04a" name="3DSTATE_VF_SGVS" variants="GEN8-"/>
 		<value value="0x04b" name="3DSTATE_VF_TOPOLOGY" variants="GEN8-"/>
@@ -114,6 +124,8 @@
 		<value value="0x116" name="3DSTATE_PUSH_CONSTANT_ALLOC_PS" variants="GEN7-"/>
 		<value value="0x117" name="3DSTATE_SO_DECL_LIST" variants="GEN7-"/>
 		<value value="0x118" name="3DSTATE_SO_BUFFER" variants="GEN7-"/>
+		<value value="0x119" name="3DSTATE_BINDING_TABLE_POOL_ALLOC" variants="GEN75-"/>
+		<value value="0x11a" name="3DSTATE_GATHER_POOL_ALLOC" variants="GEN75-"/>
 		<value value="0x11c" name="3DSTATE_SAMPLE_PATTERN" variants="GEN8-"/>
 		<value value="0x200" name="PIPE_CONTROL"/>
 		<value value="0x300" name="3DPRIMITIVE"/>

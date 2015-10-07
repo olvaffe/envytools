@@ -27,6 +27,7 @@
 		<value value="0x28" name="MI_REPORT_PERF_COUNT"/>
 		<value value="0x29" name="MI_LOAD_REGISTER_MEM" variants="GEN7-"/>
 		<value value="0x2a" name="MI_LOAD_REGISTER_REG" variants="GEN75-"/>
+		<value value="0x2b" name="MI_RS_STORE_DATA_IMM" variants="GEN75-"/>
 		<value value="0x2c" name="MI_LOAD_URB_MEM" variants="GEN75-"/>
 		<value value="0x2d" name="MI_STORE_URB_MEM" variants="GEN75-"/>
 		<value value="0x31" name="MI_BATCH_BUFFER_START"/>
@@ -173,6 +174,7 @@
 <domain name="MI_STORE_DATA_IMM" width="32" size="6" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="USE_GGTT"/>
+		<bitfield pos="21" name="STORE_QWORD" variants="GEN8-"/>
 	</reg32>
 	<reg32 name="DW1" offset="1"/> <!-- unused -->
 	<reg32 name="DW2" type="gen_mi_4b_aligned_addr" offset="2"/>
@@ -242,6 +244,18 @@
 	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
 	<reg32 name="DW1_SRC" type="gen_mi_reg_addr" offset="1"/>
 	<reg32 name="DW2_DST" type="gen_mi_reg_addr" offset="2"/>
+</domain>
+
+<domain name="MI_RS_STORE_DATA_IMM" width="32" size="6" prefix="gen" variants="GEN75-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="USE_GGTT" variants="GEN75"/>
+	</reg32>
+	<reg32 name="DW1" offset="1"/> <!-- unused -->
+	<reg32 name="DW2" type="gen_mi_4b_aligned_addr" offset="2"/>
+	<reg32 name="DW3_VAL" offset="3" variants="GEN75"/>
+
+	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
+	<reg32 name="DW4_VAL" offset="4" variants="GEN8-"/>
 </domain>
 
 <domain name="MI_LOAD_URB_MEM" width="32" size="4" prefix="gen" variants="GEN75-">
