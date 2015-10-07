@@ -16,7 +16,9 @@
 	<value value="0x3" name="MSG_URB_READ_OWORD" variants="GEN7-"/>
 	<value value="0x4" name="MSG_URB_ATOMIC_MOV" variants="GEN7-"/>
 	<value value="0x5" name="MSG_URB_ATOMIC_INC" variants="GEN7-"/>
+	<value value="0x6" name="MSG_URB_ATOMIC_ADD" variants="GEN75-"/>
 	<value value="0x7" name="MSG_URB_SIMD8_WRITE" variants="GEN8-"/>
+	<value value="0x8" name="MSG_URB_SIMD8_READ" variants="GEN8-"/>
 </enum>
 
 <enum name="gen_eu_pi_simd" bare="yes" prefix="gen" variants="GEN7-">
@@ -118,10 +120,11 @@
 	<value value="0x1" name="MSG_DP_SAMPLER_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x4" name="MSG_DP_SAMPLER_MEDIA_BLOCK_READ" variants="GEN75-"/>
 	<!-- else if SFID == DP_RC -->
-	<value value="0x4" name="MSG_DP_RC_MEDIA_BLOCK_READ" variants="GEN75-"/>
-	<value value="0x7" name="MSG_DP_RC_MEMORY_FENCE" variants="GEN75-"/>
-	<value value="0xa" name="MSG_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN75-"/>
+	<value value="0x4" name="MSG_DP_RC_MEDIA_BLOCK_READ" variants="GEN75"/>
+	<value value="0x7" name="MSG_DP_RC_MEMORY_FENCE" variants="GEN75"/>
+	<value value="0xa" name="MSG_DP_RC_MEDIA_BLOCK_WRITE" variants="GEN75"/>
 	<value value="0xc" name="MSG_DP_RC_RT_WRITE" variants="GEN75-"/>
+	<value value="0xd" name="MSG_DP_RC_RT_READ" variants="GEN8-"/>
 	<!-- else if SFID == DP_CC -->
 	<value value="0x0" name="MSG_DP_CC_OWORD_BLOCK_READ" variants="GEN75-"/>
 	<value value="0x1" name="MSG_DP_CC_UNALIGNED_OWORD_BLOCK_READ" variants="GEN75-"/>

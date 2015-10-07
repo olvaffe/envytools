@@ -289,7 +289,6 @@
 	<value value="0x1" name="2" variants="GEN8-"/>
 	<value value="0x2" name="4"/>
 	<value value="0x3" name="8" variants="GEN7-"/>
-	<value value="0x4" name="16" variants="GEN8-"/>
 </enum>
 
 <domain name="SURFACE_STATE" width="32" size="16" bare="yes" prefix="gen">
@@ -360,7 +359,7 @@
 			<bitfield high="13" low="12" type="gen_surface_tiling" name="TILING" variants="GEN8-"/>
 			<bitfield pos="11" name="VSTRIDE" variants="GEN8-"/>
 			<bitfield pos="10" name="VSTRIDE_OFFSET" variants="GEN8-"/>
-			<bitfield pos="9" name="SAMPLER_L2_BYPASS_MODE" variants="GEN8-"/>
+			<bitfield pos="9" name="SAMPLER_L2_BYPASS_DISABLE" variants="GEN8-"/>
 
 			<bitfield pos="8" name="RENDER_CACHE_RW"/>
 			<bitfield high="7" low="6" type="uint" name="MEDIA_BOUNDARY_PIXEL_MODE"/>
@@ -371,7 +370,7 @@
 		<reg32 name="SURFACE_DW1" offset="1" variants="GEN8-">
 			<bitfield high="30" low="24" type="gen_render_mocs" name="MOCS"/>
 			<bitfield high="23" low="19" type="uint" name="BASE_LOD"/>
-			<bitfield high="14" low="0" type="uint" name="QPITCH"/>
+			<bitfield high="14" low="0" shr="2" type="uint" name="QPITCH"/>
 		</reg32>
 
 		<reg32 name="SURFACE_DW2" offset="2">
@@ -395,7 +394,7 @@
 			<bitfield high="5" low="3" type="gen_surface_multisample_count" name="MULTISAMPLECOUNT"/>
 			<bitfield high="2" low="0" type="uint" name="MSPOS_INDEX"/>
 			<!-- else -->
-			<bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT_STRBUF"/>
+			<bitfield high="26" low="0" type="uint" name="MIN_ARRAY_ELEMENT_STRBUF" variants="GEN7-GEN75"/>
 		</reg32>
 		<reg32 name="SURFACE_DW5" offset="5">
 			<bitfield high="31" low="25" type="uint" shr="2" name="X_OFFSET"/>
@@ -404,8 +403,11 @@
 			<bitfield high="19" low="16" type="gen_render_mocs" name="MOCS" variants="GEN7-GEN75"/>
 
 			<bitfield high="23" low="21" type="uint" shr="1" name="Y_OFFSET" variants="GEN8-"/>
-			<bitfield pos="20" name="CUBE_EWA" variants="GEN8-"/>
-			<bitfield pos="14" name="COHERENCY_TYPE" variants="GEN8-"/>
+			<bitfield pos="20" name="CUBE_EWA_DISABLE" variants="GEN8-"/>
+			<bitfield pos="14" name="COHERENCY_TYPE" variants="GEN8-">
+				<value value="0x0" name="GPU"/>
+				<value value="0x1" name="IA"/>
+			</bitfield>
 
 			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
@@ -415,14 +417,14 @@
 			<bitfield pos="31" name="SEPARATE_UV_ENABLE" variants="GEN8-"/>
 			<bitfield high="29" low="16" type="uint" name="UV_X_OFFSET"/>
 			<bitfield high="13" low="0" type="uint" name="UV_Y_OFFSET"/>
-			<!-- else if AUX_MODE == MCS -->
+			<!-- else if AUX == APPEND -->
+			<bitfield high="31" low="6" shr="6" name="APPEND_COUNTER_ADDR" variants="GEN7-GEN75"/>
+			<!-- else if AUX != NONE -->
 			<bitfield high="31" low="12" shr="12" name="MCS_ADDR" variants="GEN7-GEN75"/>
-			<bitfield high="30" low="16" type="uint" name="AUX_QPITCH" variants="GEN8-"/>
+			<bitfield high="30" low="16" shr="2" type="uint" name="AUX_QPITCH" variants="GEN8-"/>
 			<bitfield high="11" low="3" type="uint" name="AUX_PITCH"/>
-			<!-- else if AUX_MODE == APPEND -->
-			<bitfield high="31" low="6" shr="6" name="APPEND_COUNTER_ADDR"/>
 
-			<bitfield high="2" low="0" name="AUX_MODE">
+			<bitfield high="2" low="0" name="AUX">
 				<value value="0x0" name="NONE"/>
 				<value value="0x1" name="MCS"/>
 				<value value="0x2" name="APPEND"/>
@@ -446,12 +448,18 @@
 		<reg32 name="SURFACE_DW8_ADDR" offset="8" variants="GEN8-"/>
 		<reg32 name="SURFACE_DW8_ADDR_HI" offset="9" variants="GEN8-"/>
 		<reg32 name="SURFACE_DW10_AUX_ADDR" offset="10" variants="GEN8-"/>
-		<reg32 name="SURFACE_DW11_AUX_ADDR_HI" offset="11" variants="GEN8-"/>
-		<reg32 name="SURFACE_DW12" offset="12" variants="GEN8-"/>
+		<reg32 name="SURFACE_DW11" offset="11" variants="GEN8-">
+			<!-- if FORMAT == PLANAR and SEPARATE_UV_ENABLE -->
+			<bitfield high="29" low="16" type="uint" name="V_X_OFFSET"/>
+			<bitfield high="13" low="0" type="uint" name="V_Y_OFFSET"/>
+			<!-- else -->
+			<bitfield high="31" low="0" name="AUX_ADDR_HI"/>
+		</reg32>
 
-		<reg32 name="SURFACE_DW13" offset="13" variants="GEN9-"/>
-		<reg32 name="SURFACE_DW14" offset="14" variants="GEN9-"/>
-		<reg32 name="SURFACE_DW15" offset="15" variants="GEN9-"/>
+		<reg32 name="SURFACE_DW12" offset="12" variants="GEN8-"/> <!-- MBZ -->
+		<reg32 name="SURFACE_DW13" offset="13" variants="GEN8-"/> <!-- MBZ -->
+		<reg32 name="SURFACE_DW14" offset="14" variants="GEN8-"/> <!-- MBZ -->
+		<reg32 name="SURFACE_DW15" offset="15" variants="GEN8-"/> <!-- MBZ -->
 	</stripe>
 </domain>
 

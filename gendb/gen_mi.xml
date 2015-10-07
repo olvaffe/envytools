@@ -20,6 +20,8 @@
 		<value value="0x0c" name="MI_PREDICATE" variants="GEN7-"/>
 		<value value="0x19" name="MI_URB_CLEAR" variants="GEN7-"/>
 		<value value="0x1a" name="MI_MATH" variants="GEN75-"/>
+		<value value="0x1b" name="MI_SEMAPHORE_SIGNAL" variants="GEN8-"/>
+		<value value="0x1c" name="MI_SEMAPHORE_WAIT" variants="GEN8-"/>
 		<value value="0x20" name="MI_STORE_DATA_IMM"/>
 		<value value="0x22" name="MI_LOAD_REGISTER_IMM"/>
 		<value value="0x24" name="MI_STORE_REGISTER_MEM"/>
@@ -30,6 +32,8 @@
 		<value value="0x2b" name="MI_RS_STORE_DATA_IMM" variants="GEN75-"/>
 		<value value="0x2c" name="MI_LOAD_URB_MEM" variants="GEN75-"/>
 		<value value="0x2d" name="MI_STORE_URB_MEM" variants="GEN75-"/>
+		<value value="0x2e" name="MI_COPY_MEM_MEM" variants="GEN8-"/>
+		<value value="0x2f" name="MI_ATOMIC" variants="GEN8-"/>
 		<value value="0x31" name="MI_BATCH_BUFFER_START"/>
 	</bitfield>
 
@@ -171,6 +175,46 @@
 	</reg32>
 </domain>
 
+<domain name="MI_SEMAPHORE_SIGNAL" width="32" size="2" prefix="gen" variants="GEN8-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="USE_GGTT"/>
+		<bitfield pos="21" name="POST_SYNC_OP"/>
+		<bitfield pos="15" name="WAIT_MODE">
+			<value value="0x0" name="SIGNAL"/>
+			<value value="0x1" name="POLL"/>
+		</bitfield>
+		<bitfield high="17" low="15" name="ENGINE">
+			<value value="0x0" name="RCS"/>
+			<value value="0x1" name="VCS0"/>
+			<value value="0x2" name="BCS"/>
+			<value value="0x3" name="VECS"/>
+			<value value="0x4" name="VCS1"/>
+		</bitfield>
+	</reg32>
+	<reg32 name="DW1_TARGET_CONTEXT_ID" offset="1"/>
+</domain>
+
+<domain name="MI_SEMAPHORE_WAIT" width="32" size="4" prefix="gen" variants="GEN8-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="USE_GGTT"/>
+		<bitfield pos="15" name="WAIT_MODE">
+			<value value="0x0" name="SIGNAL"/>
+			<value value="0x1" name="POLL"/>
+		</bitfield>
+		<bitfield high="14" low="12" name="OP">
+			<value value="0x0" name="SAD_GREATER_THAN_SDD"/>
+			<value value="0x1" name="SAD_GREATER_THAN_OR_EQUAL_SDD"/>
+			<value value="0x2" name="SAD_LESS_THAN_SDD"/>
+			<value value="0x3" name="SAD_LESS_THAN_OR_EQUAL_SDD"/>
+			<value value="0x4" name="SAD_EQUAL_SDD"/>
+			<value value="0x5" name="SAD_NO_EQUAL_SDD"/>
+		</bitfield>
+	</reg32>
+	<reg32 name="DW1_SDD" offset="1"/>
+	<reg32 name="DW2_ADDR" type="gen_mi_4b_aligned_addr" offset="2"/>
+	<reg32 name="DW3_ADDR_HI" offset="3"/>
+</domain>
+
 <domain name="MI_STORE_DATA_IMM" width="32" size="6" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="USE_GGTT"/>
@@ -233,7 +277,7 @@
 <domain name="MI_LOAD_REGISTER_MEM" width="32" size="4" prefix="gen" variants="GEN7-">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="USE_GGTT"/>
-		<bitfield pos="21" name="ASYNC_MODE_ENABLE" variants="GEN7-"/>
+		<bitfield pos="21" name="ASYNC_MODE_ENABLE"/>
 	</reg32>
 	<reg32 name="DW1" type="gen_mi_reg_addr" offset="1"/>
 	<reg32 name="DW2" type="gen_mi_4b_aligned_addr" offset="2"/>
@@ -272,6 +316,36 @@
 	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 </domain>
 
+<domain name="MI_COPY_MEM_MEM" width="32" size="5" prefix="gen" variants="GEN8-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="USE_GGTT_SRC"/>
+		<bitfield pos="21" name="USE_GGTT_DST"/>
+	</reg32>
+	<reg32 name="DW1_DST" type="gen_mi_4b_aligned_addr" offset="1"/>
+	<reg32 name="DW2_DST_HI" offset="2"/>
+	<reg32 name="DW3_SRC" type="gen_mi_4b_aligned_addr" offset="3"/>
+	<reg32 name="DW4_SRC_HI" offset="4"/>
+</domain>
+
+<domain name="MI_ATOMIC" width="32" size="11" prefix="gen" variants="GEN8-">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield pos="22" name="USE_GGTT"/>
+		<bitfield pos="21" name="POST_SYNC_OP"/>
+		<bitfield high="20" low="19" name="SIZE">
+			<value value="0x0" name="DWORD"/>
+			<value value="0x1" name="QWORD"/>
+			<value value="0x2" name="OWORD"/>
+		</bitfield>
+		<bitfield pos="18" name="INLINE_DATA"/>
+		<bitfield pos="17" name="CS_STALL"/>
+		<bitfield pos="16" name="RETURN_DATA_CONTROL"/>
+		<bitfield high="15" low="8" name="OP"/>
+	</reg32>
+	<reg32 name="DW1" type="gen_mi_4b_aligned_addr" offset="1"/>
+	<reg32 name="DW2_ADDR_HI" offset="2"/>
+	<reg32 name="DW_INLINE" offset="3" length="8"/>
+</domain>
+
 <domain name="MI_BATCH_BUFFER_START" width="32" size="3" prefix="gen">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
 		<bitfield pos="22" name="SECOND_LEVEL" variants="GEN75-"/>
@@ -279,8 +353,9 @@
 		<!-- only available to render ring -->
 		<bitfield pos="16" name="ADD_OFFSET_ENABLE" variants="GEN75-"/>
 		<bitfield pos="15" name="PREDICATION_ENABLE" variants="GEN75-"/>
-		<bitfield pos="13" name="NON_PRIVILEGED" variants="GEN75-"/>
-		<bitfield pos="11" name="CLEAR_COMMAND_BUFFER"/>
+		<bitfield pos="13" name="NON_PRIVILEGED" variants="GEN75"/>
+		<bitfield pos="11" name="CLEAR_COMMAND_BUFFER" variants="GEN6-GEN7"/>
+		<bitfield pos="10" name="RS_ENABLE" variants="GEN75-"/>
 
 		<bitfield pos="8" name="USE_PPGTT"/>
 	</reg32>

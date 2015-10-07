@@ -74,12 +74,13 @@
 		</reg32>
 		<reg32 name="IDRT_DW5_CURBE" offset="5">
 			<bitfield high="31" low="16" type="uint" name="READ_LEN"/>
+			<bitfield high="15" low="0" type="uint" name="READ_OFFSET"/>
 		</reg32>
 		<reg32 name="IDRT_DW6" offset="6">
 			<bitfield high="23" low="22" type="gen_idrt_rounding_mode" name="ROUNDING_MODE"/>
 			<bitfield pos="21" name="BARRIER_ENABLE"/>
 			<bitfield high="20" low="16" type="uint" name="SLM_SIZE"/>
-			<bitfield high="7" low="0" name="THREAD_GROUP_SIZE" type="uint"/>
+			<bitfield high="9" low="0" name="THREAD_GROUP_SIZE" type="uint"/>
 		</reg32>
 		<reg32 name="IDRT_DW7" offset="7">
 			<bitfield high="7" low="0" name="CROSS_THREAD_CURBE_READ_LEN" type="uint" variants="GEN75-"/>
@@ -167,7 +168,7 @@
 <domain name="MEDIA_CURBE_LOAD" width="32" size="4" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="CURBE_LOAD_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="CURBE_LOAD_DW1" offset="1"/>
+		<reg32 name="CURBE_LOAD_DW1" offset="1"/> <!-- MBZ -->
 		<reg32 name="CURBE_LOAD_DW2" offset="2">
 			<bitfield high="16" low="0" type="uint" name="LEN"/>
 		</reg32>
@@ -178,7 +179,7 @@
 <domain name="MEDIA_INTERFACE_DESCRIPTOR_LOAD" width="32" size="4" bare="yes" prefix="gen">
 	<stripe>
 		<reg32 name="IDRT_LOAD_DW0" offset="0" type="gen_render_header"/>
-		<reg32 name="IDRT_LOAD_DW1" offset="1"/>
+		<reg32 name="IDRT_LOAD_DW1" offset="1"/> <!-- MBZ -->
 		<reg32 name="IDRT_LOAD_DW2" offset="2">
 			<bitfield high="16" low="0" type="uint" name="LEN"/>
 		</reg32>
@@ -194,7 +195,7 @@
 			<bitfield high="15" low="0" name="BARRIER_MASK"/>
 		</reg32>
 		<reg32 name="MEDIA_FLUSH_DW1" offset="1" variants="GEN7-">
-			<bitfield pos="8" name="DISABLE_PREEMPTION"/>
+			<bitfield pos="8" name="DISABLE_PREEMPTION" variants="GEN7-GEN75"/>
 			<bitfield pos="7" name="FLUSH_TO_GO" variants="GEN75-"/>
 			<bitfield pos="6" name="WATERMARK_REQUIRED"/>
 			<bitfield high="5" low="0" name="IDRT_OFFSET"/>
@@ -238,7 +239,9 @@
 		<reg32 name="GPGPU_DW1" offset="1">
 			<bitfield high="5" low="0" name="IDRT_OFFSET"/>
 		</reg32>
-		<reg32 name="GPGPU_DW2_INDIRECT_LEN" offset="2"/>
+		<reg32 name="GPGPU_DW2" offset="2">
+			<bitfield high="16" low="0" type="uint" name="INDIRECT_LEN"/>
+		</reg32>
 		<reg32 name="GPGPU_DW3_INDIRECT" type="gen_32b_aligned_addr" offset="3"/>
 		<reg32 name="GPGPU_DW4" offset="4">
 			<bitfield high="31" low="30" name="SIMD_SIZE">
@@ -250,11 +253,11 @@
 			<bitfield high="13" low="8" type="uint" name="THREAD_MAX_Y"/>
 			<bitfield high="5" low="0" type="uint" name="THREAD_MAX_X"/>
 		</reg32>
-		<reg32 name="GPGPU_DW5" offset="5"/>
-		<reg32 name="GPGPU_DW6_THREAD_GROUP_STARTING_X" offset="6"/>
+		<reg32 name="GPGPU_DW5_THREAD_GROUP_STARTING_X" offset="5"/>
+		<reg32 name="GPGPU_DW6" offset="6"/>
 		<reg32 name="GPGPU_DW7_THREAD_GROUP_DIM_X" offset="7"/>
-		<reg32 name="GPGPU_DW8" offset="8"/>
-		<reg32 name="GPGPU_DW9_THREAD_GROUP_STARTING_Y" offset="9"/>
+		<reg32 name="GPGPU_DW8_THREAD_GROUP_STARTING_Y" offset="8"/>
+		<reg32 name="GPGPU_DW9" offset="9"/>
 		<reg32 name="GPGPU_DW10_THREAD_GROUP_DIM_Y" offset="10"/>
 		<reg32 name="GPGPU_DW11_THREAD_GROUP_STARTING_Z" offset="11"/>
 		<reg32 name="GPGPU_DW12_THREAD_GROUP_DIM_Z" offset="12"/>

@@ -312,10 +312,10 @@
 				<reg32 name="DW15" offset="15"/>
 			</stripe>
 			<stripe variants="GEN8-">
-				<reg32 name="DW12_SCR_MIN_X" offset="12"/>
-				<reg32 name="DW13_SCR_MAX_X" offset="13"/>
-				<reg32 name="DW14_SCR_MIN_Y" offset="14"/>
-				<reg32 name="DW15_SCR_MAX_X" offset="15"/>
+				<reg32 name="DW12_VP_MIN_X" type="float" offset="12"/>
+				<reg32 name="DW13_VP_MAX_X" type="float" offset="13"/>
+				<reg32 name="DW14_VP_MIN_Y" type="float" offset="14"/>
+				<reg32 name="DW15_VP_MAX_X" type="float" offset="15"/>
 			</stripe>
 		</array>
 	</stripe>
@@ -412,7 +412,10 @@
 
 			<bitfield pos="28" name="LOD_PRECLAMP_ENABLE" variants="GEN6-GEN75"/>
 			<bitfield pos="27" name="MIN_MAG_NOT_EQUAL" variants="GEN6"/>
-			<bitfield high="28" low="27" name="LOD_PRECLAMP_ENABLE" variants="GEN8-"/>
+			<bitfield high="28" low="27" name="LOD_PRECLAMP_MODE" variants="GEN8-">
+				<value value="0x0" name="NONE"/>
+				<value value="0x2" name="OGL"/>
+			</bitfield>
 
 			<bitfield high="26" low="22" type="fixed" radix="1" name="BASE_LOD"/>
 			<bitfield high="21" low="20" type="gen_mip_filter" name="MIP_FILTER"/>
@@ -444,7 +447,7 @@
 			<bitfield high="19" low="8" type="ufixed" radix="8" name="MAX_LOD"/>
 
 			<bitfield pos="7" name="CHROMAKEY_ENABLE" variants="GEN8-"/>
-			<bitfield high="6" low="5" name="CHROMAKEY_INDEX" variants="GEN8-"/>
+			<bitfield high="6" low="5" name="CHROMAKEY_INDEX" type="uint" variants="GEN8-"/>
 			<bitfield high="4" low="4" type="gen_key_filter" name="CHROMAKEY_MODE" variants="GEN8-"/>
 
 			<bitfield high="3" low="1" type="gen_prefilter_op" name="SHADOW_FUNC"/>
@@ -456,21 +459,13 @@
 
 		<reg32 name="SAMPLER_DW2_BORDER_COLOR" offset="2" type="gen_32b_aligned_addr" variants="GEN6-GEN75"/>
 		<reg32 name="SAMPLER_DW2" offset="2" variants="GEN8-">
-			<bitfield high="31" low="30" name="SEP_FILTER_COEFF_TABLE_SIZE"/>
-			<bitfield high="29" low="28" name="SEP_FILTER_WIDTH"/>
-			<bitfield high="27" low="26" name="SEP_FILTER_HEIGHT"/>
 			<bitfield high="23" low="6" shr="6" name="INDIRECT_STATE_ADDR"/>
-			<bitfield pos="4" name="FLEXIBLE_FILTER_MODE"/>
-			<bitfield pos="3" name="FLEXIBLE_FILTER_COEFF_SIZE"/>
-			<bitfield pos="2" name="FLEXIBLE_FILTER_HALIGN"/>
-			<bitfield pos="1" name="FLEXIBLE_FILTER_VALIGN"/>
 			<bitfield pos="0" name="LOD_CLAMP_MAG_MODE"/>
 		</reg32>
 
 		<reg32 name="SAMPLER_DW3" offset="3">
-			<bitfield high="31" low="24" name="NON_SEP_FILTER_FOOTPRINT_MASK" variants="GEN8-"/>
 			<bitfield pos="25" name="CHROMAKEY_ENABLE" variants="GEN6-GEN75"/>
-			<bitfield high="24" low="23" name="CHROMAKEY_INDEX" variants="GEN6-GEN75"/>
+			<bitfield high="24" low="23" name="CHROMAKEY_INDEX" type="uint" variants="GEN6-GEN75"/>
 			<bitfield high="22" low="22" type="gen_key_filter" name="CHROMAKEY_MODE" variants="GEN6-GEN75"/>
 
 			<bitfield high="21" low="19" type="gen_aniso_ratio" name="MAX_ANISO"/>
