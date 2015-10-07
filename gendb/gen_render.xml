@@ -170,6 +170,11 @@
 	<bitfield pos="0" name="SBA_ADDR_MODIFIED"/>
 </bitset>
 
+<bitset name="gen_state_buffer_size" bare="yes" prefix="gen" variants="GEN8-">
+	<bitfield high="31" low="12" shr="12" name="SBA_SIZE"/>
+	<bitfield pos="0" name="SBA_SIZE_MODIFIED"/>
+</bitset>
+
 <bitset name="gen_binding_table_addr" bare="yes" prefix="gen">
 	<bitfield high="15" low="5" shr="5" name="BINDING_TABLE_ADDR"/>
 </bitset>
@@ -230,10 +235,12 @@
 		<reg32 name="SBA_DW9_INDIRECT_HI" offset="9"/>
 		<reg32 name="SBA_DW10_INSTRUCTION" offset="10" type="gen_state_base_addr"/>
 		<reg32 name="SBA_DW11_INSTRUCTION_HI" offset="11"/>
-		<reg32 name="SBA_DW12_GENERAL_SIZE" offset="12"/>
-		<reg32 name="SBA_DW13_DYNAMIC_SIZE" offset="13"/>
-		<reg32 name="SBA_DW14_INDIRECT_SIZE" offset="14"/>
-		<reg32 name="SBA_DW15_INSTRUCTION_SIZE" offset="15"/>
+
+		<reg32 name="SBA_DW12_GENERAL_SIZE" offset="12" type="gen_state_buffer_size"/>
+		<reg32 name="SBA_DW13_DYNAMIC_SIZE" offset="13" type="gen_state_buffer_size"/>
+		<reg32 name="SBA_DW14_INDIRECT_SIZE" offset="14" type="gen_state_buffer_size"/>
+		<reg32 name="SBA_DW15_INSTRUCTION_SIZE" offset="15" type="gen_state_buffer_size"/>
+
 		<reg32 name="SBA_DW16" offset="16" variants="GEN9-"/>
 		<reg32 name="SBA_DW17" offset="17" variants="GEN9-"/>
 		<reg32 name="SBA_DW18" offset="18" variants="GEN9-"/>
