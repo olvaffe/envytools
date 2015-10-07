@@ -88,6 +88,10 @@
 	<bitfield high="31" low="2" shr="2" name="ADDR"/>
 </bitset>
 
+<bitset name="gen_mi_8b_aligned_addr" inline="yes" varset="gen">
+	<bitfield high="31" low="3" shr="3" name="ADDR"/>
+</bitset>
+
 <bitset name="gen_mi_64b_aligned_addr" inline="yes" varset="gen">
 	<bitfield high="31" low="6" shr="6" name="ADDR"/>
 </bitset>
@@ -196,12 +200,23 @@
 	<reg32 name="DW3_ADDR_HI" offset="3" variants="GEN8-"/>
 </domain>
 
-<domain name="MI_FLUSH_DW" width="32" size="4" prefix="gen">
-	<reg32 name="DW0" offset="0" type="gen_mi_header"/>
-	<!-- DW1-DW3 are unused -->
-	<reg32 name="DW1" offset="1"/>
-	<reg32 name="DW2" offset="2"/>
-	<reg32 name="DW3" offset="3"/>
+<domain name="MI_FLUSH_DW" width="32" size="5" prefix="gen">
+	<reg32 name="DW0" offset="0" type="gen_mi_header">
+		<bitfield high="15" low="14" name="WRITE">
+			<value value="0x0" name="NONE"/>
+			<value value="0x1" name="IMM"/>
+			<value value="0x3" name="TIMESTAMP"/>
+		</bitfield>
+	</reg32>
+
+	<reg32 name="DW1_ADDR" type="gen_mi_8b_aligned_addr" offset="1">
+		<bitfield pos="2" name="USE_GGTT"/>
+	</reg32>
+
+	<reg32 name="DW_IMM" offset="2" length="2" variants="GEN6-GEN75"/>
+
+	<reg32 name="DW2_ADDR_HI" offset="2" variants="GEN8-"/>
+	<reg32 name="DW_IMM" offset="3" length="2" variants="GEN8-"/>
 </domain>
 
 <domain name="MI_REPORT_PERF_COUNT" width="32" size="3" prefix="gen">
