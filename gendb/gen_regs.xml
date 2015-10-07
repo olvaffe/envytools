@@ -14,6 +14,15 @@
 <domain name="REG" size="0x400000" prefix="gen">
 	<reg32 name="NOPID" offset="0x2094"/>
 
+	<stripe variants="GEN6">
+		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x2280"/>
+		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x2288"/>
+	</stripe>
+
+	<stripe variants="GEN7-">
+		<reg64 name="TS_GPGPU_THREADS_DISPATCHED" offset="0x2290"/>
+	</stripe>
+
 	<reg64 name="HS_INVOCATION_COUNT" offset="0x2300" variants="GEN7-"/>
 	<reg64 name="DS_INVOCATION_COUNT" offset="0x2308" variants="GEN7-"/>
 	<reg64 name="IA_VERTICES_COUNT" offset="0x2310"/>
@@ -48,12 +57,12 @@
 		<reg32 name="3DPRIM_BASE_VERTEX" offset="0x2440"/>
 
 		<reg64 name="CS_GPR" offset="0x2600" length="16" variants="GEN75-"/>
+
+		<reg32 name="GPGPU_DISPATCHDIMX" offset="0x2500"/>
+		<reg32 name="GPGPU_DISPATCHDIMY" offset="0x2504"/>
+		<reg32 name="GPGPU_DISPATCHDIMZ" offset="0x2508"/>
 	</stripe>
 
-	<stripe variants="GEN6">
-		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x2280"/>
-		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x2288"/>
-	</stripe>
 	<stripe variants="GEN7-">
 		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x5200" length="4"/>
 		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x5240" length="4"/>
@@ -61,12 +70,12 @@
 	</stripe>
 
 	<stripe variants="GEN7-">
-		<reg32 name="CACHE_MODE_0" offset="0x7000">
+		<reg32 name="CACHE_MODE_0" offset="0x7000" type="gen_reg_with_writemask">
 			<bitfield pos="2" name="HIZ_RAW_STALL_OPT_DISABLE"/>
 		</reg32>
-		<reg32 name="CACHE_MODE_1" offset="0x7004">
-			<bitfield pos="13" name="HIZ_NP_EARLY_Z_FAILS_DISABLE" variants="GEN8-"/>
-			<bitfield pos="11" name="HIZ_NP_PMA_FIX_ENABLE" variants="GEN8-"/>
+		<reg32 name="CACHE_MODE_1" offset="0x7004" type="gen_reg_with_writemask">
+			<bitfield pos="13" name="NP_EARLY_Z_FAILS_DISABLE" variants="GEN8-"/>
+			<bitfield pos="11" name="NP_PMA_FIX_ENABLE" variants="GEN8-"/>
 		</reg32>
 	</stripe>
 
