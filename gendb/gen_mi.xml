@@ -177,12 +177,7 @@
 
 <domain name="MI_SEMAPHORE_SIGNAL" width="32" size="2" prefix="gen" variants="GEN8-">
 	<reg32 name="DW0" offset="0" type="gen_mi_header">
-		<bitfield pos="22" name="USE_GGTT"/>
 		<bitfield pos="21" name="POST_SYNC_OP"/>
-		<bitfield pos="15" name="WAIT_MODE">
-			<value value="0x0" name="SIGNAL"/>
-			<value value="0x1" name="POLL"/>
-		</bitfield>
 		<bitfield high="17" low="15" name="ENGINE">
 			<value value="0x0" name="RCS"/>
 			<value value="0x1" name="VCS0"/>
@@ -255,7 +250,7 @@
 		</bitfield>
 	</reg32>
 
-	<reg32 name="DW1_ADDR" type="gen_mi_8b_aligned_addr" offset="1">
+	<reg32 name="DW1" type="gen_mi_8b_aligned_addr" offset="1">
 		<bitfield pos="2" name="USE_GGTT"/>
 	</reg32>
 
