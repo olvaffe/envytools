@@ -94,8 +94,8 @@
 		<value value="0x043" name="3DSTATE_BINDING_TABLE_EDIT_VS" variants="GEN75-"/>
 		<value value="0x044" name="3DSTATE_BINDING_TABLE_EDIT_GS" variants="GEN75-"/>
 		<value value="0x045" name="3DSTATE_BINDING_TABLE_EDIT_HS" variants="GEN75-"/>
-		<value value="0x045" name="3DSTATE_BINDING_TABLE_EDIT_DS" variants="GEN75-"/>
-		<value value="0x046" name="3DSTATE_BINDING_TABLE_EDIT_PS" variants="GEN75-"/>
+		<value value="0x046" name="3DSTATE_BINDING_TABLE_EDIT_DS" variants="GEN75-"/>
+		<value value="0x047" name="3DSTATE_BINDING_TABLE_EDIT_PS" variants="GEN75-"/>
 		<value value="0x049" name="3DSTATE_VF_INSTANCING" variants="GEN8-"/>
 		<value value="0x04a" name="3DSTATE_VF_SGVS" variants="GEN8-"/>
 		<value value="0x04b" name="3DSTATE_VF_TOPOLOGY" variants="GEN8-"/>
