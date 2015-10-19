@@ -71,12 +71,12 @@ static inline bool
 gen_is_snb(int devid)
 {
    return (devid == 0x0102 || /* GT1 desktop */
-           devid == 0x0112 || /* GT2 desktop */
-           devid == 0x0122 || /* GT2_PLUS desktop */
            devid == 0x0106 || /* GT1 mobile */
-           devid == 0x0116 || /* GT2 mobile */
-           devid == 0x0126 || /* GT2_PLUS mobile */
-           devid == 0x010a);  /* GT1 server */
+           devid == 0x010a || /* GT1 server */
+           devid == 0x0112 || /* GT2 */
+           devid == 0x0116 ||
+           devid == 0x0122 || /* GT2_PLUS */
+           devid == 0x0126);
 }
 
 static inline int
@@ -90,11 +90,11 @@ static inline bool
 gen_is_ivb(int devid)
 {
    return (devid == 0x0152 || /* GT1 desktop */
-           devid == 0x0162 || /* GT2 desktop */
            devid == 0x0156 || /* GT1 mobile */
-           devid == 0x0166 || /* GT2 mobile */
            devid == 0x015a || /* GT1 server */
-           devid == 0x016a);  /* GT2 server */
+           devid == 0x0162 || /* GT2 */
+           devid == 0x0166 ||
+           devid == 0x016a);
 }
 
 static inline int
@@ -108,64 +108,64 @@ static inline bool
 gen_is_hsw(int devid)
 {
    return (devid == 0x0402 || /* GT1 desktop */
-           devid == 0x0412 || /* GT2 desktop */
-           devid == 0x0422 || /* GT3 desktop */
            devid == 0x0406 || /* GT1 mobile */
-           devid == 0x0416 || /* GT2 mobile */
-           devid == 0x0426 || /* GT2 mobile */
            devid == 0x040a || /* GT1 server */
-           devid == 0x041a || /* GT2 server */
-           devid == 0x042a || /* GT3 server */
            devid == 0x040b || /* GT1 reserved */
-           devid == 0x041b || /* GT2 reserved */
-           devid == 0x042b || /* GT3 reserved */
            devid == 0x040e || /* GT1 reserved */
-           devid == 0x041e || /* GT2 reserved */
-           devid == 0x042e || /* GT3 reserved */
-           devid == 0x0c02 || /* SDV */
-           devid == 0x0c12 ||
-           devid == 0x0c22 ||
-           devid == 0x0c06 ||
-           devid == 0x0c16 ||
-           devid == 0x0c26 ||
-           devid == 0x0c0a ||
-           devid == 0x0c1a ||
-           devid == 0x0c2a ||
-           devid == 0x0c0b ||
-           devid == 0x0c1b ||
-           devid == 0x0c2b ||
-           devid == 0x0c0e ||
-           devid == 0x0c1e ||
-           devid == 0x0c2e ||
+           devid == 0x0412 || /* GT2 */
+           devid == 0x0416 ||
+           devid == 0x041a ||
+           devid == 0x041b ||
+           devid == 0x041e ||
+           devid == 0x0422 || /* GT3 */
+           devid == 0x0426 ||
+           devid == 0x042a ||
+           devid == 0x042b ||
+           devid == 0x042e ||
            devid == 0x0a02 || /* ULT */
-           devid == 0x0a12 ||
-           devid == 0x0a22 ||
            devid == 0x0a06 ||
-           devid == 0x0a16 ||
-           devid == 0x0a26 ||
            devid == 0x0a0a ||
-           devid == 0x0a1a ||
-           devid == 0x0a2a ||
            devid == 0x0a0b ||
-           devid == 0x0a1b ||
-           devid == 0x0a2b ||
            devid == 0x0a0e ||
+           devid == 0x0a12 ||
+           devid == 0x0a16 ||
+           devid == 0x0a1a ||
+           devid == 0x0a1b ||
            devid == 0x0a1e ||
+           devid == 0x0a22 ||
+           devid == 0x0a26 ||
+           devid == 0x0a2a ||
+           devid == 0x0a2b ||
            devid == 0x0a2e ||
+           devid == 0x0c02 || /* SDV */
+           devid == 0x0c06 ||
+           devid == 0x0c0a ||
+           devid == 0x0c0b ||
+           devid == 0x0c0e ||
+           devid == 0x0c12 ||
+           devid == 0x0c16 ||
+           devid == 0x0c1a ||
+           devid == 0x0c1b ||
+           devid == 0x0c1e ||
+           devid == 0x0c22 ||
+           devid == 0x0c26 ||
+           devid == 0x0c2a ||
+           devid == 0x0c2b ||
+           devid == 0x0c2e ||
            devid == 0x0d02 || /* CRW */
-           devid == 0x0d12 ||
-           devid == 0x0d22 ||
            devid == 0x0d06 ||
-           devid == 0x0d16 ||
-           devid == 0x0d26 ||
            devid == 0x0d0a ||
-           devid == 0x0d1a ||
-           devid == 0x0d2a ||
            devid == 0x0d0b ||
-           devid == 0x0d1b ||
-           devid == 0x0d2b ||
            devid == 0x0d0e ||
+           devid == 0x0d12 ||
+           devid == 0x0d16 ||
+           devid == 0x0d1a ||
+           devid == 0x0d1b ||
            devid == 0x0d1e ||
+           devid == 0x0d22 ||
+           devid == 0x0d26 ||
+           devid == 0x0d2a ||
+           devid == 0x0d2b ||
            devid == 0x0d2e);
 }
 
@@ -207,6 +207,33 @@ gen_get_bdw_gt(int devid)
 }
 
 static inline bool
+gen_is_skl(int devid)
+{
+   return (devid == 0x1902 || /* GT1 DT */
+           devid == 0x1906 || /* GT1 ULT */
+           devid == 0x190a || /* GT1 SRV */
+           devid == 0x190b || /* GT1 Halo */
+           devid == 0x190e || /* GT1 ULX */
+           devid == 0x1912 || /* GT2 */
+           devid == 0x1916 ||
+           devid == 0x191a ||
+           devid == 0x191b ||
+           devid == 0x191d || /* GT2 WKS */
+           devid == 0x191e ||
+           devid == 0x1921 || /* GT2F ULT */
+           devid == 0x1926 || /* GT3 */
+           devid == 0x192a ||
+           devid == 0x192b);
+}
+
+static inline int
+gen_get_skl_gt(int devid)
+{
+   assert(gen_is_skl(devid));
+   return ((devid & 0x30) >> 4) + 1;
+}
+
+static inline bool
 gen_is_vlv(int devid)
 {
    return (devid == 0x0f30 ||
@@ -227,10 +254,19 @@ gen_is_chv(int devid)
 }
 
 static inline bool
+gen_is_bxt(int devid)
+{
+   return (devid == 0x0a84 ||
+           devid == 0x1a84 ||
+           devid == 0x5a84);
+}
+
+static inline bool
 gen_is_atom(int devid)
 {
    return (gen_is_vlv(devid) ||
-           gen_is_chv(devid));
+           gen_is_chv(devid) ||
+           gen_is_bxt(devid));
 }
 
 static inline bool
