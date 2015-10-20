@@ -14,7 +14,13 @@
 <domain name="REG" size="0x400000" prefix="gen">
 	<reg32 name="NOPID" offset="0x2094"/>
 
+	<reg32 name="INSTPM" offset="0x20c0" type="gen_reg_with_writemask">
+		<bitfield pos="6" name="CONST_BUFFER_OFFSET_DISABLE"/>
+	</reg32>
+
 	<stripe variants="GEN6">
+		<reg32 name="GT_MODE" offset="0x20d0" type="gen_reg_with_writemask"/>
+
 		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x2280"/>
 		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x2288"/>
 	</stripe>
@@ -34,6 +40,7 @@
 	<reg64 name="CL_PRIMITIVES_COUNT" offset="0x2340"/>
 	<reg64 name="PS_INVOCATION_COUNT" offset="0x2348"/>
 	<reg64 name="PS_DEPTH_COUNT" offset="0x2350"/>
+
 	<reg64 name="TIMESTAMP" offset="0x2358"/>
 
 	<reg32 name="OACONTROL" offset="0x2360">
@@ -66,7 +73,8 @@
 	<stripe variants="GEN7-">
 		<reg64 name="SO_NUM_PRIMS_WRITTEN" offset="0x5200" length="4"/>
 		<reg64 name="SO_PRIM_STORAGE_NEEDED" offset="0x5240" length="4"/>
-		<reg64 name="SO_WRITE_OFFSET" offset="0x5280" length="4"/>
+
+		<reg32 name="SO_WRITE_OFFSET" offset="0x5280" length="4"/>
 	</stripe>
 
 	<stripe variants="GEN7-">
@@ -77,6 +85,8 @@
 			<bitfield pos="13" name="NP_EARLY_Z_FAILS_DISABLE" variants="GEN8-"/>
 			<bitfield pos="11" name="NP_PMA_FIX_ENABLE" variants="GEN8-"/>
 		</reg32>
+
+		<reg32 name="GT_MODE" offset="0x7008" type="gen_reg_with_writemask"/>
 	</stripe>
 
 	<stripe variants="GEN8-">
