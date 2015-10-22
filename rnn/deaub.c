@@ -122,7 +122,7 @@ static void decode_auto(struct context *ctx, const char *dom_name, int len)
 	ctx->cur += len;
 }
 
-static void decode_mi(struct context *ctx)
+static int decode_mi(struct context *ctx)
 {
 	static const struct {
 		int opcode;
@@ -145,6 +145,7 @@ static void decode_mi(struct context *ctx)
 	};
 	const uint32_t *dw = &ctx->dwords[ctx->cur];
 	int cmd, len;
+	int bb_end = 0;
 
 	for (cmd = 0; cmd < ARRAY_SIZE(mi_map); cmd++) {
 		if ((dw[0] & GEN6_MI_OPCODE__MASK) == mi_map[cmd].opcode)
@@ -153,18 +154,21 @@ static void decode_mi(struct context *ctx)
 	if (cmd >= ARRAY_SIZE(mi_map)) {
 		out(ctx, 0, "MI_ERR_UNKNOWN_COMMAND");
 		ctx_err(ctx);
-		return;
+		return 0;
 	}
 	if (ctx_len(ctx) < mi_map[cmd].min_len) {
 		out(ctx, 0, "%s end prematurely", mi_map[cmd].dom_name);
 		ctx_err(ctx);
-		return;
+		return 0;
 	}
 
 	switch ((ctx->dwords[ctx->cur] & GEN6_MI_OPCODE__MASK)) {
 	case GEN6_MI_OPCODE_MI_NOOP:
+		len = 1;
+		break;
 	case GEN6_MI_OPCODE_MI_BATCH_BUFFER_END:
 		len = 1;
+		bb_end = 1;
 		break;
 	default:
 		len = (dw[0] & GEN6_MI_LENGTH__MASK) + 2;
@@ -174,10 +178,12 @@ static void decode_mi(struct context *ctx)
 	if (len < mi_map[cmd].min_len || len > mi_map[cmd].max_len) {
 		out(ctx, 0, "%s wrong size", mi_map[cmd].dom_name);
 		ctx_err(ctx);
-		return;
+		return 0;
 	}
 
 	decode_auto(ctx, mi_map[cmd].dom_name, len);
+
+	return bb_end;
 }
 
 static void decode_blitter(struct context *ctx)
@@ -232,6 +238,7 @@ static void decode_render_3d(struct context *ctx)
 	} render_3d_map[] = {
 #define GEN6_ENTRY(subtype, op, min_len) { GEN6_RENDER_SUBTYPE_ ## subtype, GEN6_RENDER_OPCODE_ ## op, min_len, GEN6_ ## op ## __SIZE, #op }
 #define GEN7_ENTRY(subtype, op, min_len) { GEN6_RENDER_SUBTYPE_ ## subtype, GEN7_RENDER_OPCODE_ ## op, min_len, GEN7_ ## op ## __SIZE, #op }
+#define GEN8_ENTRY(subtype, op, min_len) { GEN6_RENDER_SUBTYPE_ ## subtype, GEN8_RENDER_OPCODE_ ## op, min_len, GEN8_ ## op ## __SIZE, #op }
 		GEN6_ENTRY(COMMON, STATE_BASE_ADDRESS, 10),
 		GEN6_ENTRY(COMMON, STATE_SIP, 2),
 		GEN6_ENTRY(SINGLE_DW, 3DSTATE_VF_STATISTICS, 1),
@@ -243,7 +250,6 @@ static void decode_render_3d(struct context *ctx)
 		GEN6_ENTRY(3D, 3DSTATE_BINDING_TABLE_POINTERS, 4),
 		GEN6_ENTRY(3D, 3DSTATE_SAMPLER_STATE_POINTERS, 4),
 		GEN6_ENTRY(3D, 3DSTATE_CLEAR_PARAMS, 2),
-		GEN6_ENTRY(3D, 3DSTATE_URB, 3),
 		GEN6_ENTRY(3D, 3DSTATE_DEPTH_BUFFER, 7),
 		GEN6_ENTRY(3D, 3DSTATE_STENCIL_BUFFER, 3),
 		GEN6_ENTRY(3D, 3DSTATE_HIER_DEPTH_BUFFER, 3),
@@ -251,14 +257,14 @@ static void decode_render_3d(struct context *ctx)
 		GEN6_ENTRY(3D, 3DSTATE_VERTEX_ELEMENTS, 3),
 		GEN6_ENTRY(3D, 3DSTATE_INDEX_BUFFER, 3),
 		{ GEN6_RENDER_SUBTYPE_3D, GEN75_RENDER_OPCODE_3DSTATE_VF, 2, GEN75_3DSTATE_VF__SIZE, "3DSTATE_VF" },
-		GEN6_ENTRY(3D, 3DSTATE_VIEWPORT_STATE_POINTERS, 4),
-		GEN6_ENTRY(3D, 3DSTATE_CC_STATE_POINTERS, 4),
-		GEN6_ENTRY(3D, 3DSTATE_SCISSOR_STATE_POINTERS, 2),
+		{ GEN6_RENDER_SUBTYPE_3D, GEN6_RENDER_OPCODE_3DSTATE_VIEWPORT_STATE_POINTERS, 2, GEN7_3DSTATE_POINTERS_ANY__SIZE, "3DSTATE_POINTERS_ANY" },
+		{ GEN6_RENDER_SUBTYPE_3D, GEN6_RENDER_OPCODE_3DSTATE_CC_STATE_POINTERS, 2, GEN7_3DSTATE_POINTERS_ANY__SIZE, "3DSTATE_POINTERS_ANY" },
+		{ GEN6_RENDER_SUBTYPE_3D, GEN6_RENDER_OPCODE_3DSTATE_SCISSOR_STATE_POINTERS, 2, GEN7_3DSTATE_POINTERS_ANY__SIZE, "3DSTATE_POINTERS_ANY" },
 		GEN6_ENTRY(3D, 3DSTATE_VS, 6),
 		GEN6_ENTRY(3D, 3DSTATE_GS, 7),
 		GEN6_ENTRY(3D, 3DSTATE_CLIP, 4),
-		GEN6_ENTRY(3D, 3DSTATE_SF, 7),
-		GEN6_ENTRY(3D, 3DSTATE_WM, 3),
+		GEN6_ENTRY(3D, 3DSTATE_SF, 4),
+		GEN6_ENTRY(3D, 3DSTATE_WM, 2),
 		{ GEN6_RENDER_SUBTYPE_3D, GEN6_RENDER_OPCODE_3DSTATE_CONSTANT_VS, 5, GEN6_3DSTATE_CONSTANT_ANY__SIZE, "3DSTATE_CONSTANT_ANY" },
 		{ GEN6_RENDER_SUBTYPE_3D, GEN6_RENDER_OPCODE_3DSTATE_CONSTANT_GS, 5, GEN6_3DSTATE_CONSTANT_ANY__SIZE, "3DSTATE_CONSTANT_ANY" },
 		{ GEN6_RENDER_SUBTYPE_3D, GEN6_RENDER_OPCODE_3DSTATE_CONSTANT_PS, 5, GEN6_3DSTATE_CONSTANT_ANY__SIZE, "3DSTATE_CONSTANT_ANY" },
@@ -290,7 +296,10 @@ static void decode_render_3d(struct context *ctx)
 		{ GEN6_RENDER_SUBTYPE_3D, GEN7_RENDER_OPCODE_3DSTATE_URB_DS, 2, GEN7_3DSTATE_URB_ANY__SIZE, "3DSTATE_URB_ANY" },
 		{ GEN6_RENDER_SUBTYPE_3D, GEN7_RENDER_OPCODE_3DSTATE_URB_GS, 2, GEN7_3DSTATE_URB_ANY__SIZE, "3DSTATE_URB_ANY" },
 		GEN6_ENTRY(3D, 3DSTATE_DRAWING_RECTANGLE, 4),
-		GEN6_ENTRY(3D, 3DSTATE_DEPTH_BUFFER, 7),
+		{ GEN6_RENDER_SUBTYPE_3D, GEN7_RENDER_OPCODE_3DSTATE_CLEAR_PARAMS, 3, GEN6_3DSTATE_CLEAR_PARAMS__SIZE, "3DSTATE_CLEAR_PARAMS" },
+		{ GEN6_RENDER_SUBTYPE_3D, GEN7_RENDER_OPCODE_3DSTATE_DEPTH_BUFFER, 6, GEN6_3DSTATE_DEPTH_BUFFER__SIZE, "3DSTATE_DEPTH_BUFFER" },
+		{ GEN6_RENDER_SUBTYPE_3D, GEN7_RENDER_OPCODE_3DSTATE_STENCIL_BUFFER, 3, GEN6_3DSTATE_STENCIL_BUFFER__SIZE, "3DSTATE_STENCIL_BUFFER" },
+		{ GEN6_RENDER_SUBTYPE_3D, GEN7_RENDER_OPCODE_3DSTATE_HIER_DEPTH_BUFFER, 3, GEN6_3DSTATE_HIER_DEPTH_BUFFER__SIZE, "3DSTATE_HIER_DEPTH_BUFFER" },
 		GEN6_ENTRY(3D, 3DSTATE_POLY_STIPPLE_OFFSET, 2),
 		GEN6_ENTRY(3D, 3DSTATE_POLY_STIPPLE_PATTERN, 33),
 		GEN6_ENTRY(3D, 3DSTATE_LINE_STIPPLE, 3),
@@ -306,8 +315,20 @@ static void decode_render_3d(struct context *ctx)
 		GEN7_ENTRY(3D, 3DSTATE_SO_BUFFER, 1),
 		GEN6_ENTRY(3D, PIPE_CONTROL, 1),
 		GEN6_ENTRY(3D, 3DPRIMITIVE, 1),
+		GEN8_ENTRY(3D, 3DSTATE_SAMPLE_PATTERN, 9),
+		GEN8_ENTRY(3D, 3DSTATE_RASTER, 5),
+		GEN8_ENTRY(3D, 3DSTATE_SBE_SWIZ, 11),
+		GEN8_ENTRY(3D, 3DSTATE_WM_DEPTH_STENCIL, 3),
+		GEN8_ENTRY(3D, 3DSTATE_WM_HZ_OP, 5),
+		GEN8_ENTRY(3D, 3DSTATE_WM_CHROMAKEY, 2),
+		GEN8_ENTRY(3D, 3DSTATE_PS_EXTRA, 2),
+		GEN8_ENTRY(3D, 3DSTATE_PS_BLEND, 2),
+		GEN8_ENTRY(3D, 3DSTATE_VF_TOPOLOGY, 2),
+		GEN8_ENTRY(3D, 3DSTATE_VF_INSTANCING, 2),
+		GEN8_ENTRY(3D, 3DSTATE_VF_SGVS, 2),
 #undef GEN6_ENTRY
 #undef GEN7_ENTRY
+#undef GEN8_ENTRY
 	};
 	const uint32_t *dw = &ctx->dwords[ctx->cur];
 	int cmd, len;
@@ -410,10 +431,12 @@ static void decode_render_state(struct context *ctx, int type, int subtype)
 
 static void decode_ring(struct context *ctx)
 {
-	while (ctx_len(ctx) && !ctx->err) {
+	int bb_end = 0;
+
+	while (ctx_len(ctx) && !ctx->err && !bb_end) {
 		switch ((ctx->dwords[ctx->cur] & GEN6_MI_TYPE__MASK)) {
 		case GEN6_MI_TYPE_MI:
-			decode_mi(ctx);
+			bb_end = decode_mi(ctx);
 			break;
 		case GEN6_BLITTER_TYPE_BLITTER:
 			decode_blitter(ctx);
@@ -593,7 +616,7 @@ static void ctx_init(struct context *ctx, int argc, char **argv)
 
 	memset(ctx, 0, sizeof(*ctx));
 
-	ctx->gen = GEN(6);
+	ctx->gen = GEN(8);
 	ctx->db_root = "root.xml";
 
 	i = 1;
