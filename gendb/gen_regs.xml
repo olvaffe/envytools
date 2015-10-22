@@ -84,6 +84,7 @@
 		<reg32 name="CACHE_MODE_1" offset="0x7004" type="gen_reg_with_writemask">
 			<bitfield pos="13" name="NP_EARLY_Z_FAILS_DISABLE" variants="GEN8-"/>
 			<bitfield pos="11" name="NP_PMA_FIX_ENABLE" variants="GEN8-"/>
+			<bitfield pos="1" name="PARTIAL_RESOLVE_DISABLE_IN_VC" variants="GEN9-"/>
 		</reg32>
 
 		<reg32 name="GT_MODE" offset="0x7008" type="gen_reg_with_writemask"/>

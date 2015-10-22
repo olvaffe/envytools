@@ -248,6 +248,12 @@
 	<value value="0x3" name="TILING_Y"/>
 </enum>
 
+<enum name="gen_surface_trmode" bare="yes" prefix="gen" variants="GEN9-">
+	<value value="0x0" name="TRMODE_NONE"/>
+	<value value="0x1" name="TRMODE_TILEYF"/>
+	<value value="0x2" name="TRMODE_TILEYS"/>
+</enum>
+
 <enum name="gen_surface_clear_color" bare="yes" prefix="gen" variants="GEN7-">
 	<value value="0x0" name="CLEAR_COLOR_ZERO"/>
 	<value value="0x1" name="CLEAR_COLOR_ONE"/>
@@ -404,10 +410,15 @@
 
 			<bitfield high="23" low="21" type="uint" shr="1" name="Y_OFFSET" variants="GEN8-"/>
 			<bitfield pos="20" name="CUBE_EWA_DISABLE" variants="GEN8-"/>
+
+			<bitfield high="19" low="18" type="gen_surface_trmode" name="TRMODE" variants="GEN9-"/>
+
 			<bitfield pos="14" name="COHERENCY_TYPE" variants="GEN8-">
 				<value value="0x0" name="GPU"/>
 				<value value="0x1" name="IA"/>
 			</bitfield>
+
+			<bitfield high="11" low="8" type="uint" name="MIP_TAIL_START_LOD" variants="GEN9-"/>
 
 			<bitfield high="7" low="4" type="uint" name="MIN_LOD"/>
 			<bitfield high="3" low="0" type="uint" name="MIP_COUNT_LOD"/>
@@ -436,6 +447,9 @@
 			<bitfield pos="30" type="gen_surface_clear_color" name="CC_G"/>
 			<bitfield pos="29" type="gen_surface_clear_color" name="CC_B"/>
 			<bitfield pos="28" type="gen_surface_clear_color" name="CC_A"/>
+
+			<bitfield pos="30" name="RT_COMPRESSION" variants="GEN9-"/>
+
 			<bitfield high="27" low="16" name="SCS" variants="GEN75-">
 				<bitfield high="11" low="9" type="gen_surface_scs" name="R" variants="GEN75-"/>
 				<bitfield high="8" low="6" type="gen_surface_scs" name="G" variants="GEN75-"/>

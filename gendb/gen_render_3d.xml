@@ -1516,7 +1516,10 @@
 			<bitfield pos="8" name="ATTR_ENABLE"/>
 			<bitfield pos="7" name="DISABLE_ALPHA_TO_COVERAGE"/>
 			<bitfield pos="6" name="PER_SAMPLE"/>
-			<bitfield pos="5" name="COMPUTE_STENCIL"/>
+
+			<bitfield pos="5" name="COMPUTE_STENCIL" variants="GEN9-"/>
+			<bitfield pos="3" name="PULL_BARY" variants="GEN9-"/>
+
 			<bitfield pos="2" name="ACCESS_UAV"/>
 			<bitfield pos="1" name="USE_COVERAGE_MASK"/>
 		</reg32>
