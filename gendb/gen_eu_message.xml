@@ -63,6 +63,7 @@
 	<value value="0x18" name="MSG_SAMPLER_SAMPLE_LZ" variants="GEN7-"/>
 	<value value="0x19" name="MSG_SAMPLER_SAMPLE_C_LC" variants="GEN7-"/>
 	<value value="0x1a" name="MSG_SAMPLER_LD_LZ" variants="GEN7-"/>
+	<value value="0x1c" name="MSG_SAMPLER_LD2DMS_W" variants="GEN9-"/>
 	<value value="0x1d" name="MSG_SAMPLER_LD_MCS" variants="GEN7-"/>
 	<value value="0x1e" name="MSG_SAMPLER_LD2DMS" variants="GEN7-"/>
 	<value value="0x1f" name="MSG_SAMPLER_LD2DSS" variants="GEN7-"/>

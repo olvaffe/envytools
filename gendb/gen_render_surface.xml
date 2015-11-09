@@ -295,6 +295,7 @@
 	<value value="0x1" name="2" variants="GEN8-"/>
 	<value value="0x2" name="4"/>
 	<value value="0x3" name="8" variants="GEN7-"/>
+	<value value="0x4" name="16" variants="GEN9-"/>
 </enum>
 
 <domain name="SURFACE_STATE" width="32" size="16" bare="yes" prefix="gen">
